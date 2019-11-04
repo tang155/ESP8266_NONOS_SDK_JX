@@ -155,13 +155,14 @@ void mqttConnectedCb(uint32_t *args)
 
     // 【参数2：主题过滤器 / 参数3：订阅Qos】
     //-----------------------------------------------------------------
-	MQTT_Subscribe(client, "SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0
+//	MQTT_Subscribe(client, "SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0，百度云主题/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED
+	MQTT_Subscribe(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0，阿里云云主题
 //	MQTT_Subscribe(client, "SW_LED", 1);
 //	MQTT_Subscribe(client, "SW_LED", 2);
 
 	// 【参数2：主题名 / 参数3：发布消息的有效载荷 / 参数4：有效载荷长度 / 参数5：发布Qos / 参数6：Retain】
 	//-----------------------------------------------------------------------------------------------------------------------------------------
-	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
+//	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
 //	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 1, 0);
 //	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 2, 0);
 }
@@ -210,14 +211,19 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 //########################################################################################
     // 根据接收到的主题名/有效载荷，控制LED的亮/灭
     //-----------------------------------------------------------------------------------
-    if( os_strcmp(topicBuf,"SW_LED") == 0 )			// 主题 == "SW_LED"
+//    if( os_strcmp(topicBuf,"SW_LED") == 0 )			// 主题 == "SW_LED"，百度云主题
+	if( os_strcmp(topicBuf,"/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED") == 0 )	// 主题 == "SW_LED"，阿里云主题
     {
-    	if( os_strcmp(dataBuf,"LED_ON") == 0 )		// 有效载荷 == "LED_ON"
+//		if( os_strcmp(dataBuf,"LED_ON") == 0 )		// 有效载荷 == "LED_ON"
+	    if( os_strcmp(dataBuf,"{\"SW_LED\":\"ON\"}") == 0 )		// 有效载荷 == "LED_ON"
+
     	{
     		GPIO_OUTPUT_SET(GPIO_ID_PIN(4),0);		// LED亮
     	}
 
-    	else if( os_strcmp(dataBuf,"LED_OFF") == 0 )	// 有效载荷 == "LED_OFF"
+//    	else if( os_strcmp(dataBuf,"LED_OFF") == 0 )	// 有效载荷 == "LED_OFF"
+        else if( os_strcmp(dataBuf,"{\"SW_LED\":\"OFF\"}") == 0 )	// 有效载荷 == "LED_OFF"
+
     	{
     		GPIO_OUTPUT_SET(GPIO_ID_PIN(4),1);			// LED灭
     	}

@@ -1613,9 +1613,13 @@ void ICACHE_FLASH_ATTR user_esp_platform_init(void)
 	os_sprintf(iot_version,"%s%d.%d.%dt%d(%s)",VERSION_TYPE,IOT_VERSION_MAJOR,\
 	IOT_VERSION_MINOR,IOT_VERSION_REVISION,device_type,UPGRADE_FALG);
 	os_printf("IOT VERSION = %s\n",iot_version);
+	os_printf("priv_param_start_sec+1 = %x\n",priv_param_start_sec+1);
+	os_printf("sizeof(esp_param) = %d\n",sizeof(esp_param));
 
 	//--------------------------------------------------------------------------------------------------------------------
 	system_param_load(priv_param_start_sec+1,0,&esp_param,sizeof(esp_param));	// 读取【0x7D(0x7C+1)扇区】的数据(KEY_BIN)
+//	user_esp_platform_set_token("cfdf3cc360037309d395a4b21579f0a03a846806");
+//	os_printf("TANGE TEST =\n");						// 串口打印【devkey】
 	os_printf("esp_param.devkey = %s\n",esp_param.devkey);						// 串口打印【devkey】
 	os_printf("esp_param.token = %s\n",esp_param.token);						// 串口打印【token】
 	os_printf("esp_param.pad = %s\n",esp_param.pad);							// 串口打印【pad】

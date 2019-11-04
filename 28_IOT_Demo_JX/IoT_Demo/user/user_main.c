@@ -114,6 +114,7 @@ user_rf_pre_init(void){}
 void ICACHE_FLASH_ATTR user_init(void)
 {
     os_printf("SDK version:%s\n", system_get_sdk_version());
+    os_printf("flash_size_map:%d\n", system_get_flash_size_map());
 
     // 如果是乐鑫云平台
     //-------------------------------------------------------------------------------------
