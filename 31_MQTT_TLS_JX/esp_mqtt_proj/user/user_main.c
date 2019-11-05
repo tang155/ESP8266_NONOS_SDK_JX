@@ -153,7 +153,7 @@ void mqttConnectedCb(uint32_t *args)
 
     // 【参数2：主题过滤器 / 参数3：订阅Qos】
     //-----------------------------------------------------------------
-	MQTT_Subscribe(client, "KI44DM317W/iot_light_esp8266_01_jx/SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0
+	MQTT_Subscribe(client, "VA96C4EMHY/iot_light_esp8266_01_jx/SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0
 //	MQTT_Subscribe(client, "SW_LED", 1);
 //	MQTT_Subscribe(client, "SW_LED", 2);
 
@@ -207,7 +207,7 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 //########################################################################################
     // 根据接收到的主题名/有效载荷，控制LED的亮/灭
     //-----------------------------------------------------------------------------------
-    if( os_strcmp(topicBuf,"KI44DM317W/iot_light_esp8266_01_jx/SW_LED") == 0 )	// 主题 == "SW_LED"
+    if( os_strcmp(topicBuf,"VA96C4EMHY/iot_light_esp8266_01_jx/SW_LED") == 0 )	// 主题 == "SW_LED"
     {
     	if( os_strcmp(dataBuf,"{\"SW_LED\":\"LED_ON\"}") == 0 )			// 有效载荷 == "LED_ON"
     	{

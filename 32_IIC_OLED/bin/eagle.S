@@ -34159,31 +34159,16 @@ Disassembly of section .irom0.text:
 	...
 
 40225404 <delay_ms>:
-
-
-// 毫秒延时函数
-//===========================================
-void ICACHE_FLASH_ATTR delay_ms(u32 C_time)
-{	for(;C_time>0;C_time--)
 40225404:	f0c112        	addi	a1, a1, -16
 40225407:	21c9      	s32i.n	a12, a1, 8
 40225409:	3109      	s32i.n	a0, a1, 12
 4022540b:	02cd      	mov.n	a12, a2
 4022540d:	000286        	j	4022541b <delay_ms+0x17>
-		os_delay_us(1000);
 40225410:	e8a322        	movi	a2, 0x3e8
 40225413:	b57901        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225416:	0000c0        	callx0	a0
-
-
-// 毫秒延时函数
-//===========================================
-void ICACHE_FLASH_ATTR delay_ms(u32 C_time)
-{	for(;C_time>0;C_time--)
 40225419:	cc0b      	addi.n	a12, a12, -1
 4022541b:	ff1c56        	bnez	a12, 40225410 <delay_ms+0xc>
-		os_delay_us(1000);
-}
 4022541e:	3108      	l32i.n	a0, a1, 12
 40225420:	21c8      	l32i.n	a12, a1, 8
 40225422:	10c112        	addi	a1, a1, 16
@@ -34208,131 +34193,62 @@ void ICACHE_FLASH_ATTR delay_ms(u32 C_time)
 40225447:	3f          	.byte 0x3f
 
 40225448 <user_init>:
-
-// user_init：entry of user application, init user function here
-//=====================================================================================================================================
-void ICACHE_FLASH_ATTR user_init(void)
-{
-	uart_init(115200,115200);	// 初始化串口波特率
 40225448:	fff831        	l32r	a3, 40225428 <delay_ms+0x24>
-
-
-// user_init：entry of user application, init user function here
-//=====================================================================================================================================
-void ICACHE_FLASH_ATTR user_init(void)
-{
 4022544b:	e0c112        	addi	a1, a1, -32
-	uart_init(115200,115200);	// 初始化串口波特率
 4022544e:	032d      	mov.n	a2, a3
-
-
-// user_init：entry of user application, init user function here
-//=====================================================================================================================================
-void ICACHE_FLASH_ATTR user_init(void)
-{
 40225450:	7109      	s32i.n	a0, a1, 28
 40225452:	61c9      	s32i.n	a12, a1, 24
 40225454:	51d9      	s32i.n	a13, a1, 20
-	uart_init(115200,115200);	// 初始化串口波特率
 40225456:	00aa05        	call0	40225ef8 <uart_init>
-	os_delay_us(10000);			// 等待串口稳定
 40225459:	d2f121        	l32r	a2, 4021a020 <cnx_sta_leave+0x298>
 4022545c:	b56701        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 4022545f:	0000c0        	callx0	a0
-	os_printf("\r\n=================================================\r\n");
 40225462:	fff2d1        	l32r	a13, 4022542c <delay_ms+0x28>
 40225465:	202dd0        	or	a2, a13, a13
 40225468:	ae3501        	l32r	a0, 40210d3c <ieee80211_chan2ieee+0x44>
 4022546b:	0000c0        	callx0	a0
-	os_printf("\t Project:\t%s\r\n", ProjectName);
 4022546e:	fff1c1        	l32r	a12, 40225434 <delay_ms+0x30>
 40225471:	ffef21        	l32r	a2, 40225430 <delay_ms+0x2c>
 40225474:	203cc0        	or	a3, a12, a12
 40225477:	ae3101        	l32r	a0, 40210d3c <ieee80211_chan2ieee+0x44>
 4022547a:	0000c0        	callx0	a0
-	os_printf("\t SDK version:\t%s", system_get_sdk_version());
 4022547d:	ff6505        	call0	40224ad0 <system_get_sdk_version>
 40225480:	023d      	mov.n	a3, a2
 40225482:	ffed21        	l32r	a2, 40225438 <delay_ms+0x34>
 40225485:	ae2d01        	l32r	a0, 40210d3c <ieee80211_chan2ieee+0x44>
 40225488:	0000c0        	callx0	a0
-	os_printf("\r\n=================================================\r\n");
 4022548b:	0d2d      	mov.n	a2, a13
 4022548d:	ae2b01        	l32r	a0, 40210d3c <ieee80211_chan2ieee+0x44>
 40225490:	0000c0        	callx0	a0
-
-
-
-//--------------------------------
-	OLED_Init();	// OLED初始化
 40225493:	001c05        	call0	40225654 <OLED_Init>
-
-
-
-// OLED显示字符串
-//-------------------------------------------------------------------------------------------------------------------------
-	OLED_ShowString(0,0,"Project=");		// 从(0,0)开始显示
 40225496:	020c      	movi.n	a2, 0
 40225498:	ffe941        	l32r	a4, 4022543c <delay_ms+0x38>
 4022549b:	203220        	or	a3, a2, a2
 4022549e:	002dc5        	call0	4022577c <OLED_ShowString>
-
-	OLED_ShowString(64,0,"IIC_OLED");		// 从(64,0)开始显示		// 因为，【Project=】一共8个字符，横向上占用【64】个点
 402254a1:	0c4d      	mov.n	a4, a12
 402254a3:	024c      	movi.n	a2, 64
 402254a5:	030c      	movi.n	a3, 0
 402254a7:	002d45        	call0	4022577c <OLED_ShowString>
-
-
-// OLED显示【点分十进制_IP地址】
-//-------------------------------------------------------------------------------------------------------------------------
-	u8 IP_Address[4];
-	   IP_Address[0] = 192;
 402254aa:	c0af22        	movi	a2, -64
 402254ad:	004122        	s8i	a2, a1, 0
-	   IP_Address[1] = 168;
 402254b0:	a8af22        	movi	a2, -88
 402254b3:	014122        	s8i	a2, a1, 1
-	   IP_Address[2] = 4;
 402254b6:	420c      	movi.n	a2, 4
 402254b8:	024122        	s8i	a2, a1, 2
-	   IP_Address[3] = 1;
-//	u8 IP_Address[4] = { 192,168,4,1 };		// 数组形式表示【点分十进制_IP地址】
-
-
-	OLED_ShowString(0,2,"IP:");				// 从(0,2)开始显示		// 因为【Project=IIC_OLED】在纵向上占用了【2】页(2*8个点)
 402254bb:	ffe141        	l32r	a4, 40225440 <delay_ms+0x3c>
-//-------------------------------------------------------------------------------------------------------------------------
-	u8 IP_Address[4];
-	   IP_Address[0] = 192;
-	   IP_Address[1] = 168;
-	   IP_Address[2] = 4;
-	   IP_Address[3] = 1;
 402254be:	120c      	movi.n	a2, 1
 402254c0:	034122        	s8i	a2, a1, 3
-//	u8 IP_Address[4] = { 192,168,4,1 };		// 数组形式表示【点分十进制_IP地址】
-
-
-	OLED_ShowString(0,2,"IP:");				// 从(0,2)开始显示		// 因为【Project=IIC_OLED】在纵向上占用了【2】页(2*8个点)
 402254c3:	230c      	movi.n	a3, 2
 402254c5:	020c      	movi.n	a2, 0
 402254c7:	002b45        	call0	4022577c <OLED_ShowString>
-
-	OLED_ShowIP(24, 2, IP_Address);			// 从(24,2)开始显示		// 因为，【IP:】一共3个字符，横向上占用【24】个点
 402254ca:	014d      	mov.n	a4, a1
 402254cc:	230c      	movi.n	a3, 2
 402254ce:	821c      	movi.n	a2, 24
 402254d0:	002f45        	call0	402257c8 <OLED_ShowIP>
-//-------------------------------------------------------------------------------------------------------------------------
-
-
-	OLED_ShowString(0,4,"0123456789ABCDEFGHIJKLMN");	// 从(0,4)开始显示
 402254d3:	ffdc41        	l32r	a4, 40225444 <delay_ms+0x40>
 402254d6:	020c      	movi.n	a2, 0
 402254d8:	430c      	movi.n	a3, 4
 402254da:	002a05        	call0	4022577c <OLED_ShowString>
-														// 因为【Project=IIC_OLED】【IP:192.168.4.1】在纵向上占用了【4】页(4*8个点)
-}
 402254dd:	7108      	l32i.n	a0, a1, 28
 402254df:	61c8      	l32i.n	a12, a1, 24
 402254e1:	51d8      	l32i.n	a13, a1, 20
@@ -34342,15 +34258,8 @@ void ICACHE_FLASH_ATTR user_init(void)
 402254eb:	3f          	.byte 0x3f
 
 402254ec <user_rf_cal_sector_set>:
- *                C : sdk parameters
- * Parameters   : none
- * Returns      : rf cal sector
-*******************************************************************************/
-uint32 ICACHE_FLASH_ATTR user_rf_cal_sector_set(void)
-{
 402254ec:	f0c112        	addi	a1, a1, -16
 402254ef:	3109      	s32i.n	a0, a1, 12
-    enum flash_size_map size_map = system_get_flash_size_map();
 402254f1:	fb9f45        	call0	40220ee8 <system_get_flash_size_map>
 402254f4:	940c      	movi.n	a4, 9
 402254f6:	030c      	movi.n	a3, 0
@@ -34358,12 +34267,6 @@ uint32 ICACHE_FLASH_ATTR user_rf_cal_sector_set(void)
 402254fb:	fffb31        	l32r	a3, 402254e8 <user_init+0xa0>
 402254fe:	902230        	addx2	a2, a2, a3
 40225501:	001232        	l16ui	a3, a2, 0
-            rf_cal_sec = 0;
-            break;
-    }
-
-    return rf_cal_sec;
-}
 40225504:	3108      	l32i.n	a0, a1, 12
 40225506:	032d      	mov.n	a2, a3
 40225508:	10c112        	addi	a1, a1, 16
@@ -34371,76 +34274,42 @@ uint32 ICACHE_FLASH_ATTR user_rf_cal_sector_set(void)
 4022550d:	000000        	ill
 
 40225510 <user_rf_pre_init>:
-
-void ICACHE_FLASH_ATTR user_rf_pre_init(void){}
 40225510:	f00d      	ret.n
 	...
 
 40225514 <IIC_Init_JX>:
-// OLED相关函数
-//==============================================================================
-// IIC初始化( SCL==IO14、SDA==IO2 )
-//-----------------------------------------------------------
-void ICACHE_FLASH_ATTR IIC_Init_JX(void)
-{
 40225514:	f0c112        	addi	a1, a1, -16
 40225517:	3109      	s32i.n	a0, a1, 12
-	i2c_master_gpio_init();		// 初始化SCL(IO14)、SDA(IO2)
 40225519:	0051c5        	call0	40225a38 <i2c_master_gpio_init>
-}
 4022551c:	3108      	l32i.n	a0, a1, 12
 4022551e:	10c112        	addi	a1, a1, 16
 40225521:	f00d      	ret.n
 	...
 
 40225524 <OLED_Write_Command>:
-//-----------------------------------------------------------
-
-// 向OLED写入指令字节
-//----------------------------------------------------------------------------
-u8 ICACHE_FLASH_ATTR OLED_Write_Command(u8 OLED_Byte)
-{
 40225524:	f0c112        	addi	a1, a1, -16
 40225527:	036102        	s32i	a0, a1, 12
 4022552a:	21c9      	s32i.n	a12, a1, 8
 4022552c:	74c020        	extui	a12, a2, 0, 8
-	i2c_master_start();					// 发送起始信号
 4022552f:	004045        	call0	40225934 <i2c_master_start>
-
-	i2c_master_writeByte(0x78);			// 选择总线上的OLED[0111 100X B]
 40225532:	78a022        	movi	a2, 120
 40225535:	007545        	call0	40225c8c <i2c_master_writeByte>
-	if(i2c_master_checkAck()==false)
 40225538:	006645        	call0	40225ba0 <i2c_master_checkAck>
 4022553b:	92cc      	bnez.n	a2, 40225548 <OLED_Write_Command+0x24>
-	{i2c_master_stop(); return 0;}
 4022553d:	004345        	call0	40225974 <i2c_master_stop>
 40225540:	020c      	movi.n	a2, 0
 40225542:	000806        	j	40225566 <OLED_Write_Command+0x42>
 40225545:	000000        	ill
-
-	i2c_master_writeByte(0x00);			// [0x00]表示下一字节写入的是[指令]
 40225548:	00a022        	movi	a2, 0
 4022554b:	007405        	call0	40225c8c <i2c_master_writeByte>
-	if(i2c_master_checkAck()==false)
 4022554e:	006505        	call0	40225ba0 <i2c_master_checkAck>
 40225551:	fe8216        	beqz	a2, 4022553d <OLED_Write_Command+0x19>
-	{i2c_master_stop(); return 0;}
-
-	i2c_master_writeByte(OLED_Byte);	// [指令代码]
 40225554:	202cc0        	or	a2, a12, a12
 40225557:	007345        	call0	40225c8c <i2c_master_writeByte>
-	if(i2c_master_checkAck()==false)
 4022555a:	006445        	call0	40225ba0 <i2c_master_checkAck>
 4022555d:	fdc216        	beqz	a2, 4022553d <OLED_Write_Command+0x19>
-	{i2c_master_stop(); return 0;}
-
-	i2c_master_stop();					// 发送停止信号
 40225560:	004105        	call0	40225974 <i2c_master_stop>
-
-	return true;						// 返回写入成功
 40225563:	01a022        	movi	a2, 1
-}
 40225566:	3108      	l32i.n	a0, a1, 12
 40225568:	21c8      	l32i.n	a12, a1, 8
 4022556a:	10c112        	addi	a1, a1, 16
@@ -34448,53 +34317,29 @@ u8 ICACHE_FLASH_ATTR OLED_Write_Command(u8 OLED_Byte)
 	...
 
 40225570 <OLED_Write_Data>:
-//----------------------------------------------------------------------------
-
-// 向OLED写入数据字节
-//----------------------------------------------------------------------------
-u8 ICACHE_FLASH_ATTR OLED_Write_Data(u8 OLED_Byte)
-{
 40225570:	f0c112        	addi	a1, a1, -16
 40225573:	036102        	s32i	a0, a1, 12
 40225576:	21c9      	s32i.n	a12, a1, 8
 40225578:	74c020        	extui	a12, a2, 0, 8
-	i2c_master_start();					// 发送起始信号
 4022557b:	003b85        	call0	40225934 <i2c_master_start>
-
-	i2c_master_writeByte(0x78);			// 选择总线上的OLED[0111 100X B]
 4022557e:	78a022        	movi	a2, 120
 40225581:	007085        	call0	40225c8c <i2c_master_writeByte>
-	if(i2c_master_checkAck()==false)
 40225584:	006185        	call0	40225ba0 <i2c_master_checkAck>
 40225587:	92cc      	bnez.n	a2, 40225594 <OLED_Write_Data+0x24>
-	{i2c_master_stop(); return 0;}
 40225589:	003e85        	call0	40225974 <i2c_master_stop>
 4022558c:	020c      	movi.n	a2, 0
 4022558e:	000806        	j	402255b2 <OLED_Write_Data+0x42>
 40225591:	000000        	ill
-
-	i2c_master_writeByte(0x40);			// [0x40]表示下一字节写入的是[数据]
 40225594:	40a022        	movi	a2, 64
 40225597:	006f45        	call0	40225c8c <i2c_master_writeByte>
-	if(i2c_master_checkAck()==false)
 4022559a:	006045        	call0	40225ba0 <i2c_master_checkAck>
 4022559d:	fe8216        	beqz	a2, 40225589 <OLED_Write_Data+0x19>
-	{i2c_master_stop(); return 0;}
-
-	i2c_master_writeByte(OLED_Byte);	// [具体数据]
 402255a0:	202cc0        	or	a2, a12, a12
 402255a3:	006e85        	call0	40225c8c <i2c_master_writeByte>
-	if(i2c_master_checkAck()==false)
 402255a6:	005f85        	call0	40225ba0 <i2c_master_checkAck>
 402255a9:	fdc216        	beqz	a2, 40225589 <OLED_Write_Data+0x19>
-	{i2c_master_stop(); return 0;}
-
-	i2c_master_stop();					// 发送停止信号
 402255ac:	003c45        	call0	40225974 <i2c_master_stop>
-
-	return true;						// 返回写入成功
 402255af:	01a022        	movi	a2, 1
-}
 402255b2:	3108      	l32i.n	a0, a1, 12
 402255b4:	21c8      	l32i.n	a12, a1, 8
 402255b6:	10c112        	addi	a1, a1, 16
@@ -34502,53 +34347,27 @@ u8 ICACHE_FLASH_ATTR OLED_Write_Data(u8 OLED_Byte)
 	...
 
 402255bc <OLED_WR_Byte>:
-//----------------------------------------------------------------------------
-
-// 向OLED写入一字节数据/指令
-//---------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
 402255bc:	f0c112        	addi	a1, a1, -16
 402255bf:	3109      	s32i.n	a0, a1, 12
 402255c1:	743030        	extui	a3, a3, 0, 8
 402255c4:	742020        	extui	a2, a2, 0, 8
-	if(OLED_Type)
 402255c7:	638c      	beqz.n	a3, 402255d1 <OLED_WR_Byte+0x15>
-		OLED_Write_Data(OLED_Byte);		// 写入数据
 402255c9:	fffa45        	call0	40225570 <OLED_Write_Data>
 402255cc:	000106        	j	402255d4 <OLED_WR_Byte+0x18>
 402255cf:	050000        	extui	a0, a0, 16, 1
-	else
-		OLED_Write_Command(OLED_Byte);	// 写入指令
 402255d2:	08fff5        	excw
-}
 402255d5:	c11231        	l32r	a3, 40215a20 <ieee80211_send_proberesp+0x130>
 402255d8:	f00d10        	subx8	a0, a13, a1
 	...
 
 402255dc <OLED_Clear>:
-//---------------------------------------------------------------
-
-// 整屏写入某值
-//------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_Clear(void)
-{
 402255dc:	f0c112        	addi	a1, a1, -16
 402255df:	21c9      	s32i.n	a12, a1, 8
 402255e1:	01e9      	s32i.n	a14, a1, 0
 402255e3:	3109      	s32i.n	a0, a1, 12
 402255e5:	0161d2        	s32i	a13, a1, 4
 402255e8:	b0a0c2        	movi	a12, 176
-	u8 N_Page, N_row;
-
-	for(N_Page=0; N_Page<8; N_Page++)
 402255eb:	b8a0e2        	movi	a14, 184
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
-	else
-		OLED_Write_Command(OLED_Byte);	// 写入指令
 402255ee:	0c2d      	mov.n	a2, a12
 402255f0:	fff305        	call0	40225524 <OLED_Write_Command>
 402255f3:	020c      	movi.n	a2, 0
@@ -34558,35 +34377,11 @@ void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
 402255fd:	81a0d2        	movi	a13, 129
 40225600:	000146        	j	40225609 <OLED_Clear+0x2d>
 40225603:	020c00        	excw
-// 向OLED写入一字节数据/指令
-//---------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
 40225606:	fff685        	call0	40225570 <OLED_Write_Data>
 40225609:	dd0b      	addi.n	a13, a13, -1
-	{
-		OLED_WR_Byte(0xb0+N_Page,OLED_CMD);	// 从0～7页依次写入
-		OLED_WR_Byte(0x00,OLED_CMD);      	// 列低地址
-		OLED_WR_Byte(0x10,OLED_CMD);      	// 列高地址
-
-		for(N_row=0; N_row<128; N_row++)OLED_WR_Byte(0x00,OLED_DATA);
 4022560b:	ff5d56        	bnez	a13, 40225604 <OLED_Clear+0x28>
 4022560e:	cc1b      	addi.n	a12, a12, 1
-//------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_Clear(void)
-{
-	u8 N_Page, N_row;
-
-	for(N_Page=0; N_Page<8; N_Page++)
 40225610:	da9ce7        	bne	a12, a14, 402255ee <OLED_Clear+0x12>
-		OLED_WR_Byte(0x00,OLED_CMD);      	// 列低地址
-		OLED_WR_Byte(0x10,OLED_CMD);      	// 列高地址
-
-		for(N_row=0; N_row<128; N_row++)OLED_WR_Byte(0x00,OLED_DATA);
-	}
-}
 40225613:	3108      	l32i.n	a0, a1, 12
 40225615:	21c8      	l32i.n	a12, a1, 8
 40225617:	11d8      	l32i.n	a13, a1, 4
@@ -34595,63 +34390,20 @@ void ICACHE_FLASH_ATTR OLED_Clear(void)
 4022561e:	f00d      	ret.n
 
 40225620 <OLED_Set_Pos>:
-//------------------------------------------------------------------------
-
-// 设置数据写入的起始行、列
-//------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_Set_Pos(u8 x, u8 y)
-{
 40225620:	f0c112        	addi	a1, a1, -16
 40225623:	743030        	extui	a3, a3, 0, 8
 40225626:	0261c2        	s32i	a12, a1, 8
 40225629:	74c020        	extui	a12, a2, 0, 8
-	OLED_WR_Byte(0xb0+y,OLED_CMD);				// 写入页地址
 4022562c:	b0c322        	addi	a2, a3, -80
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
-	else
-		OLED_Write_Command(OLED_Byte);	// 写入指令
 4022562f:	742020        	extui	a2, a2, 0, 8
-//------------------------------------------------------------------------
-
-// 设置数据写入的起始行、列
-//------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_Set_Pos(u8 x, u8 y)
-{
 40225632:	036102        	s32i	a0, a1, 12
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
-	else
-		OLED_Write_Command(OLED_Byte);	// 写入指令
 40225635:	ffeec5        	call0	40225524 <OLED_Write_Command>
 40225638:	3420c0        	extui	a2, a12, 0, 4
 4022563b:	ffee85        	call0	40225524 <OLED_Write_Command>
-{
-	OLED_WR_Byte(0xb0+y,OLED_CMD);				// 写入页地址
-
-	OLED_WR_Byte((x&0x0f),OLED_CMD);  			// 写入列的地址(低半字节)
-
-	OLED_WR_Byte(((x&0xf0)>>4)|0x10,OLED_CMD);	// 写入列的地址(高半字节)
 4022563e:	41c4c0        	srli	a12, a12, 4
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
-	else
-		OLED_Write_Command(OLED_Byte);	// 写入指令
 40225641:	021c      	movi.n	a2, 16
 40225643:	202c20        	or	a2, a12, a2
 40225646:	ffedc5        	call0	40225524 <OLED_Write_Command>
-	OLED_WR_Byte(0xb0+y,OLED_CMD);				// 写入页地址
-
-	OLED_WR_Byte((x&0x0f),OLED_CMD);  			// 写入列的地址(低半字节)
-
-	OLED_WR_Byte(((x&0xf0)>>4)|0x10,OLED_CMD);	// 写入列的地址(高半字节)
-}
 40225649:	3108      	l32i.n	a0, a1, 12
 4022564b:	21c8      	l32i.n	a12, a1, 8
 4022564d:	10c112        	addi	a1, a1, 16
@@ -34659,38 +34411,12 @@ void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
 	...
 
 40225654 <OLED_Init>:
-//------------------------------------------------------------------------
-
-// 初始化OLED
-//-----------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_Init(void)
-{
 40225654:	f0c112        	addi	a1, a1, -16
 40225657:	3109      	s32i.n	a0, a1, 12
-//==============================================================================
-// IIC初始化( SCL==IO14、SDA==IO2 )
-//-----------------------------------------------------------
-void ICACHE_FLASH_ATTR IIC_Init_JX(void)
-{
-	i2c_master_gpio_init();		// 初始化SCL(IO14)、SDA(IO2)
 40225659:	003dc5        	call0	40225a38 <i2c_master_gpio_init>
-//-----------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_Init(void)
-{
-	IIC_Init_JX();					// 初始化IIC
-
-	system_soft_wdt_feed();			// 喂狗(防止ESP8266复位)
 4022565c:	0be885        	call0	402314e8 <pp_soft_wdt_feed>
-
-	delay_ms(100);					// 延迟(必须要有)
 4022565f:	64a022        	movi	a2, 100
 40225662:	ffda05        	call0	40225404 <delay_ms>
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
-	else
-		OLED_Write_Command(OLED_Byte);	// 写入指令
 40225665:	aea022        	movi	a2, 174
 40225668:	ffeb85        	call0	40225524 <OLED_Write_Command>
 4022566b:	020c      	movi.n	a2, 0
@@ -34741,19 +34467,10 @@ void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
 402256ed:	ffe345        	call0	40225524 <OLED_Write_Command>
 402256f0:	afa022        	movi	a2, 175
 402256f3:	ffe305        	call0	40225524 <OLED_Write_Command>
-	OLED_WR_Byte(0x8D,OLED_CMD);	// 设置OLED电荷泵
-	OLED_WR_Byte(0x14,OLED_CMD);	// 开显示
-
-	OLED_WR_Byte(0xAF,OLED_CMD);	// 开启OLED面板显示
-
-	OLED_Clear();        			// 清屏
 402256f6:	ffee45        	call0	402255dc <OLED_Clear>
-
-	OLED_Set_Pos(0,0); 				// 设置数据写入的起始行、列
 402256f9:	020c      	movi.n	a2, 0
 402256fb:	023d      	mov.n	a3, a2
 402256fd:	fff205        	call0	40225620 <OLED_Set_Pos>
-}
 40225700:	3108      	l32i.n	a0, a1, 12
 40225702:	10c112        	addi	a1, a1, 16
 40225705:	f00d      	ret.n
@@ -34762,102 +34479,43 @@ void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
 4022570b:	3f          	.byte 0x3f
 
 4022570c <OLED_ShowChar>:
-
-// 在指定坐标处显示一个字符
-//-----------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_ShowChar(u8 x, u8 y, u8 Show_char)
-{
 4022570c:	e0c112        	addi	a1, a1, -32
 4022570f:	744040        	extui	a4, a4, 0, 8
 40225712:	61c9      	s32i.n	a12, a1, 24
 40225714:	41e9      	s32i.n	a14, a1, 16
 40225716:	31f9      	s32i.n	a15, a1, 12
-	u8 c=0,i=0;
-
-	c=Show_char-' '; 				// 获取字符的偏移量
 40225718:	e0c4e2        	addi	a14, a4, -32
-}
-
-// 在指定坐标处显示一个字符
-//-----------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_ShowChar(u8 x, u8 y, u8 Show_char)
-{
 4022571b:	7109      	s32i.n	a0, a1, 28
 4022571d:	51d9      	s32i.n	a13, a1, 20
 4022571f:	74c030        	extui	a12, a3, 0, 8
-	u8 c=0,i=0;
-
-	c=Show_char-' '; 				// 获取字符的偏移量
 40225722:	74e0e0        	extui	a14, a14, 0, 8
-
-	if(x>Max_Column-1){x=0;y=y+2;}	// 当列数超出范围，则另起2页
 40225725:	74f020        	extui	a15, a2, 0, 8
 40225728:	066277        	bbci	a2, 7, 40225732 <OLED_ShowChar+0x26>
 4022572b:	cc2b      	addi.n	a12, a12, 2
 4022572d:	74c0c0        	extui	a12, a12, 0, 8
 40225730:	0f0c      	movi.n	a15, 0
-
-	if(SIZE ==16) 					// 字符大小为[8*16]：一个字符分两页
-	{
-		// 画第一页
-		//-------------------------------------------------------
-		OLED_Set_Pos(x,y);						// 设置画点起始处
 40225732:	0f2d      	mov.n	a2, a15
 40225734:	0c3d      	mov.n	a3, a12
 40225736:	ffee85        	call0	40225620 <OLED_Set_Pos>
 40225739:	fff321        	l32r	a2, 40225708 <OLED_Init+0xb4>
-		for(i=0;i<8;i++)  						// 循环8次(8列)
-		OLED_WR_Byte(F8X16[c*16+i],OLED_DATA); 	// 找到字模
 4022573c:	11eec0        	slli	a14, a14, 4
 4022573f:	00a0d2        	movi	a13, 0
 40225742:	ee2a      	add.n	a14, a14, a2
 40225744:	2eda      	add.n	a2, a14, a13
-// 向OLED写入一字节数据/指令
-//---------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
 40225746:	000222        	l8ui	a2, a2, 0
 40225749:	dd1b      	addi.n	a13, a13, 1
 4022574b:	ffe245        	call0	40225570 <OLED_Write_Data>
-	if(SIZE ==16) 					// 字符大小为[8*16]：一个字符分两页
-	{
-		// 画第一页
-		//-------------------------------------------------------
-		OLED_Set_Pos(x,y);						// 设置画点起始处
-		for(i=0;i<8;i++)  						// 循环8次(8列)
 4022574e:	f28d66        	bnei	a13, 8, 40225744 <OLED_ShowChar+0x38>
-		OLED_WR_Byte(F8X16[c*16+i],OLED_DATA); 	// 找到字模
-
-		// 画第二页
-		//-------------------------------------------------------
-		OLED_Set_Pos(x,y+1); 					// 页数加1
 40225751:	01cc32        	addi	a3, a12, 1
 40225754:	0f2d      	mov.n	a2, a15
 40225756:	743030        	extui	a3, a3, 0, 8
 40225759:	ffec45        	call0	40225620 <OLED_Set_Pos>
 4022575c:	0c0c      	movi.n	a12, 0
 4022575e:	2eca      	add.n	a2, a14, a12
-// 向OLED写入一字节数据/指令
-//---------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
-{
-	if(OLED_Type)
-		OLED_Write_Data(OLED_Byte);		// 写入数据
 40225760:	080222        	l8ui	a2, a2, 8
 40225763:	cc1b      	addi.n	a12, a12, 1
 40225765:	ffe085        	call0	40225570 <OLED_Write_Data>
-		OLED_WR_Byte(F8X16[c*16+i],OLED_DATA); 	// 找到字模
-
-		// 画第二页
-		//-------------------------------------------------------
-		OLED_Set_Pos(x,y+1); 					// 页数加1
-		for(i=0;i<8;i++)  						// 循环8次
 40225768:	f28c66        	bnei	a12, 8, 4022575e <OLED_ShowChar+0x52>
-		OLED_WR_Byte(F8X16[c*16+i+8],OLED_DATA);// 把第二页画完
-	}
-}
 4022576b:	7108      	l32i.n	a0, a1, 28
 4022576d:	61c8      	l32i.n	a12, a1, 24
 4022576f:	51d8      	l32i.n	a13, a1, 20
@@ -34868,12 +34526,6 @@ void ICACHE_FLASH_ATTR OLED_WR_Byte(u8 OLED_Byte, u8 OLED_Type)
 	...
 
 4022577c <OLED_ShowString>:
-//-----------------------------------------------------------------------------
-
-// 在指定坐标起始处显示字符串
-//-------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_ShowString(u8 x, u8 y, u8 * Show_char)
-{
 4022577c:	e0c112        	addi	a1, a1, -32
 4022577f:	61c9      	s32i.n	a12, a1, 24
 40225781:	51d9      	s32i.n	a13, a1, 20
@@ -34883,45 +34535,22 @@ void ICACHE_FLASH_ATTR OLED_ShowString(u8 x, u8 y, u8 * Show_char)
 40225789:	04fd      	mov.n	a15, a4
 4022578b:	74c020        	extui	a12, a2, 0, 8
 4022578e:	74e030        	extui	a14, a3, 0, 8
-	u8 N_Char = 0;		// 字符序号
 40225791:	0d0c      	movi.n	a13, 0
-
-	while (Show_char[N_Char]!='\0') 	// 如果不是最后一个字符
 40225793:	000686        	j	402257b1 <OLED_ShowString+0x35>
-	{
-		OLED_ShowChar(x,y,Show_char[N_Char]); 	// 显示一个字符
 40225796:	0c2d      	mov.n	a2, a12
 40225798:	0e3d      	mov.n	a3, a14
 4022579a:	fff705        	call0	4022570c <OLED_ShowChar>
-
-		x += 8;					// 列数加8，一个字符占8列
 4022579d:	2c8b      	addi.n	a2, a12, 8
-
-		if(x>=128){x=0;y+=2;} 	// 当x>=128，另起一页
 4022579f:	74c020        	extui	a12, a2, 0, 8
 402257a2:	066277        	bbci	a2, 7, 402257ac <OLED_ShowString+0x30>
 402257a5:	ee2b      	addi.n	a14, a14, 2
 402257a7:	74e0e0        	extui	a14, a14, 0, 8
 402257aa:	0c0c      	movi.n	a12, 0
-
-		N_Char++; 				// 指向下一个字符
 402257ac:	dd1b      	addi.n	a13, a13, 1
 402257ae:	74d0d0        	extui	a13, a13, 0, 8
-//-------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_ShowString(u8 x, u8 y, u8 * Show_char)
-{
-	u8 N_Char = 0;		// 字符序号
-
-	while (Show_char[N_Char]!='\0') 	// 如果不是最后一个字符
 402257b1:	2fda      	add.n	a2, a15, a13
 402257b3:	000242        	l8ui	a4, a2, 0
 402257b6:	fdc456        	bnez	a4, 40225796 <OLED_ShowString+0x1a>
-
-		if(x>=128){x=0;y+=2;} 	// 当x>=128，另起一页
-
-		N_Char++; 				// 指向下一个字符
-	}
-}
 402257b9:	7108      	l32i.n	a0, a1, 28
 402257bb:	61c8      	l32i.n	a12, a1, 24
 402257bd:	51d8      	l32i.n	a13, a1, 20
@@ -34931,12 +34560,6 @@ void ICACHE_FLASH_ATTR OLED_ShowString(u8 x, u8 y, u8 * Show_char)
 402257c6:	f00d      	ret.n
 
 402257c8 <OLED_ShowIP>:
-
-
-// 在指定位置显示IP地址(点分十进制)
-//-----------------------------------------------------------------------------
-void ICACHE_FLASH_ATTR OLED_ShowIP(u8 x, u8 y, u8*Array_IP)
-{
 402257c8:	d0c112        	addi	a1, a1, -48
 402257cb:	a1c9      	s32i.n	a12, a1, 40
 402257cd:	91d9      	s32i.n	a13, a1, 36
@@ -34946,21 +34569,12 @@ void ICACHE_FLASH_ATTR OLED_ShowIP(u8 x, u8 y, u8*Array_IP)
 402257d5:	74c020        	extui	a12, a2, 0, 8
 402257d8:	74e030        	extui	a14, a3, 0, 8
 402257db:	04dd      	mov.n	a13, a4
-	u8 N_IP_Byte = 0;		// IP字节序号
 402257dd:	0f0c      	movi.n	a15, 0
 402257df:	3c8b      	addi.n	a3, a12, 8
-	//----------------------------------------------------------
-	for(; N_IP_Byte<4; N_IP_Byte++)
-	{
-		// 显示百位/十位
-		//------------------------------------------------------
-		if(Array_IP[N_IP_Byte]/100)		// 判断百位?=0
 402257e1:	000d22        	l8ui	a2, a13, 0
 402257e4:	0139      	s32i.n	a3, a1, 0
 402257e6:	63a032        	movi	a3, 99
 402257e9:	4fb327        	bgeu	a3, a2, 4022583c <OLED_ShowIP+0x74>
-		{
-			OLED_ShowChar(x,y,48+Array_IP[N_IP_Byte]/100); x+=8;
 402257ec:	64a032        	movi	a3, 100
 402257ef:	ad2901        	l32r	a0, 40210c94 <ieee80211_ifattach+0x74>
 402257f2:	0000c0        	callx0	a0
@@ -34969,11 +34583,6 @@ void ICACHE_FLASH_ATTR OLED_ShowIP(u8 x, u8 y, u8*Array_IP)
 402257fb:	0c2d      	mov.n	a2, a12
 402257fd:	0e3d      	mov.n	a3, a14
 402257ff:	fff0c5        	call0	4022570c <OLED_ShowChar>
-
-			// 显示十位（百位!=0）
-			//---------------------------------------------------------
-			//if(Array_IP[N_IP_Byte]%100/10)
-			{ OLED_ShowChar(x,y,48+Array_IP[N_IP_Byte]%100/10); x+=8; }
 40225802:	0128      	l32i.n	a2, a1, 0
 40225804:	64a032        	movi	a3, 100
 40225807:	745020        	extui	a5, a2, 0, 8
@@ -34995,19 +34604,12 @@ void ICACHE_FLASH_ATTR OLED_ShowIP(u8 x, u8 y, u8*Array_IP)
 40225834:	74c0c0        	extui	a12, a12, 0, 8
 40225837:	000b86        	j	40225869 <OLED_ShowIP+0xa1>
 4022583a:	320000        	excw
-
-		}
-
-		// 显示十位（百位==0）
-		//---------------------------------------------------------
-		else if(Array_IP[N_IP_Byte]%100/10)		// 判断十位?=0
 4022583d:	0164a0        	slli	a6, a4, 22
 40225840:	c0ac22        	movi	a2, 0xfffffcc0
 40225843:	200000        	or	a0, a0, a0
 40225846:	0c7420        	excw
 40225849:	b32793        	excw
 4022584c:	0c1b      	addi.n	a0, a12, 1
-		{ OLED_ShowChar(x,y,48+Array_IP[N_IP_Byte]%100/10); x+=8; }
 4022584e:	1101a3        	excw
 40225851:	c0ad      	excw
 40225853:	420000        	excw
@@ -35019,12 +34621,6 @@ void ICACHE_FLASH_ATTR OLED_ShowIP(u8 x, u8 y, u8*Array_IP)
 40225863:	ff          	.byte 0xff
 40225864:	0128      	l32i.n	a2, a1, 0
 40225866:	74c020        	extui	a12, a2, 0, 8
-
-
-		// 显示个位
-		//---------------------------------------------------------
-		//if(Array_IP[C_IP_Byte]%100%10)
-		{ OLED_ShowChar(x,y,48+Array_IP[N_IP_Byte]%100%10); x+=8; }
 40225869:	000d22        	l8ui	a2, a13, 0
 4022586c:	64a032        	movi	a3, 100
 4022586f:	ac1601        	l32r	a0, 402108c8 <rijndaelKeySetupEnc+0x30c>
@@ -35040,34 +34636,18 @@ void ICACHE_FLASH_ATTR OLED_ShowIP(u8 x, u8 y, u8*Array_IP)
 4022588a:	ffe805        	call0	4022570c <OLED_ShowChar>
 4022588d:	2c8b      	addi.n	a2, a12, 8
 4022588f:	742020        	extui	a2, a2, 0, 8
-
-		// 显示【.】
-		if(N_IP_Byte<3)
 40225892:	0c3f26        	beqi	a15, 3, 402258a2 <OLED_ShowIP+0xda>
-		{ OLED_ShowChar(x,y,'.'); x+=8; }
 40225895:	0e3d      	mov.n	a3, a14
 40225897:	e42c      	movi.n	a4, 46
 40225899:	ffe705        	call0	4022570c <OLED_ShowChar>
 4022589c:	10ccc2        	addi	a12, a12, 16
 4022589f:	7420c0        	extui	a2, a12, 0, 8
-{
-	u8 N_IP_Byte = 0;		// IP字节序号
-
-	// 循环显示4个IP字节(由高到低字节显示)
-	//----------------------------------------------------------
-	for(; N_IP_Byte<4; N_IP_Byte++)
 402258a2:	ff1b      	addi.n	a15, a15, 1
 402258a4:	74f0f0        	extui	a15, a15, 0, 8
 402258a7:	dd1b      	addi.n	a13, a13, 1
 402258a9:	044f26        	beqi	a15, 4, 402258b1 <OLED_ShowIP+0xe9>
 402258ac:	02cd      	mov.n	a12, a2
 402258ae:	ffcb46        	j	402257df <OLED_ShowIP+0x17>
-
-		// 显示【.】
-		if(N_IP_Byte<3)
-		{ OLED_ShowChar(x,y,'.'); x+=8; }
-	}
-}
 402258b1:	b108      	l32i.n	a0, a1, 44
 402258b3:	a1c8      	l32i.n	a12, a1, 40
 402258b5:	91d8      	l32i.n	a13, a1, 36
@@ -35085,282 +34665,142 @@ void ICACHE_FLASH_ATTR OLED_ShowIP(u8 x, u8 y, u8*Array_IP)
 	...
 
 402258cc <i2c_master_setDC>:
-LOCAL void ICACHE_FLASH_ATTR
-i2c_master_setDC(uint8 SDA, uint8 SCL)
-{
-    SDA	&= 0x01;
-    SCL	&= 0x01;
-    m_nLastSDA = SDA;
 402258cc:	fffd41        	l32r	a4, 402258c0 <OLED_ShowIP+0xf8>
- *                uint8 SCL
- * Returns      : NONE
-*******************************************************************************/
-LOCAL void ICACHE_FLASH_ATTR
-i2c_master_setDC(uint8 SDA, uint8 SCL)
-{
 402258cf:	f0c112        	addi	a1, a1, -16
 402258d2:	3109      	s32i.n	a0, a1, 12
-    SDA	&= 0x01;
 402258d4:	046020        	extui	a6, a2, 0, 1
-    SCL	&= 0x01;
-    m_nLastSDA = SDA;
 402258d7:	004462        	s8i	a6, a4, 0
-    m_nLastSCL = SCL;
 402258da:	fffa41        	l32r	a4, 402258c4 <OLED_ShowIP+0xfc>
-*******************************************************************************/
-LOCAL void ICACHE_FLASH_ATTR
-i2c_master_setDC(uint8 SDA, uint8 SCL)
-{
-    SDA	&= 0x01;
-    SCL	&= 0x01;
 402258dd:	047030        	extui	a7, a3, 0, 1
-    m_nLastSDA = SDA;
-    m_nLastSCL = SCL;
-
-    if ((0 == SDA) && (0 == SCL)) {
 402258e0:	205230        	or	a5, a2, a3
-i2c_master_setDC(uint8 SDA, uint8 SCL)
-{
-    SDA	&= 0x01;
-    SCL	&= 0x01;
-    m_nLastSDA = SDA;
-    m_nLastSCL = SCL;
 402258e3:	004472        	s8i	a7, a4, 0
-
-    if ((0 == SDA) && (0 == SCL)) {
 402258e6:	045050        	extui	a5, a5, 0, 1
 402258e9:	85cc      	bnez.n	a5, 402258f5 <i2c_master_setDC+0x29>
-        I2C_MASTER_SDA_LOW_SCL_LOW();
 402258eb:	fff741        	l32r	a4, 402258c8 <OLED_ShowIP+0x100>
 402258ee:	052d      	mov.n	a2, a5
 402258f0:	043d      	mov.n	a3, a4
 402258f2:	000b86        	j	40225924 <i2c_master_setDC+0x58>
 402258f5:	150c      	movi.n	a5, 1
 402258f7:	308650        	xor	a8, a6, a5
-    } else if ((0 == SDA) && (1 == SCL)) {
 402258fa:	108780        	and	a8, a7, a8
 402258fd:	fff241        	l32r	a4, 402258c8 <OLED_ShowIP+0x100>
 40225900:	888c      	beqz.n	a8, 4022590c <i2c_master_setDC+0x40>
-        I2C_MASTER_SDA_LOW_SCL_HIGH();
 40225902:	b56a21        	l32r	a2, 40212eac <ieee80211_parse_htcap+0xcc>
 40225905:	430c      	movi.n	a3, 4
 40225907:	050c      	movi.n	a5, 0
 40225909:	0005c6        	j	40225924 <i2c_master_setDC+0x58>
 4022590c:	305750        	xor	a5, a7, a5
-    } else if ((1 == SDA) && (0 == SCL)) {
 4022590f:	105650        	and	a5, a6, a5
-        I2C_MASTER_SDA_HIGH_SCL_LOW();
-    } else {
-        I2C_MASTER_SDA_HIGH_SCL_HIGH();
 40225912:	042d      	mov.n	a2, a4
 40225914:	053d      	mov.n	a3, a5
-
-    if ((0 == SDA) && (0 == SCL)) {
-        I2C_MASTER_SDA_LOW_SCL_LOW();
-    } else if ((0 == SDA) && (1 == SCL)) {
-        I2C_MASTER_SDA_LOW_SCL_HIGH();
-    } else if ((1 == SDA) && (0 == SCL)) {
 40225916:	a58c      	beqz.n	a5, 40225924 <i2c_master_setDC+0x58>
-        I2C_MASTER_SDA_HIGH_SCL_LOW();
 40225918:	420c      	movi.n	a2, 4
 4022591a:	b56431        	l32r	a3, 40212eac <ieee80211_parse_htcap+0xcc>
 4022591d:	085d      	mov.n	a5, a8
 4022591f:	000046        	j	40225924 <i2c_master_setDC+0x58>
 40225922:	010000        	slli	a0, a0, 32
-    } else {
-        I2C_MASTER_SDA_HIGH_SCL_HIGH();
 40225925:	c0add5        	excw
 40225928:	080000        	excw
-    }
-}
 4022592b:	c11231        	l32r	a3, 40215d74 <ieee80211_freedom_output+0x1b4>
 4022592e:	f00d10        	subx8	a0, a13, a1
 40225931:	000000        	ill
 
 40225934 <i2c_master_start>:
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_start(void)
-{
 40225934:	f0c112        	addi	a1, a1, -16
-    i2c_master_setDC(1, m_nLastSCL);
 40225937:	ffe331        	l32r	a3, 402258c4 <OLED_ShowIP+0xfc>
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_start(void)
-{
 4022593a:	036102        	s32i	a0, a1, 12
-    i2c_master_setDC(1, m_nLastSCL);
 4022593d:	000332        	l8ui	a3, a3, 0
 40225940:	01a022        	movi	a2, 1
 40225943:	fff885        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225946:	520c      	movi.n	a2, 5
 40225948:	b42c01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 4022594b:	0000c0        	callx0	a0
-    i2c_master_setDC(1, 1);
 4022594e:	120c      	movi.n	a2, 1
 40225950:	023d      	mov.n	a3, a2
 40225952:	fff785        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda 1, scl 1
 40225955:	520c      	movi.n	a2, 5
 40225957:	b42801        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 4022595a:	0000c0        	callx0	a0
-    i2c_master_setDC(0, 1);
 4022595d:	020c      	movi.n	a2, 0
 4022595f:	130c      	movi.n	a3, 1
 40225961:	fff685        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda 0, scl 1
 40225964:	520c      	movi.n	a2, 5
 40225966:	b42401        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225969:	0000c0        	callx0	a0
-}
 4022596c:	3108      	l32i.n	a0, a1, 12
 4022596e:	10c112        	addi	a1, a1, 16
 40225971:	f00d      	ret.n
 	...
 
 40225974 <i2c_master_stop>:
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_stop(void)
-{
 40225974:	f0c112        	addi	a1, a1, -16
-    i2c_master_wait(5);
 40225977:	520c      	movi.n	a2, 5
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_stop(void)
-{
 40225979:	3109      	s32i.n	a0, a1, 12
-    i2c_master_wait(5);
 4022597b:	b41f01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 4022597e:	0000c0        	callx0	a0
-
-    i2c_master_setDC(0, m_nLastSCL);
 40225981:	ffd031        	l32r	a3, 402258c4 <OLED_ShowIP+0xfc>
 40225984:	00a022        	movi	a2, 0
 40225987:	000332        	l8ui	a3, a3, 0
 4022598a:	fff405        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda 0
 4022598d:	520c      	movi.n	a2, 5
 4022598f:	b41a01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225992:	0000c0        	callx0	a0
-    i2c_master_setDC(0, 1);
 40225995:	130c      	movi.n	a3, 1
 40225997:	00a022        	movi	a2, 0
 4022599a:	fff305        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda 0, scl 1
 4022599d:	520c      	movi.n	a2, 5
 4022599f:	b41601        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 402259a2:	0000c0        	callx0	a0
-    i2c_master_setDC(1, 1);
 402259a5:	120c      	movi.n	a2, 1
 402259a7:	023d      	mov.n	a3, a2
 402259a9:	fff205        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda 1, scl 1
 402259ac:	520c      	movi.n	a2, 5
 402259ae:	b41201        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 402259b1:	0000c0        	callx0	a0
-}
 402259b4:	3108      	l32i.n	a0, a1, 12
 402259b6:	10c112        	addi	a1, a1, 16
 402259b9:	f00d      	ret.n
 	...
 
 402259bc <i2c_master_init>:
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_init(void)
-{
 402259bc:	f0c112        	addi	a1, a1, -16
-    uint8 i;
-
-    i2c_master_setDC(1, 0);
 402259bf:	030c      	movi.n	a3, 0
 402259c1:	120c      	movi.n	a2, 1
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_init(void)
-{
 402259c3:	3109      	s32i.n	a0, a1, 12
 402259c5:	21c9      	s32i.n	a12, a1, 8
-    uint8 i;
-
-    i2c_master_setDC(1, 0);
 402259c7:	fff045        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 402259ca:	520c      	movi.n	a2, 5
 402259cc:	b40b01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 402259cf:	0000c0        	callx0	a0
-
-    // when SCL = 0, toggle SDA to clear up
-    i2c_master_setDC(0, 0) ;
 402259d2:	020c      	movi.n	a2, 0
 402259d4:	023d      	mov.n	a3, a2
 402259d6:	ffef45        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 402259d9:	520c      	movi.n	a2, 5
 402259db:	b40701        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 402259de:	0000c0        	callx0	a0
-    i2c_master_setDC(1, 0) ;
 402259e1:	120c      	movi.n	a2, 1
 402259e3:	030c      	movi.n	a3, 0
 402259e5:	ffee45        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 402259e8:	520c      	movi.n	a2, 5
 402259ea:	b40301        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 402259ed:	0000c0        	callx0	a0
 402259f0:	cc1c      	movi.n	a12, 28
-
-    // set data_cnt to max value
-    for (i = 0; i < 28; i++) {
-        i2c_master_setDC(1, 0);
 402259f2:	030c      	movi.n	a3, 0
 402259f4:	120c      	movi.n	a2, 1
 402259f6:	ffed45        	call0	402258cc <i2c_master_setDC>
-        i2c_master_wait(5);	// sda 1, scl 0
 402259f9:	520c      	movi.n	a2, 5
 402259fb:	b3ff01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 402259fe:	0000c0        	callx0	a0
-        i2c_master_setDC(1, 1);
 40225a01:	120c      	movi.n	a2, 1
 40225a03:	023d      	mov.n	a3, a2
 40225a05:	ffec45        	call0	402258cc <i2c_master_setDC>
 40225a08:	cc0b      	addi.n	a12, a12, -1
-        i2c_master_wait(5);	// sda 1, scl 1
 40225a0a:	520c      	movi.n	a2, 5
 40225a0c:	74c0c0        	extui	a12, a12, 0, 8
 40225a0f:	b3fa01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225a12:	0000c0        	callx0	a0
-    i2c_master_wait(5);
-    i2c_master_setDC(1, 0) ;
-    i2c_master_wait(5);
-
-    // set data_cnt to max value
-    for (i = 0; i < 28; i++) {
 40225a15:	fd9c56        	bnez	a12, 402259f2 <i2c_master_init+0x36>
-        i2c_master_setDC(1, 1);
-        i2c_master_wait(5);	// sda 1, scl 1
-    }
-
-    // reset all
-    i2c_master_stop();
 40225a18:	fff585        	call0	40225974 <i2c_master_stop>
-    return;
-}
 40225a1b:	3108      	l32i.n	a0, a1, 12
 40225a1d:	21c8      	l32i.n	a12, a1, 8
 40225a1f:	10c112        	addi	a1, a1, 16
@@ -35375,28 +34815,11 @@ i2c_master_init(void)
 40225a37:	c11260        	mul16u	a1, a2, a6
 
 40225a38 <i2c_master_gpio_init>:
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_gpio_init(void)
-{
 40225a38:	f0c112        	addi	a1, a1, -16
-    ETS_GPIO_INTR_DISABLE() ;
 40225a3b:	021c      	movi.n	a2, 16
- * Parameters   : NONE
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_gpio_init(void)
-{
 40225a3d:	3109      	s32i.n	a0, a1, 12
-    ETS_GPIO_INTR_DISABLE() ;
 40225a3f:	ef8b01        	l32r	a0, 4022186c <system_upgrade_reboot+0x154>
 40225a42:	0000c0        	callx0	a0
-//	ETS_INTR_LOCK();
-
-    PIN_FUNC_SELECT(I2C_MASTER_SDA_MUX, I2C_MASTER_SDA_FUNC);
 40225a45:	fff721        	l32r	a2, 40225a24 <i2c_master_init+0x68>
 40225a48:	cfae32        	movi	a3, 0xfffffecf
 40225a4b:	0020c0        	memw
@@ -35404,7 +34827,6 @@ i2c_master_gpio_init(void)
 40225a50:	104430        	and	a4, a4, a3
 40225a53:	0020c0        	memw
 40225a56:	0249      	s32i.n	a4, a2, 0
-    PIN_FUNC_SELECT(I2C_MASTER_SCL_MUX, I2C_MASTER_SCL_FUNC);
 40225a58:	fff421        	l32r	a2, 40225a28 <i2c_master_init+0x6c>
 40225a5b:	0020c0        	memw
 40225a5e:	0248      	l32i.n	a4, a2, 0
@@ -35413,8 +34835,6 @@ i2c_master_gpio_init(void)
 40225a65:	203340        	or	a3, a3, a4
 40225a68:	0020c0        	memw
 40225a6b:	0239      	s32i.n	a3, a2, 0
-
-    GPIO_REG_WRITE(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SDA_GPIO)), GPIO_REG_READ(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SDA_GPIO))) | GPIO_PIN_PAD_DRIVER_SET(GPIO_PAD_DRIVER_ENABLE)); //open drain;
 40225a6d:	ffef21        	l32r	a2, 40225a2c <i2c_master_init+0x70>
 40225a70:	430c      	movi.n	a3, 4
 40225a72:	0020c0        	memw
@@ -35422,117 +34842,74 @@ i2c_master_gpio_init(void)
 40225a77:	204430        	or	a4, a4, a3
 40225a7a:	0020c0        	memw
 40225a7d:	0249      	s32i.n	a4, a2, 0
-    GPIO_REG_WRITE(GPIO_ENABLE_ADDRESS, GPIO_REG_READ(GPIO_ENABLE_ADDRESS) | (1 << I2C_MASTER_SDA_GPIO));
 40225a7f:	ffec21        	l32r	a2, 40225a30 <i2c_master_init+0x74>
 40225a82:	0020c0        	memw
 40225a85:	0248      	l32i.n	a4, a2, 0
 40225a87:	204430        	or	a4, a4, a3
 40225a8a:	0020c0        	memw
 40225a8d:	0249      	s32i.n	a4, a2, 0
-    GPIO_REG_WRITE(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SCL_GPIO)), GPIO_REG_READ(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SCL_GPIO))) | GPIO_PIN_PAD_DRIVER_SET(GPIO_PAD_DRIVER_ENABLE)); //open drain;
 40225a8f:	ffe941        	l32r	a4, 40225a34 <i2c_master_init+0x78>
 40225a92:	0020c0        	memw
 40225a95:	0458      	l32i.n	a5, a4, 0
 40225a97:	203530        	or	a3, a5, a3
 40225a9a:	0020c0        	memw
 40225a9d:	0439      	s32i.n	a3, a4, 0
-    GPIO_REG_WRITE(GPIO_ENABLE_ADDRESS, GPIO_REG_READ(GPIO_ENABLE_ADDRESS) | (1 << I2C_MASTER_SCL_GPIO));
 40225a9f:	0020c0        	memw
 40225aa2:	0248      	l32i.n	a4, a2, 0
 40225aa4:	b50231        	l32r	a3, 40212eac <ieee80211_parse_htcap+0xcc>
 40225aa7:	203430        	or	a3, a4, a3
-
-    I2C_MASTER_SDA_HIGH_SCL_HIGH();
 40225aaa:	ff8741        	l32r	a4, 402258c8 <OLED_ShowIP+0x100>
-    PIN_FUNC_SELECT(I2C_MASTER_SCL_MUX, I2C_MASTER_SCL_FUNC);
-
-    GPIO_REG_WRITE(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SDA_GPIO)), GPIO_REG_READ(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SDA_GPIO))) | GPIO_PIN_PAD_DRIVER_SET(GPIO_PAD_DRIVER_ENABLE)); //open drain;
-    GPIO_REG_WRITE(GPIO_ENABLE_ADDRESS, GPIO_REG_READ(GPIO_ENABLE_ADDRESS) | (1 << I2C_MASTER_SDA_GPIO));
-    GPIO_REG_WRITE(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SCL_GPIO)), GPIO_REG_READ(GPIO_PIN_ADDR(GPIO_ID_PIN(I2C_MASTER_SCL_GPIO))) | GPIO_PIN_PAD_DRIVER_SET(GPIO_PAD_DRIVER_ENABLE)); //open drain;
-    GPIO_REG_WRITE(GPIO_ENABLE_ADDRESS, GPIO_REG_READ(GPIO_ENABLE_ADDRESS) | (1 << I2C_MASTER_SCL_GPIO));
 40225aad:	0020c0        	memw
 40225ab0:	0239      	s32i.n	a3, a2, 0
-
-    I2C_MASTER_SDA_HIGH_SCL_HIGH();
 40225ab2:	030c      	movi.n	a3, 0
 40225ab4:	042d      	mov.n	a2, a4
 40225ab6:	035d      	mov.n	a5, a3
 40225ab8:	ad7001        	l32r	a0, 40211078 <ieee80211_getmgtframe+0x94>
 40225abb:	0000c0        	callx0	a0
-
-    ETS_GPIO_INTR_ENABLE() ;
 40225abe:	021c      	movi.n	a2, 16
 40225ac0:	e84301        	l32r	a0, 4021fbcc <uart_div_modify+0x54>
 40225ac3:	0000c0        	callx0	a0
-//	ETS_INTR_UNLOCK();
-
-    i2c_master_init();
 40225ac6:	ffef45        	call0	402259bc <i2c_master_init>
-}
 40225ac9:	3108      	l32i.n	a0, a1, 12
 40225acb:	10c112        	addi	a1, a1, 16
 40225ace:	f00d      	ret.n
 
 40225ad0 <i2c_master_setAck>:
- * Parameters   : uint8 level - 0 or 1
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_setAck(uint8 level)
-{
 40225ad0:	f0c112        	addi	a1, a1, -16
 40225ad3:	21c9      	s32i.n	a12, a1, 8
 40225ad5:	74c020        	extui	a12, a2, 0, 8
-    i2c_master_setDC(m_nLastSDA, 0);
 40225ad8:	ff7a21        	l32r	a2, 402258c0 <OLED_ShowIP+0xf8>
- * Parameters   : uint8 level - 0 or 1
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_setAck(uint8 level)
-{
 40225adb:	3109      	s32i.n	a0, a1, 12
-    i2c_master_setDC(m_nLastSDA, 0);
 40225add:	000222        	l8ui	a2, a2, 0
 40225ae0:	00a032        	movi	a3, 0
 40225ae3:	ffde85        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225ae6:	520c      	movi.n	a2, 5
 40225ae8:	b3c401        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225aeb:	0000c0        	callx0	a0
-    i2c_master_setDC(level, 0);
 40225aee:	0c2d      	mov.n	a2, a12
 40225af0:	00a032        	movi	a3, 0
 40225af3:	ffdd85        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda level, scl 0
 40225af6:	520c      	movi.n	a2, 5
 40225af8:	b3c001        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225afb:	0000c0        	callx0	a0
-    i2c_master_setDC(level, 1);
 40225afe:	0c2d      	mov.n	a2, a12
 40225b00:	01a032        	movi	a3, 1
 40225b03:	ffdc85        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(8);	// sda level, scl 1
 40225b06:	820c      	movi.n	a2, 8
 40225b08:	b3bc01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b0b:	0000c0        	callx0	a0
-    i2c_master_setDC(level, 0);
 40225b0e:	0c2d      	mov.n	a2, a12
 40225b10:	030c      	movi.n	a3, 0
 40225b12:	ffdb85        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda level, scl 0
 40225b15:	520c      	movi.n	a2, 5
 40225b17:	b3b801        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b1a:	0000c0        	callx0	a0
-    i2c_master_setDC(1, 0);
 40225b1d:	120c      	movi.n	a2, 1
 40225b1f:	030c      	movi.n	a3, 0
 40225b21:	ffda85        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225b24:	520c      	movi.n	a2, 5
 40225b26:	b3b401        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b29:	0000c0        	callx0	a0
-}
 40225b2c:	3108      	l32i.n	a0, a1, 12
 40225b2e:	21c8      	l32i.n	a12, a1, 8
 40225b30:	10c112        	addi	a1, a1, 16
@@ -35542,78 +34919,40 @@ i2c_master_setAck(uint8 level)
 40225b3b:	c11240        	mul16u	a1, a2, a4
 
 40225b3c <i2c_master_getAck>:
- * Parameters   : NONE
- * Returns      : uint8 - ack value, 0 or 1
-*******************************************************************************/
-uint8 ICACHE_FLASH_ATTR
-i2c_master_getAck(void)
-{
 40225b3c:	f0c112        	addi	a1, a1, -16
-    uint8 retVal;
-    i2c_master_setDC(m_nLastSDA, 0);
 40225b3f:	ff6021        	l32r	a2, 402258c0 <OLED_ShowIP+0xf8>
- * Parameters   : NONE
- * Returns      : uint8 - ack value, 0 or 1
-*******************************************************************************/
-uint8 ICACHE_FLASH_ATTR
-i2c_master_getAck(void)
-{
 40225b42:	3109      	s32i.n	a0, a1, 12
 40225b44:	21c9      	s32i.n	a12, a1, 8
-    uint8 retVal;
-    i2c_master_setDC(m_nLastSDA, 0);
 40225b46:	000222        	l8ui	a2, a2, 0
 40225b49:	030c      	movi.n	a3, 0
 40225b4b:	ffd805        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225b4e:	520c      	movi.n	a2, 5
 40225b50:	b3aa01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b53:	0000c0        	callx0	a0
-    i2c_master_setDC(1, 0);
 40225b56:	030c      	movi.n	a3, 0
 40225b58:	120c      	movi.n	a2, 1
 40225b5a:	ffd705        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225b5d:	520c      	movi.n	a2, 5
 40225b5f:	b3a601        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b62:	0000c0        	callx0	a0
-    i2c_master_setDC(1, 1);
 40225b65:	120c      	movi.n	a2, 1
 40225b67:	023d      	mov.n	a3, a2
 40225b69:	ffd605        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225b6c:	520c      	movi.n	a2, 5
 40225b6e:	b3a201        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b71:	0000c0        	callx0	a0
-*******************************************************************************/
-LOCAL uint8 ICACHE_FLASH_ATTR
-i2c_master_getDC(void)
-{
-    uint8 sda_out;
-    sda_out = GPIO_INPUT_GET(GPIO_ID_PIN(I2C_MASTER_SDA_GPIO));
 40225b74:	fff101        	l32r	a0, 40225b38 <i2c_master_setAck+0x68>
 40225b77:	0000c0        	callx0	a0
 40225b7a:	02cd      	mov.n	a12, a2
-    i2c_master_wait(5);
-    i2c_master_setDC(1, 1);
-    i2c_master_wait(5);
-
-    retVal = i2c_master_getDC();
-    i2c_master_wait(5);
 40225b7c:	05a022        	movi	a2, 5
 40225b7f:	b39e01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b82:	0000c0        	callx0	a0
-    i2c_master_setDC(1, 0);
 40225b85:	120c      	movi.n	a2, 1
 40225b87:	030c      	movi.n	a3, 0
 40225b89:	ffd405        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225b8c:	520c      	movi.n	a2, 5
 40225b8e:	b39a01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225b91:	0000c0        	callx0	a0
-
-    return retVal;
-}
 40225b94:	3108      	l32i.n	a0, a1, 12
 40225b96:	0422c0        	extui	a2, a12, 2, 1
 40225b99:	21c8      	l32i.n	a12, a1, 8
@@ -35621,229 +34960,96 @@ i2c_master_getDC(void)
 40225b9e:	f00d      	ret.n
 
 40225ba0 <i2c_master_checkAck>:
-* Parameters   : NONE
-* Returns      : true : get ack ; false : get nack
-*******************************************************************************/
-bool ICACHE_FLASH_ATTR
-i2c_master_checkAck(void)
-{
 40225ba0:	f0c112        	addi	a1, a1, -16
 40225ba3:	3109      	s32i.n	a0, a1, 12
-    if(i2c_master_getAck()){
 40225ba5:	fff945        	call0	40225b3c <i2c_master_getAck>
-        return FALSE;
-    }else{
-        return TRUE;
-    }
-}
 40225ba8:	3108      	l32i.n	a0, a1, 12
-* Returns      : true : get ack ; false : get nack
-*******************************************************************************/
-bool ICACHE_FLASH_ATTR
-i2c_master_checkAck(void)
-{
-    if(i2c_master_getAck()){
 40225baa:	024d      	mov.n	a4, a2
 40225bac:	130c      	movi.n	a3, 1
 40225bae:	020c      	movi.n	a2, 0
 40225bb0:	832340        	moveqz	a2, a3, a4
-        return FALSE;
-    }else{
-        return TRUE;
-    }
-}
 40225bb3:	10c112        	addi	a1, a1, 16
 40225bb6:	f00d      	ret.n
 
 40225bb8 <i2c_master_send_ack>:
-* Parameters   : NONE
-* Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_send_ack(void)
-{
 40225bb8:	f0c112        	addi	a1, a1, -16
-    i2c_master_setAck(0x0);
 40225bbb:	020c      	movi.n	a2, 0
-* Parameters   : NONE
-* Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_send_ack(void)
-{
 40225bbd:	3109      	s32i.n	a0, a1, 12
-    i2c_master_setAck(0x0);
 40225bbf:	fff105        	call0	40225ad0 <i2c_master_setAck>
-}
 40225bc2:	3108      	l32i.n	a0, a1, 12
 40225bc4:	10c112        	addi	a1, a1, 16
 40225bc7:	f00d      	ret.n
 40225bc9:	000000        	ill
 
 40225bcc <i2c_master_send_nack>:
-* Parameters   : NONE
-* Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_send_nack(void)
-{
 40225bcc:	f0c112        	addi	a1, a1, -16
-    i2c_master_setAck(0x1);
 40225bcf:	120c      	movi.n	a2, 1
-* Parameters   : NONE
-* Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_send_nack(void)
-{
 40225bd1:	3109      	s32i.n	a0, a1, 12
-    i2c_master_setAck(0x1);
 40225bd3:	ffefc5        	call0	40225ad0 <i2c_master_setAck>
-}
 40225bd6:	3108      	l32i.n	a0, a1, 12
 40225bd8:	10c112        	addi	a1, a1, 16
 40225bdb:	f00d      	ret.n
 40225bdd:	000000        	ill
 
 40225be0 <i2c_master_readByte>:
- * Parameters   : NONE
- * Returns      : uint8 - readed value
-*******************************************************************************/
-uint8 ICACHE_FLASH_ATTR
-i2c_master_readByte(void)
-{
 40225be0:	e0c112        	addi	a1, a1, -32
-    uint8 retVal = 0;
-    uint8 k, i;
-
-    i2c_master_wait(5);
 40225be3:	520c      	movi.n	a2, 5
- * Parameters   : NONE
- * Returns      : uint8 - readed value
-*******************************************************************************/
-uint8 ICACHE_FLASH_ATTR
-i2c_master_readByte(void)
-{
 40225be5:	7109      	s32i.n	a0, a1, 28
 40225be7:	61c9      	s32i.n	a12, a1, 24
 40225be9:	51d9      	s32i.n	a13, a1, 20
 40225beb:	31f9      	s32i.n	a15, a1, 12
 40225bed:	41e9      	s32i.n	a14, a1, 16
-    uint8 retVal = 0;
-    uint8 k, i;
-
-    i2c_master_wait(5);
 40225bef:	b38201        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225bf2:	0000c0        	callx0	a0
-    i2c_master_setDC(m_nLastSDA, 0);
 40225bf5:	ff3221        	l32r	a2, 402258c0 <OLED_ShowIP+0xf8>
 40225bf8:	030c      	movi.n	a3, 0
 40225bfa:	000222        	l8ui	a2, a2, 0
-    i2c_master_wait(5);	// sda 1, scl 0
 40225bfd:	0c0c      	movi.n	a12, 0
-{
-    uint8 retVal = 0;
-    uint8 k, i;
-
-    i2c_master_wait(5);
-    i2c_master_setDC(m_nLastSDA, 0);
 40225bff:	ffccc5        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda 1, scl 0
 40225c02:	520c      	movi.n	a2, 5
 40225c04:	b37d01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225c07:	0000c0        	callx0	a0
- * Returns      : uint8 - readed value
-*******************************************************************************/
-uint8 ICACHE_FLASH_ATTR
-i2c_master_readByte(void)
-{
-    uint8 retVal = 0;
 40225c0a:	0cdd      	mov.n	a13, a12
 40225c0c:	7f0c      	movi.n	a15, 7
-    i2c_master_wait(5);
-    i2c_master_setDC(m_nLastSDA, 0);
-    i2c_master_wait(5);	// sda 1, scl 0
-
-    for (i = 0; i < 8; i++) {
-        i2c_master_wait(5);
 40225c0e:	520c      	movi.n	a2, 5
 40225c10:	b37a01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225c13:	0000c0        	callx0	a0
-        i2c_master_setDC(1, 0);
 40225c16:	030c      	movi.n	a3, 0
 40225c18:	120c      	movi.n	a2, 1
 40225c1a:	ffcb05        	call0	402258cc <i2c_master_setDC>
-        i2c_master_wait(5);	// sda 1, scl 0
 40225c1d:	520c      	movi.n	a2, 5
 40225c1f:	b37601        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225c22:	0000c0        	callx0	a0
-        i2c_master_setDC(1, 1);
 40225c25:	120c      	movi.n	a2, 1
 40225c27:	023d      	mov.n	a3, a2
 40225c29:	ffca05        	call0	402258cc <i2c_master_setDC>
-        i2c_master_wait(5);	// sda 1, scl 1
 40225c2c:	520c      	movi.n	a2, 5
 40225c2e:	b37201        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225c31:	0000c0        	callx0	a0
-*******************************************************************************/
-LOCAL uint8 ICACHE_FLASH_ATTR
-i2c_master_getDC(void)
-{
-    uint8 sda_out;
-    sda_out = GPIO_INPUT_GET(GPIO_ID_PIN(I2C_MASTER_SDA_GPIO));
 40225c34:	ffc101        	l32r	a0, 40225b38 <i2c_master_setAck+0x68>
 40225c37:	0000c0        	callx0	a0
 40225c3a:	04e220        	extui	a14, a2, 2, 1
-        i2c_master_wait(5);	// sda 1, scl 0
-        i2c_master_setDC(1, 1);
-        i2c_master_wait(5);	// sda 1, scl 1
-
-        k = i2c_master_getDC();
-        i2c_master_wait(5);
 40225c3d:	520c      	movi.n	a2, 5
 40225c3f:	b36e01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225c42:	0000c0        	callx0	a0
-
-        if (i == 7) {
 40225c45:	7420c0        	extui	a2, a12, 0, 8
 40225c48:	087266        	bnei	a2, 7, 40225c54 <i2c_master_readByte+0x74>
-            i2c_master_wait(3);   ////
 40225c4b:	03a022        	movi	a2, 3
 40225c4e:	b36a01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225c51:	0000c0        	callx0	a0
 40225c54:	c02fc0        	sub	a2, a15, a12
-        }
-
-        k <<= (7 - i);
 40225c57:	401200        	ssl	a2
 40225c5a:	a1ee00        	sll	a14, a14
-        retVal |= k;
 40225c5d:	20dde0        	or	a13, a13, a14
 40225c60:	cc1b      	addi.n	a12, a12, 1
 40225c62:	74d0d0        	extui	a13, a13, 0, 8
-
-    i2c_master_wait(5);
-    i2c_master_setDC(m_nLastSDA, 0);
-    i2c_master_wait(5);	// sda 1, scl 0
-
-    for (i = 0; i < 8; i++) {
 40225c65:	a58c66        	bnei	a12, 8, 40225c0e <i2c_master_readByte+0x2e>
-
-        k <<= (7 - i);
-        retVal |= k;
-    }
-
-    i2c_master_setDC(1, 0);
 40225c68:	120c      	movi.n	a2, 1
 40225c6a:	00a032        	movi	a3, 0
 40225c6d:	ffc5c5        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);	// sda 1, scl 0
 40225c70:	520c      	movi.n	a2, 5
 40225c72:	b36101        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225c75:	0000c0        	callx0	a0
-
-    return retVal;
-}
 40225c78:	7108      	l32i.n	a0, a1, 28
 40225c7a:	0d2d      	mov.n	a2, a13
 40225c7c:	61c8      	l32i.n	a12, a1, 24
@@ -35855,106 +35061,50 @@ i2c_master_getDC(void)
 40225c89:	000000        	ill
 
 40225c8c <i2c_master_writeByte>:
- * Parameters   : uint8 wrdata - write value
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_writeByte(uint8 wrdata)
-{
 40225c8c:	f0c112        	addi	a1, a1, -16
 40225c8f:	01e9      	s32i.n	a14, a1, 0
 40225c91:	74e020        	extui	a14, a2, 0, 8
-    uint8 dat;
-    sint8 i;
-
-    i2c_master_wait(5);
 40225c94:	520c      	movi.n	a2, 5
- * Parameters   : uint8 wrdata - write value
- * Returns      : NONE
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-i2c_master_writeByte(uint8 wrdata)
-{
 40225c96:	036102        	s32i	a0, a1, 12
 40225c99:	21c9      	s32i.n	a12, a1, 8
 40225c9b:	0161d2        	s32i	a13, a1, 4
-    uint8 dat;
-    sint8 i;
-
-    i2c_master_wait(5);
 40225c9e:	b35601        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225ca1:	0000c0        	callx0	a0
-
-    i2c_master_setDC(m_nLastSDA, 0);
 40225ca4:	ff0721        	l32r	a2, 402258c0 <OLED_ShowIP+0xf8>
 40225ca7:	030c      	movi.n	a3, 0
 40225ca9:	000222        	l8ui	a2, a2, 0
-    i2c_master_wait(5);
 40225cac:	7c0c      	movi.n	a12, 7
-    uint8 dat;
-    sint8 i;
-
-    i2c_master_wait(5);
-
-    i2c_master_setDC(m_nLastSDA, 0);
 40225cae:	ffc1c5        	call0	402258cc <i2c_master_setDC>
-    i2c_master_wait(5);
 40225cb1:	520c      	movi.n	a2, 5
 40225cb3:	b35101        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225cb6:	0000c0        	callx0	a0
-
-    for (i = 7; i >= 0; i--) {
-        dat = wrdata >> i;
 40225cb9:	400c00        	ssr	a12
 40225cbc:	b1d0e0        	sra	a13, a14
-        i2c_master_setDC(dat, 0);
 40225cbf:	030c      	movi.n	a3, 0
 40225cc1:	0d2d      	mov.n	a2, a13
 40225cc3:	ffc085        	call0	402258cc <i2c_master_setDC>
-        i2c_master_wait(5);
 40225cc6:	520c      	movi.n	a2, 5
 40225cc8:	b34c01        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225ccb:	0000c0        	callx0	a0
-        i2c_master_setDC(dat, 1);
 40225cce:	0d2d      	mov.n	a2, a13
 40225cd0:	130c      	movi.n	a3, 1
 40225cd2:	ffbf85        	call0	402258cc <i2c_master_setDC>
-        i2c_master_wait(5);
 40225cd5:	520c      	movi.n	a2, 5
 40225cd7:	b34801        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225cda:	0000c0        	callx0	a0
-
-        if (i == 0) {
 40225cdd:	012c80        	slli	a2, a12, 24
 40225ce0:	62cc      	bnez.n	a2, 40225cea <i2c_master_writeByte+0x5e>
-            i2c_master_wait(3);   ////
 40225ce2:	320c      	movi.n	a2, 3
 40225ce4:	b34501        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225ce7:	0000c0        	callx0	a0
-        }
-
-        i2c_master_setDC(dat, 0);
 40225cea:	0d2d      	mov.n	a2, a13
 40225cec:	00a032        	movi	a3, 0
 40225cef:	ffbdc5        	call0	402258cc <i2c_master_setDC>
-        i2c_master_wait(5);
 40225cf2:	520c      	movi.n	a2, 5
 40225cf4:	cc0b      	addi.n	a12, a12, -1
 40225cf6:	b34001        	l32r	a0, 402129f8 <freqcal_scan_done+0x45c>
 40225cf9:	0000c0        	callx0	a0
-    i2c_master_wait(5);
-
-    i2c_master_setDC(m_nLastSDA, 0);
-    i2c_master_wait(5);
-
-    for (i = 7; i >= 0; i--) {
 40225cfc:	b90c66        	bnei	a12, -1, 40225cb9 <i2c_master_writeByte+0x2d>
-        }
-
-        i2c_master_setDC(dat, 0);
-        i2c_master_wait(5);
-    }
-}
 40225cff:	3108      	l32i.n	a0, a1, 12
 40225d01:	21c8      	l32i.n	a12, a1, 8
 40225d03:	11d8      	l32i.n	a13, a1, 4
@@ -35980,20 +35130,12 @@ i2c_master_writeByte(uint8 wrdata)
 40225d31:	600000        	neg	a0, a0
 
 40225d34 <uart_config>:
- * Parameters   : uart_no, use UART0 or UART1 defined ahead
- * Returns      : NONE
-*******************************************************************************/
-LOCAL void ICACHE_FLASH_ATTR
-uart_config(uint8 uart_no)
-{
 40225d34:	f0c112        	addi	a1, a1, -16
 40225d37:	11d9      	s32i.n	a13, a1, 4
 40225d39:	3109      	s32i.n	a0, a1, 12
 40225d3b:	21c9      	s32i.n	a12, a1, 8
 40225d3d:	02dd      	mov.n	a13, a2
-    if (uart_no == UART1){
 40225d3f:	161266        	bnei	a2, 1, 40225d59 <uart_config+0x25>
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO2_U, FUNC_U1TXD_BK);
 40225d42:	ff3821        	l32r	a2, 40225a24 <i2c_master_init+0x68>
 40225d45:	cfae32        	movi	a3, 0xfffffecf
 40225d48:	0020c0        	memw
@@ -36003,15 +35145,11 @@ uart_config(uint8 uart_no)
 40225d52:	203340        	or	a3, a3, a4
 40225d55:	000b06        	j	40225d85 <uart_config+0x51>
 40225d58:	ec3100        	excw
-    }else{
-        /* rcv_buff size if 0x100 */
-        ETS_UART_INTR_ATTACH(uart0_rx_intr_handler,  &(UartDev.rcv_buff));
 40225d5b:	ff          	.byte 0xff
 40225d5c:	ffed41        	l32r	a4, 40225d10 <i2c_master_writeByte+0x84>
 40225d5f:	520c      	movi.n	a2, 5
 40225d61:	e79901        	l32r	a0, 4021fbc8 <uart_div_modify+0x50>
 40225d64:	0000c0        	callx0	a0
-        PIN_PULLUP_DIS(PERIPHS_IO_MUX_U0TXD_U);
 40225d67:	ffeb21        	l32r	a2, 40225d14 <i2c_master_writeByte+0x88>
 40225d6a:	7faf32        	movi	a3, -129
 40225d6d:	0020c0        	memw
@@ -36019,32 +35157,13 @@ uart_config(uint8 uart_no)
 40225d72:	103430        	and	a3, a4, a3
 40225d75:	0020c0        	memw
 40225d78:	0239      	s32i.n	a3, a2, 0
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_U0TXD_U, FUNC_U0TXD);
 40225d7a:	0020c0        	memw
 40225d7d:	0248      	l32i.n	a4, a2, 0
 40225d7f:	cfae32        	movi	a3, 0xfffffecf
 40225d82:	103430        	and	a3, a4, a3
-        #endif
-	#if UART_HW_CTS
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTCK_U, FUNC_U0CTS);   //HW FLOW CONTROL CTS PIN
-        #endif
-    }
-    uart_div_modify(uart_no, UART_CLK_FREQ / (UartDev.baut_rate));//SET BAUDRATE
 40225d85:	ffe4c1        	l32r	a12, 40225d18 <i2c_master_writeByte+0x8c>
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO2_U, FUNC_U1TXD_BK);
-    }else{
-        /* rcv_buff size if 0x100 */
-        ETS_UART_INTR_ATTACH(uart0_rx_intr_handler,  &(UartDev.rcv_buff));
-        PIN_PULLUP_DIS(PERIPHS_IO_MUX_U0TXD_U);
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_U0TXD_U, FUNC_U0TXD);
 40225d88:	0020c0        	memw
 40225d8b:	0239      	s32i.n	a3, a2, 0
-        #endif
-	#if UART_HW_CTS
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTCK_U, FUNC_U0CTS);   //HW FLOW CONTROL CTS PIN
-        #endif
-    }
-    uart_div_modify(uart_no, UART_CLK_FREQ / (UartDev.baut_rate));//SET BAUDRATE
 40225d8d:	002c32        	l32i	a3, a12, 0
 40225d90:	ffe321        	l32r	a2, 40225d1c <i2c_master_writeByte+0x90>
 40225d93:	abc001        	l32r	a0, 40210c94 <ieee80211_ifattach+0x74>
@@ -36052,8 +35171,6 @@ uart_config(uint8 uart_no)
 40225d99:	023d      	mov.n	a3, a2
 40225d9b:	0d2d      	mov.n	a2, a13
 40225d9d:	f9dd85        	call0	4021fb78 <uart_div_modify>
-    
-    WRITE_PERI_REG(UART_CONF0(uart_no), ((UartDev.exist_parity & UART_PARITY_EN_M)  <<  UART_PARITY_EN_S) //SET BIT AND PARITY MODE
 40225da0:	2c58      	l32i.n	a5, a12, 8
 40225da2:	4c48      	l32i.n	a4, a12, 16
 40225da4:	045050        	extui	a5, a5, 0, 1
@@ -36075,19 +35192,12 @@ uart_config(uint8 uart_no)
 40225dd1:	204450        	or	a4, a4, a5
 40225dd4:	0020c0        	memw
 40225dd7:	0249      	s32i.n	a4, a2, 0
-                                                                        | ((UartDev.parity & UART_PARITY_M)  <<UART_PARITY_S )
-                                                                        | ((UartDev.stop_bits & UART_STOP_BIT_NUM) << UART_STOP_BIT_NUM_S)
-                                                                        | ((UartDev.data_bits & UART_BIT_NUM) << UART_BIT_NUM_S));
-    
-    //clear rx and tx fifo,not ready
-    SET_PERI_REG_MASK(UART_CONF0(uart_no), UART_RXFIFO_RST | UART_TXFIFO_RST);    //RESET FIFO
 40225dd9:	0020c0        	memw
 40225ddc:	0258      	l32i.n	a5, a2, 0
 40225dde:	b41241        	l32r	a4, 40212e28 <ieee80211_parse_htcap+0x48>
 40225de1:	204540        	or	a4, a5, a4
 40225de4:	0020c0        	memw
 40225de7:	0249      	s32i.n	a4, a2, 0
-    CLEAR_PERI_REG_MASK(UART_CONF0(uart_no), UART_RXFIFO_RST | UART_TXFIFO_RST);
 40225de9:	0020c0        	memw
 40225dec:	0258      	l32i.n	a5, a2, 0
 40225dee:	e76141        	l32r	a4, 4021fb74 <wpa_sm_disassociate+0x10>
@@ -36095,29 +35205,11 @@ uart_config(uint8 uart_no)
 40225df4:	0020c0        	memw
 40225df7:	0249      	s32i.n	a4, a2, 0
 40225df9:	ffca21        	l32r	a2, 40225d24 <i2c_master_writeByte+0x98>
-    
-    if (uart_no == UART0){
-        //set rx fifo trigger
-        WRITE_PERI_REG(UART_CONF1(uart_no),
 40225dfc:	232a      	add.n	a2, a3, a2
-    
-    //clear rx and tx fifo,not ready
-    SET_PERI_REG_MASK(UART_CONF0(uart_no), UART_RXFIFO_RST | UART_TXFIFO_RST);    //RESET FIFO
-    CLEAR_PERI_REG_MASK(UART_CONF0(uart_no), UART_RXFIFO_RST | UART_TXFIFO_RST);
-    
-    if (uart_no == UART0){
 40225dfe:	addc      	bnez.n	a13, 40225e1c <uart_config+0xe8>
-        //set rx fifo trigger
-        WRITE_PERI_REG(UART_CONF1(uart_no),
 40225e00:	ffca41        	l32r	a4, 40225d28 <i2c_master_writeByte+0x9c>
 40225e03:	0020c0        	memw
 40225e06:	0249      	s32i.n	a4, a2, 0
-        UART_RX_TOUT_EN|
-        ((0x10 & UART_TXFIFO_EMPTY_THRHD)<<UART_TXFIFO_EMPTY_THRHD_S));//wjl 
-        #if UART_HW_CTS
-        SET_PERI_REG_MASK( UART_CONF0(uart_no),UART_TX_FLOW_EN);  //add this sentense to add a tx flow control via MTCK( CTS )
-        #endif
-        SET_PERI_REG_MASK(UART_INT_ENA(uart_no), UART_RXFIFO_TOUT_INT_ENA |UART_FRM_ERR_INT_ENA);
 40225e08:	ffc921        	l32r	a2, 40225d2c <i2c_master_writeByte+0xa0>
 40225e0b:	08a142        	movi	a4, 0x108
 40225e0e:	232a      	add.n	a2, a3, a2
@@ -36126,85 +35218,48 @@ uart_config(uint8 uart_no)
 40225e15:	204540        	or	a4, a5, a4
 40225e18:	000186        	j	40225e22 <uart_config+0xee>
 40225e1b:	0c4200        	excw
-    }else{
-        WRITE_PERI_REG(UART_CONF1(uart_no),((UartDev.rcv_buff.TrigLvl & UART_RXFIFO_FULL_THRHD) << UART_RXFIFO_FULL_THRHD_S));//TrigLvl default val == 1
 40225e1e:	4028      	l32i.n	a2, a0, 16
 40225e20:	c06440        	sub	a6, a4, a4
 40225e23:	490020        	excw
 40225e26:	c22102        	l32i	a0, a1, 0x308
-    }
-    //clear all interrupt
-    WRITE_PERI_REG(UART_INT_CLR(uart_no), 0xffff);
 40225e29:	ff          	.byte 0xff
 40225e2a:	abb241        	l32r	a4, 40210cf4 <ieee80211_mhz2ieee+0x5c>
 40225e2d:	232a      	add.n	a2, a3, a2
 40225e2f:	0020c0        	memw
 40225e32:	0249      	s32i.n	a4, a2, 0
-    //enable rx_interrupt
-    SET_PERI_REG_MASK(UART_INT_ENA(uart_no), UART_RXFIFO_FULL_INT_ENA|UART_RXFIFO_OVF_INT_ENA);
 40225e34:	ffbe21        	l32r	a2, 40225d2c <i2c_master_writeByte+0xa0>
-}
 40225e37:	3108      	l32i.n	a0, a1, 12
-        WRITE_PERI_REG(UART_CONF1(uart_no),((UartDev.rcv_buff.TrigLvl & UART_RXFIFO_FULL_THRHD) << UART_RXFIFO_FULL_THRHD_S));//TrigLvl default val == 1
-    }
-    //clear all interrupt
-    WRITE_PERI_REG(UART_INT_CLR(uart_no), 0xffff);
-    //enable rx_interrupt
-    SET_PERI_REG_MASK(UART_INT_ENA(uart_no), UART_RXFIFO_FULL_INT_ENA|UART_RXFIFO_OVF_INT_ENA);
 40225e39:	332a      	add.n	a3, a3, a2
 40225e3b:	0020c0        	memw
 40225e3e:	0348      	l32i.n	a4, a3, 0
 40225e40:	121c      	movi.n	a2, 17
 40225e42:	202420        	or	a2, a4, a2
-}
 40225e45:	21c8      	l32i.n	a12, a1, 8
 40225e47:	11d8      	l32i.n	a13, a1, 4
-        WRITE_PERI_REG(UART_CONF1(uart_no),((UartDev.rcv_buff.TrigLvl & UART_RXFIFO_FULL_THRHD) << UART_RXFIFO_FULL_THRHD_S));//TrigLvl default val == 1
-    }
-    //clear all interrupt
-    WRITE_PERI_REG(UART_INT_CLR(uart_no), 0xffff);
-    //enable rx_interrupt
-    SET_PERI_REG_MASK(UART_INT_ENA(uart_no), UART_RXFIFO_FULL_INT_ENA|UART_RXFIFO_OVF_INT_ENA);
 40225e49:	0020c0        	memw
 40225e4c:	0329      	s32i.n	a2, a3, 0
-}
 40225e4e:	10c112        	addi	a1, a1, 16
 40225e51:	f00d      	ret.n
 40225e53:	1b8c00        	excw
 40225e56:	124010        	excw
 
 40225e58 <uart1_write_char>:
- * Parameters   : char c - character to tx
- * Returns      : NONE
-*******************************************************************************/
-LOCAL void ICACHE_FLASH_ATTR
-uart1_write_char(char c)
-{
 40225e58:	f0c112        	addi	a1, a1, -16
 40225e5b:	21c9      	s32i.n	a12, a1, 8
 40225e5d:	3109      	s32i.n	a0, a1, 12
 40225e5f:	74c020        	extui	a12, a2, 0, 8
-    if (c == '\n'){
 40225e62:	0f9c66        	bnei	a12, 10, 40225e75 <uart1_write_char+0x1d>
-        uart_tx_one_char(UART1, '\r');
 40225e65:	d30c      	movi.n	a3, 13
 40225e67:	01a022        	movi	a2, 1
 40225e6a:	fffa01        	l32r	a0, 40225e54 <uart_config+0x120>
 40225e6d:	0000c0        	callx0	a0
 40225e70:	000186        	j	40225e7a <uart1_write_char+0x22>
 40225e73:	0c0000        	excw
-        uart_tx_one_char(UART1, '\n');
-    }else if (c == '\r'){
 40225e76:	1c27d2        	l32i	a13, a7, 112
 40225e79:	0c09      	s32i.n	a0, a12, 0
-    
-    }else{
-        uart_tx_one_char(UART1, c);
 40225e7b:	0c3d12        	excw
 40225e7e:	fff501        	l32r	a0, 40225e54 <uart_config+0x120>
 40225e81:	0000c0        	callx0	a0
-    }
-}
 40225e84:	3108      	l32i.n	a0, a1, 12
 40225e86:	21c8      	l32i.n	a12, a1, 8
 40225e88:	10c112        	addi	a1, a1, 16
@@ -36212,12 +35267,6 @@ uart1_write_char(char c)
 40225e8d:	000000        	ill
 
 40225e90 <uart0_tx_buffer>:
- *                uint16 len - buffer len
- * Returns      :
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-uart0_tx_buffer(uint8 *buf, uint16 len)
-{
 40225e90:	f0c112        	addi	a1, a1, -16
 40225e93:	21c9      	s32i.n	a12, a1, 8
 40225e95:	11d9      	s32i.n	a13, a1, 4
@@ -36225,30 +35274,16 @@ uart0_tx_buffer(uint8 *buf, uint16 len)
 40225e99:	3109      	s32i.n	a0, a1, 12
 40225e9b:	02dd      	mov.n	a13, a2
 40225e9d:	f4e030        	extui	a14, a3, 0, 16
-    uint16 i;
-    for (i = 0; i < len; i++)
 40225ea0:	02cd      	mov.n	a12, a2
 40225ea2:	000306        	j	40225eb2 <uart0_tx_buffer+0x22>
-    {
-        uart_tx_one_char(UART0, buf[i]);
 40225ea5:	000c32        	l8ui	a3, a12, 0
 40225ea8:	020c      	movi.n	a2, 0
 40225eaa:	ffea01        	l32r	a0, 40225e54 <uart_config+0x120>
 40225ead:	0000c0        	callx0	a0
 40225eb0:	cc1b      	addi.n	a12, a12, 1
 40225eb2:	c02cd0        	sub	a2, a12, a13
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-uart0_tx_buffer(uint8 *buf, uint16 len)
-{
-    uint16 i;
-    for (i = 0; i < len; i++)
 40225eb5:	f42020        	extui	a2, a2, 0, 16
 40225eb8:	e932e7        	bltu	a2, a14, 40225ea5 <uart0_tx_buffer+0x15>
-    {
-        uart_tx_one_char(UART0, buf[i]);
-    }
-}
 40225ebb:	3108      	l32i.n	a0, a1, 12
 40225ebd:	21c8      	l32i.n	a12, a1, 8
 40225ebf:	11d8      	l32i.n	a13, a1, 4
@@ -36257,34 +35292,17 @@ uart0_tx_buffer(uint8 *buf, uint16 len)
 40225ec6:	f00d      	ret.n
 
 40225ec8 <at_port_print>:
- *                uint16 len - buffer len
- * Returns      :
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-uart0_sendStr(const char *str)
-{
 40225ec8:	f0c112        	addi	a1, a1, -16
 40225ecb:	21c9      	s32i.n	a12, a1, 8
 40225ecd:	3109      	s32i.n	a0, a1, 12
 40225ecf:	02cd      	mov.n	a12, a2
-    while(*str){
 40225ed1:	000246        	j	40225ede <at_port_print+0x16>
-        uart_tx_one_char(UART0, *str++);
 40225ed4:	020c      	movi.n	a2, 0
 40225ed6:	cc1b      	addi.n	a12, a12, 1
 40225ed8:	ffdf01        	l32r	a0, 40225e54 <uart_config+0x120>
 40225edb:	0000c0        	callx0	a0
- * Returns      :
-*******************************************************************************/
-void ICACHE_FLASH_ATTR
-uart0_sendStr(const char *str)
-{
-    while(*str){
 40225ede:	000c32        	l8ui	a3, a12, 0
 40225ee1:	fef356        	bnez	a3, 40225ed4 <at_port_print+0xc>
-        uart_tx_one_char(UART0, *str++);
-    }
-}
 40225ee4:	3108      	l32i.n	a0, a1, 12
 40225ee6:	21c8      	l32i.n	a12, a1, 8
 40225ee8:	10c112        	addi	a1, a1, 16
@@ -36296,86 +35314,28 @@ uart0_sendStr(const char *str)
 40225ef7:	3f          	.byte 0x3f
 
 40225ef8 <uart_init>:
-    }
-}
-
-void ICACHE_FLASH_ATTR
-uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
-{
 40225ef8:	f0c112        	addi	a1, a1, -16
-    /*this is a example to process uart data from task,please change the priority to fit your application task if exists*/
-    system_os_task(uart_recvTask, uart_recvTaskPrio, uart_recvTaskQueue, uart_recvTaskQueueLen);  //demo with a task to process the uart data
 40225efb:	fffe41        	l32r	a4, 40225ef4 <at_port_print+0x2c>
-    }
-}
-
-void ICACHE_FLASH_ATTR
-uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
-{
 40225efe:	01e9      	s32i.n	a14, a1, 0
 40225f00:	02ed      	mov.n	a14, a2
-    /*this is a example to process uart data from task,please change the priority to fit your application task if exists*/
-    system_os_task(uart_recvTask, uart_recvTaskPrio, uart_recvTaskQueue, uart_recvTaskQueueLen);  //demo with a task to process the uart data
 40225f02:	fffb21        	l32r	a2, 40225ef0 <at_port_print+0x28>
 40225f05:	a50c      	movi.n	a5, 10
-    }
-}
-
-void ICACHE_FLASH_ATTR
-uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
-{
 40225f07:	11d9      	s32i.n	a13, a1, 4
 40225f09:	03dd      	mov.n	a13, a3
-    /*this is a example to process uart data from task,please change the priority to fit your application task if exists*/
-    system_os_task(uart_recvTask, uart_recvTaskPrio, uart_recvTaskQueue, uart_recvTaskQueueLen);  //demo with a task to process the uart data
 40225f0b:	030c      	movi.n	a3, 0
-    }
-}
-
-void ICACHE_FLASH_ATTR
-uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
-{
 40225f0d:	3109      	s32i.n	a0, a1, 12
 40225f0f:	21c9      	s32i.n	a12, a1, 8
-    /*this is a example to process uart data from task,please change the priority to fit your application task if exists*/
-    system_os_task(uart_recvTask, uart_recvTaskPrio, uart_recvTaskQueue, uart_recvTaskQueueLen);  //demo with a task to process the uart data
 40225f11:	feaec5        	call0	40224a00 <system_os_task>
-    
-    UartDev.baut_rate = uart0_br;
 40225f14:	ff81c1        	l32r	a12, 40225d18 <i2c_master_writeByte+0x8c>
-    uart_config(UART0);
 40225f17:	020c      	movi.n	a2, 0
-uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
-{
-    /*this is a example to process uart data from task,please change the priority to fit your application task if exists*/
-    system_os_task(uart_recvTask, uart_recvTaskPrio, uart_recvTaskQueue, uart_recvTaskQueueLen);  //demo with a task to process the uart data
-    
-    UartDev.baut_rate = uart0_br;
 40225f19:	0ce9      	s32i.n	a14, a12, 0
-    uart_config(UART0);
 40225f1b:	ffe185        	call0	40225d34 <uart_config>
-    UartDev.baut_rate = uart1_br;
-    uart_config(UART1);
 40225f1e:	120c      	movi.n	a2, 1
-    /*this is a example to process uart data from task,please change the priority to fit your application task if exists*/
-    system_os_task(uart_recvTask, uart_recvTaskPrio, uart_recvTaskQueue, uart_recvTaskQueueLen);  //demo with a task to process the uart data
-    
-    UartDev.baut_rate = uart0_br;
-    uart_config(UART0);
-    UartDev.baut_rate = uart1_br;
 40225f20:	0cd9      	s32i.n	a13, a12, 0
-    uart_config(UART1);
 40225f22:	ffe105        	call0	40225d34 <uart_config>
-    ETS_UART_INTR_ENABLE();
 40225f25:	022c      	movi.n	a2, 32
 40225f27:	e72901        	l32r	a0, 4021fbcc <uart_div_modify+0x54>
 40225f2a:	0000c0        	callx0	a0
-    #if UART_SELFTEST&UART_BUFF_EN
-    os_timer_disarm(&buff_timer_t);
-    os_timer_setfn(&buff_timer_t, uart_test_rx , NULL);   //a demo to process the data in uart rx buffer
-    os_timer_arm(&buff_timer_t,10,1);
-    #endif
-}
 40225f2d:	3108      	l32i.n	a0, a1, 12
 40225f2f:	21c8      	l32i.n	a12, a1, 8
 40225f31:	11d8      	l32i.n	a13, a1, 4
@@ -36385,31 +35345,11 @@ uart_init(UartBautRate uart0_br, UartBautRate uart1_br)
 	...
 
 40225f3c <uart_reattach>:
-
-void ICACHE_FLASH_ATTR
-uart_reattach()
-{
-    uart_init(BIT_RATE_115200, BIT_RATE_115200);
 40225f3c:	fd3b31        	l32r	a3, 40225428 <delay_ms+0x24>
-    #endif
-}
-
-void ICACHE_FLASH_ATTR
-uart_reattach()
-{
 40225f3f:	f0c112        	addi	a1, a1, -16
-    uart_init(BIT_RATE_115200, BIT_RATE_115200);
 40225f42:	032d      	mov.n	a2, a3
-    #endif
-}
-
-void ICACHE_FLASH_ATTR
-uart_reattach()
-{
 40225f44:	3109      	s32i.n	a0, a1, 12
-    uart_init(BIT_RATE_115200, BIT_RATE_115200);
 40225f46:	fffb05        	call0	40225ef8 <uart_init>
-}
 40225f49:	3108      	l32i.n	a0, a1, 12
 40225f4b:	10c112        	addi	a1, a1, 16
 40225f4e:	f00d      	ret.n
@@ -36417,44 +35357,22 @@ uart_reattach()
 40225f53:	c11240        	mul16u	a1, a2, a4
 
 40225f54 <uart0_write_char_no_wait>:
-}
-
-//os_printf output to fifo or to the tx buffer
-LOCAL void ICACHE_FLASH_ATTR
-uart0_write_char_no_wait(char c)
-{
 40225f54:	f0c112        	addi	a1, a1, -16
 40225f57:	21c9      	s32i.n	a12, a1, 8
 40225f59:	3109      	s32i.n	a0, a1, 12
 40225f5b:	74c020        	extui	a12, a2, 0, 8
-    
-    }else{
-        tx_buff_enq(&c,1);
-    }
-#else //send to uart tx buffer
-    if (c == '\n'){
 40225f5e:	0f9c66        	bnei	a12, 10, 40225f71 <uart0_write_char_no_wait+0x1d>
-        uart_tx_one_char_no_wait(UART0, '\r');
 40225f61:	d30c      	movi.n	a3, 13
 40225f63:	00a022        	movi	a2, 0
 40225f66:	fffa01        	l32r	a0, 40225f50 <uart_reattach+0x14>
 40225f69:	0000c0        	callx0	a0
 40225f6c:	000186        	j	40225f76 <uart0_write_char_no_wait+0x22>
 40225f6f:	0c0000        	excw
-        uart_tx_one_char_no_wait(UART0, '\n');
-    }else if (c == '\r'){
 40225f72:	1c27d2        	l32i	a13, a7, 112
 40225f75:	0c09      	s32i.n	a0, a12, 0
-    
-    }
-    else{
-        uart_tx_one_char_no_wait(UART0, c);
 40225f77:	0c3d02        	excw
 40225f7a:	fff501        	l32r	a0, 40225f50 <uart_reattach+0x14>
 40225f7d:	0000c0        	callx0	a0
-    }
-#endif
-}
 40225f80:	3108      	l32i.n	a0, a1, 12
 40225f82:	21c8      	l32i.n	a12, a1, 8
 40225f84:	10c112        	addi	a1, a1, 16
@@ -36467,82 +35385,35 @@ uart0_write_char_no_wait(char c)
 40225f96:	124010        	excw
 
 40225f98 <uart_recvTask>:
-}
-#endif
-
-LOCAL void ICACHE_FLASH_ATTR ///////
-uart_recvTask(os_event_t *events)
-{
 40225f98:	f0c112        	addi	a1, a1, -16
 40225f9b:	21c9      	s32i.n	a12, a1, 8
-    if(events->sig == 0){
 40225f9d:	02c8      	l32i.n	a12, a2, 0
-}
-#endif
-
-LOCAL void ICACHE_FLASH_ATTR ///////
-uart_recvTask(os_event_t *events)
-{
 40225f9f:	3109      	s32i.n	a0, a1, 12
 40225fa1:	11d9      	s32i.n	a13, a1, 4
-    if(events->sig == 0){
 40225fa3:	bcfc      	bnez.n	a12, 40225fe2 <uart_recvTask+0x4a>
-    #if  UART_BUFF_EN  
-        Uart_rx_buff_enq();
-    #else
-        uint8 fifo_len = (READ_PERI_REG(UART_STATUS(UART0))>>UART_RXFIFO_CNT_S)&UART_RXFIFO_CNT;
 40225fa5:	fff921        	l32r	a2, 40225f8c <uart0_write_char_no_wait+0x38>
 40225fa8:	0020c0        	memw
 40225fab:	02d8      	l32i.n	a13, a2, 0
 40225fad:	74d0d0        	extui	a13, a13, 0, 8
 40225fb0:	000606        	j	40225fcc <uart_recvTask+0x34>
 40225fb3:	f72100        	excw
-        uint8 d_tmp = 0;
-        uint8 idx=0;
-        for(idx=0;idx<fifo_len;idx++) {
-            d_tmp = READ_PERI_REG(UART_FIFO(UART0)) & 0xFF;
 40225fb6:	ff          	.byte 0xff
-        Uart_rx_buff_enq();
-    #else
-        uint8 fifo_len = (READ_PERI_REG(UART_STATUS(UART0))>>UART_RXFIFO_CNT_S)&UART_RXFIFO_CNT;
-        uint8 d_tmp = 0;
-        uint8 idx=0;
-        for(idx=0;idx<fifo_len;idx++) {
 40225fb7:	cc1b      	addi.n	a12, a12, 1
-            d_tmp = READ_PERI_REG(UART_FIFO(UART0)) & 0xFF;
 40225fb9:	0020c0        	memw
 40225fbc:	0238      	l32i.n	a3, a2, 0
-            uart_tx_one_char(UART0, d_tmp);
 40225fbe:	020c      	movi.n	a2, 0
 40225fc0:	743030        	extui	a3, a3, 0, 8
 40225fc3:	ffa401        	l32r	a0, 40225e54 <uart_config+0x120>
 40225fc6:	0000c0        	callx0	a0
-        Uart_rx_buff_enq();
-    #else
-        uint8 fifo_len = (READ_PERI_REG(UART_STATUS(UART0))>>UART_RXFIFO_CNT_S)&UART_RXFIFO_CNT;
-        uint8 d_tmp = 0;
-        uint8 idx=0;
-        for(idx=0;idx<fifo_len;idx++) {
 40225fc9:	74c0c0        	extui	a12, a12, 0, 8
 40225fcc:	e43cd7        	bltu	a12, a13, 40225fb4 <uart_recvTask+0x1c>
-            d_tmp = READ_PERI_REG(UART_FIFO(UART0)) & 0xFF;
-            uart_tx_one_char(UART0, d_tmp);
-        }
-        WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_FULL_INT_CLR|UART_RXFIFO_TOUT_INT_CLR);
 40225fcf:	ff5821        	l32r	a2, 40225d30 <i2c_master_writeByte+0xa4>
 40225fd2:	01a132        	movi	a3, 0x101
 40225fd5:	0020c0        	memw
 40225fd8:	0239      	s32i.n	a3, a2, 0
-        uart_rx_intr_enable(UART0);
 40225fda:	020c      	movi.n	a2, 0
 40225fdc:	ffee01        	l32r	a0, 40225f94 <uart0_write_char_no_wait+0x40>
 40225fdf:	0000c0        	callx0	a0
-        //tx_start_uart_buffer(UART0);
-    #else 
-    
-    #endif
-    }
-}
 40225fe2:	3108      	l32i.n	a0, a1, 12
 40225fe4:	21c8      	l32i.n	a12, a1, 8
 40225fe6:	11d8      	l32i.n	a13, a1, 4
@@ -36551,14 +35422,7 @@ uart_recvTask(os_event_t *events)
 40225fed:	000000        	ill
 
 40225ff0 <UART_SetWordLength>:
-    }
-}
-
-void ICACHE_FLASH_ATTR
-UART_SetWordLength(uint8 uart_no, UartBitsNum4Char len) 
-{
 40225ff0:	742020        	extui	a2, a2, 0, 8
-    SET_PERI_REG_BITS(UART_CONF0(uart_no),UART_BIT_NUM,len,UART_BIT_NUM_S);
 40225ff3:	1142c0        	slli	a4, a2, 4
 40225ff6:	c02420        	sub	a2, a4, a2
 40225ff9:	ff4941        	l32r	a4, 40225d20 <i2c_master_writeByte+0x94>
@@ -36575,13 +35439,7 @@ UART_SetWordLength(uint8 uart_no, UartBitsNum4Char len)
 40226016:	f00d      	ret.n
 
 40226018 <UART_SetStopBits>:
-}
-
-void ICACHE_FLASH_ATTR
-UART_SetStopBits(uint8 uart_no, UartStopBitsNum bit_num) 
-{
 40226018:	742020        	extui	a2, a2, 0, 8
-    SET_PERI_REG_BITS(UART_CONF0(uart_no),UART_STOP_BIT_NUM,bit_num,UART_STOP_BIT_NUM_S);
 4022601b:	1142c0        	slli	a4, a2, 4
 4022601e:	c02420        	sub	a2, a4, a2
 40226021:	ff3f41        	l32r	a4, 40225d20 <i2c_master_writeByte+0x94>
@@ -36602,13 +35460,7 @@ UART_SetStopBits(uint8 uart_no, UartStopBitsNum bit_num)
 40226046:	20fe07        	bbsi	a14, 16, 4022606a <UART_SetLineInverse+0x22>
 
 40226048 <UART_SetLineInverse>:
-}
-
-void ICACHE_FLASH_ATTR
-UART_SetLineInverse(uint8 uart_no, UART_LineLevelInverse inverse_mask) 
-{
 40226048:	742020        	extui	a2, a2, 0, 8
-    CLEAR_PERI_REG_MASK(UART_CONF0(uart_no), UART_LINE_INV_MASK);
 4022604b:	1142c0        	slli	a4, a2, 4
 4022604e:	c02420        	sub	a2, a4, a2
 40226051:	ff3341        	l32r	a4, 40225d20 <i2c_master_writeByte+0x94>
@@ -36620,7 +35472,6 @@ UART_SetLineInverse(uint8 uart_no, UART_LineLevelInverse inverse_mask)
 40226061:	104540        	and	a4, a5, a4
 40226064:	0020c0        	memw
 40226067:	0249      	s32i.n	a4, a2, 0
-    SET_PERI_REG_MASK(UART_CONF0(uart_no), inverse_mask);
 40226069:	0020c0        	memw
 4022606c:	0248      	l32i.n	a4, a2, 0
 4022606e:	203430        	or	a3, a4, a3
@@ -36629,13 +35480,7 @@ UART_SetLineInverse(uint8 uart_no, UART_LineLevelInverse inverse_mask)
 40226076:	f00d      	ret.n
 
 40226078 <UART_SetParity>:
-}
-
-void ICACHE_FLASH_ATTR
-UART_SetParity(uint8 uart_no, UartParityMode Parity_mode) 
-{
 40226078:	742020        	extui	a2, a2, 0, 8
-    CLEAR_PERI_REG_MASK(UART_CONF0(uart_no), UART_PARITY |UART_PARITY_EN);
 4022607b:	1142c0        	slli	a4, a2, 4
 4022607e:	c02420        	sub	a2, a4, a2
 40226081:	ff2741        	l32r	a4, 40225d20 <i2c_master_writeByte+0x94>
@@ -36647,10 +35492,7 @@ UART_SetParity(uint8 uart_no, UartParityMode Parity_mode)
 40226090:	104540        	and	a4, a5, a4
 40226093:	0020c0        	memw
 40226096:	0249      	s32i.n	a4, a2, 0
-    if(Parity_mode==NONE_BITS){
 40226098:	112326        	beqi	a3, 2, 402260ad <UART_SetParity+0x35>
-    }else{
-        SET_PERI_REG_MASK(UART_CONF0(uart_no), Parity_mode|UART_PARITY_EN);
 4022609b:	0020c0        	memw
 4022609e:	0248      	l32i.n	a4, a2, 0
 402260a0:	250c      	movi.n	a5, 2
@@ -36662,31 +35504,16 @@ UART_SetParity(uint8 uart_no, UartParityMode Parity_mode)
 	...
 
 402260b0 <UART_SetBaudrate>:
-    }
-}
-
-void ICACHE_FLASH_ATTR
-UART_SetBaudrate(uint8 uart_no,uint32 baud_rate)
-{
 402260b0:	f0c112        	addi	a1, a1, -16
 402260b3:	21c9      	s32i.n	a12, a1, 8
 402260b5:	74c020        	extui	a12, a2, 0, 8
-    uart_div_modify(uart_no, UART_CLK_FREQ /baud_rate);
 402260b8:	ff1921        	l32r	a2, 40225d1c <i2c_master_writeByte+0x90>
-    }
-}
-
-void ICACHE_FLASH_ATTR
-UART_SetBaudrate(uint8 uart_no,uint32 baud_rate)
-{
 402260bb:	3109      	s32i.n	a0, a1, 12
-    uart_div_modify(uart_no, UART_CLK_FREQ /baud_rate);
 402260bd:	aaf501        	l32r	a0, 40210c94 <ieee80211_ifattach+0x74>
 402260c0:	0000c0        	callx0	a0
 402260c3:	023d      	mov.n	a3, a2
 402260c5:	0c2d      	mov.n	a2, a12
 402260c7:	f9ab05        	call0	4021fb78 <uart_div_modify>
-}
 402260ca:	3108      	l32i.n	a0, a1, 12
 402260cc:	21c8      	l32i.n	a12, a1, 8
 402260ce:	10c112        	addi	a1, a1, 16
@@ -36705,34 +35532,20 @@ UART_SetBaudrate(uint8 uart_no,uint32 baud_rate)
 402260e7:	ff          	.byte 0xff
 
 402260e8 <UART_SetFlowCtrl>:
-
-void ICACHE_FLASH_ATTR
-UART_SetFlowCtrl(uint8 uart_no,UART_HwFlowCtrl flow_ctrl,uint8 rx_thresh)
-{
 402260e8:	742020        	extui	a2, a2, 0, 8
 402260eb:	747040        	extui	a7, a4, 0, 8
 402260ee:	1152c0        	slli	a5, a2, 4
-    if(flow_ctrl&USART_HardwareFlowControl_RTS){
 402260f1:	4c6307        	bbci	a3, 0, 40226141 <UART_SetFlowCtrl+0x59>
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTDO_U, FUNC_U0RTS);
 402260f4:	fff861        	l32r	a6, 402260d4 <UART_SetBaudrate+0x24>
 402260f7:	cfae42        	movi	a4, 0xfffffecf
 402260fa:	0020c0        	memw
 402260fd:	0688      	l32i.n	a8, a6, 0
-        SET_PERI_REG_BITS(UART_CONF1(uart_no),UART_RX_FLOW_THRHD,rx_thresh,UART_RX_FLOW_THRHD_S);
 402260ff:	117700        	slli	a7, a7, 16
-
-void ICACHE_FLASH_ATTR
-UART_SetFlowCtrl(uint8 uart_no,UART_HwFlowCtrl flow_ctrl,uint8 rx_thresh)
-{
-    if(flow_ctrl&USART_HardwareFlowControl_RTS){
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTDO_U, FUNC_U0RTS);
 40226102:	104840        	and	a4, a8, a4
 40226105:	00a182        	movi	a8, 0x100
 40226108:	204480        	or	a4, a4, a8
 4022610b:	0020c0        	memw
 4022610e:	0649      	s32i.n	a4, a6, 0
-        SET_PERI_REG_BITS(UART_CONF1(uart_no),UART_RX_FLOW_THRHD,rx_thresh,UART_RX_FLOW_THRHD_S);
 40226110:	ff0541        	l32r	a4, 40225d24 <i2c_master_writeByte+0x98>
 40226113:	c06520        	sub	a6, a5, a2
 40226116:	116680        	slli	a6, a6, 8
@@ -36744,7 +35557,6 @@ UART_SetFlowCtrl(uint8 uart_no,UART_HwFlowCtrl flow_ctrl,uint8 rx_thresh)
 40226126:	204870        	or	a4, a8, a7
 40226129:	0020c0        	memw
 4022612c:	0649      	s32i.n	a4, a6, 0
-        SET_PERI_REG_MASK(UART_CONF1(uart_no), UART_RX_FLOW_EN);
 4022612e:	0020c0        	memw
 40226131:	0678      	l32i.n	a7, a6, 0
 40226133:	bfb141        	l32r	a4, 40215ff8 <ieee80211_freedom_output+0x438>
@@ -36752,8 +35564,6 @@ UART_SetFlowCtrl(uint8 uart_no,UART_HwFlowCtrl flow_ctrl,uint8 rx_thresh)
 40226139:	0020c0        	memw
 4022613c:	0649      	s32i.n	a4, a6, 0
 4022613e:	000686        	j	4022615c <UART_SetFlowCtrl+0x74>
-    }else{
-        CLEAR_PERI_REG_MASK(UART_CONF1(uart_no), UART_RX_FLOW_EN);
 40226141:	fef861        	l32r	a6, 40225d24 <i2c_master_writeByte+0x98>
 40226144:	c04520        	sub	a4, a5, a2
 40226147:	114480        	slli	a4, a4, 8
@@ -36764,28 +35574,17 @@ UART_SetFlowCtrl(uint8 uart_no,UART_HwFlowCtrl flow_ctrl,uint8 rx_thresh)
 40226154:	106760        	and	a6, a7, a6
 40226157:	0020c0        	memw
 4022615a:	0469      	s32i.n	a6, a4, 0
-    }
-    if(flow_ctrl&USART_HardwareFlowControl_CTS){
 4022615c:	316317        	bbci	a3, 1, 40226191 <UART_SetFlowCtrl+0xa9>
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTCK_U, FUNC_UART0_CTS);
 4022615f:	ffe031        	l32r	a3, 402260e0 <UART_SetBaudrate+0x30>
 40226162:	cfae42        	movi	a4, 0xfffffecf
 40226165:	0020c0        	memw
 40226168:	0368      	l32i.n	a6, a3, 0
-        SET_PERI_REG_MASK(UART_CONF0(uart_no), UART_TX_FLOW_EN);
 4022616a:	c02520        	sub	a2, a5, a2
-        SET_PERI_REG_MASK(UART_CONF1(uart_no), UART_RX_FLOW_EN);
-    }else{
-        CLEAR_PERI_REG_MASK(UART_CONF1(uart_no), UART_RX_FLOW_EN);
-    }
-    if(flow_ctrl&USART_HardwareFlowControl_CTS){
-        PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTCK_U, FUNC_UART0_CTS);
 4022616d:	104640        	and	a4, a6, a4
 40226170:	00a162        	movi	a6, 0x100
 40226173:	204460        	or	a4, a4, a6
 40226176:	0020c0        	memw
 40226179:	0349      	s32i.n	a4, a3, 0
-        SET_PERI_REG_MASK(UART_CONF0(uart_no), UART_TX_FLOW_EN);
 4022617b:	fee931        	l32r	a3, 40225d20 <i2c_master_writeByte+0x94>
 4022617e:	112280        	slli	a2, a2, 8
 40226181:	223a      	add.n	a2, a2, a3
@@ -36794,8 +35593,6 @@ UART_SetFlowCtrl(uint8 uart_no,UART_HwFlowCtrl flow_ctrl,uint8 rx_thresh)
 40226188:	b34731        	l32r	a3, 40212ea4 <ieee80211_parse_htcap+0xc4>
 4022618b:	203430        	or	a3, a4, a3
 4022618e:	000546        	j	402261a7 <UART_SetFlowCtrl+0xbf>
-    }else{
-        CLEAR_PERI_REG_MASK(UART_CONF0(uart_no), UART_TX_FLOW_EN);
 40226191:	fee331        	l32r	a3, 40225d20 <i2c_master_writeByte+0x94>
 40226194:	c02520        	sub	a2, a5, a2
 40226197:	112280        	slli	a2, a2, 8
@@ -36812,12 +35609,6 @@ UART_SetFlowCtrl(uint8 uart_no,UART_HwFlowCtrl flow_ctrl,uint8 rx_thresh)
 402261b3:	c11260        	mul16u	a1, a2, a6
 
 402261b4 <UART_WaitTxFifoEmpty>:
-    }
-}
-
-void ICACHE_FLASH_ATTR
-UART_WaitTxFifoEmpty(uint8 uart_no , uint32 time_out_us) //do not use if tx flow control enabled
-{
 402261b4:	f0c112        	addi	a1, a1, -16
 402261b7:	21c9      	s32i.n	a12, a1, 8
 402261b9:	11d9      	s32i.n	a13, a1, 4
@@ -36825,46 +35616,27 @@ UART_WaitTxFifoEmpty(uint8 uart_no , uint32 time_out_us) //do not use if tx flow
 402261be:	01e9      	s32i.n	a14, a1, 0
 402261c0:	3109      	s32i.n	a0, a1, 12
 402261c2:	03dd      	mov.n	a13, a3
-    uint32 t_s = system_get_time();
 402261c4:	e71b01        	l32r	a0, 4021fe30 <wdt_init+0x98>
 402261c7:	0000c0        	callx0	a0
 402261ca:	02ed      	mov.n	a14, a2
-    while (READ_PERI_REG(UART_STATUS(uart_no)) & (UART_TXFIFO_CNT << UART_TXFIFO_CNT_S)){
 402261cc:	112cc0        	slli	a2, a12, 4
 402261cf:	c0c2c0        	sub	a12, a2, a12
 402261d2:	ff6e21        	l32r	a2, 40225f8c <uart0_write_char_no_wait+0x38>
 402261d5:	11cc80        	slli	a12, a12, 8
 402261d8:	cc2a      	add.n	a12, a12, a2
 402261da:	000586        	j	402261f4 <UART_WaitTxFifoEmpty+0x40>
-		
-        if(( system_get_time() - t_s )> time_out_us){
 402261dd:	e71401        	l32r	a0, 4021fe30 <wdt_init+0x98>
 402261e0:	0000c0        	callx0	a0
 402261e3:	c022e0        	sub	a2, a2, a14
 402261e6:	163d27        	bltu	a13, a2, 40226200 <UART_WaitTxFifoEmpty+0x4c>
-            break;
-        }
-	WRITE_PERI_REG(0X60000914, 0X73);//WTD
 402261e9:	fff131        	l32r	a3, 402261b0 <UART_SetFlowCtrl+0xc8>
 402261ec:	73a022        	movi	a2, 115
 402261ef:	0020c0        	memw
 402261f2:	0329      	s32i.n	a2, a3, 0
-
-void ICACHE_FLASH_ATTR
-UART_WaitTxFifoEmpty(uint8 uart_no , uint32 time_out_us) //do not use if tx flow control enabled
-{
-    uint32 t_s = system_get_time();
-    while (READ_PERI_REG(UART_STATUS(uart_no)) & (UART_TXFIFO_CNT << UART_TXFIFO_CNT_S)){
 402261f4:	0020c0        	memw
 402261f7:	002c22        	l32i	a2, a12, 0
 402261fa:	a7bc31        	l32r	a3, 402100ec <aes_wrap+0xe4>
 402261fd:	dc8237        	bany	a2, a3, 402261dd <UART_WaitTxFifoEmpty+0x29>
-            break;
-        }
-	WRITE_PERI_REG(0X60000914, 0X73);//WTD
-
-    }
-}
 40226200:	3108      	l32i.n	a0, a1, 12
 40226202:	21c8      	l32i.n	a12, a1, 8
 40226204:	11d8      	l32i.n	a13, a1, 4
@@ -36874,11 +35646,6 @@ UART_WaitTxFifoEmpty(uint8 uart_no , uint32 time_out_us) //do not use if tx flow
 4022620d:	000000        	ill
 
 40226210 <UART_CheckOutputFinished>:
-
-
-bool ICACHE_FLASH_ATTR
-UART_CheckOutputFinished(uint8 uart_no, uint32 time_out_us)
-{
 40226210:	e0c112        	addi	a1, a1, -32
 40226213:	61c9      	s32i.n	a12, a1, 24
 40226215:	51d9      	s32i.n	a13, a1, 20
@@ -36887,73 +35654,30 @@ UART_CheckOutputFinished(uint8 uart_no, uint32 time_out_us)
 4022621c:	31f9      	s32i.n	a15, a1, 12
 4022621e:	7109      	s32i.n	a0, a1, 28
 40226220:	20d330        	or	a13, a3, a3
-    uint32 t_start = system_get_time();
 40226223:	e70301        	l32r	a0, 4021fe30 <wdt_init+0x98>
 40226226:	0000c0        	callx0	a0
 40226229:	02fd      	mov.n	a15, a2
-    uint8 tx_fifo_len;
-    uint32 tx_buff_len;
-    while(1){
-        tx_fifo_len =( (READ_PERI_REG(UART_STATUS(uart_no))>>UART_TXFIFO_CNT_S)&UART_TXFIFO_CNT);
 4022622b:	112cc0        	slli	a2, a12, 4
 4022622e:	c0c2c0        	sub	a12, a2, a12
 40226231:	ff5621        	l32r	a2, 40225f8c <uart0_write_char_no_wait+0x38>
 40226234:	11cc80        	slli	a12, a12, 8
 40226237:	cc2a      	add.n	a12, a12, a2
-            return TRUE;
-        }
-        if( system_get_time() - t_start > time_out_us){
-            return FALSE;
-        }
-	WRITE_PERI_REG(0X60000914, 0X73);//WTD
 40226239:	73a0e2        	movi	a14, 115
-{
-    uint32 t_start = system_get_time();
-    uint8 tx_fifo_len;
-    uint32 tx_buff_len;
-    while(1){
-        tx_fifo_len =( (READ_PERI_REG(UART_STATUS(uart_no))>>UART_TXFIFO_CNT_S)&UART_TXFIFO_CNT);
 4022623c:	0020c0        	memw
 4022623f:	0c28      	l32i.n	a2, a12, 0
-            tx_buff_len = ((pTxBuffer->UartBuffSize)-(pTxBuffer->Space));
-        }else{
-            tx_buff_len = 0;
-        }
-		
-        if( tx_fifo_len==0 && tx_buff_len==0){
 40226241:	752020        	extui	a2, a2, 16, 8
 40226244:	529c      	beqz.n	a2, 4022625d <UART_CheckOutputFinished+0x4d>
-            return TRUE;
-        }
-        if( system_get_time() - t_start > time_out_us){
 40226246:	e6fa01        	l32r	a0, 4021fe30 <wdt_init+0x98>
 40226249:	0000c0        	callx0	a0
 4022624c:	c022f0        	sub	a2, a2, a15
 4022624f:	0f3d27        	bltu	a13, a2, 40226262 <UART_CheckOutputFinished+0x52>
-            return FALSE;
-        }
-	WRITE_PERI_REG(0X60000914, 0X73);//WTD
 40226252:	ffd721        	l32r	a2, 402261b0 <UART_SetFlowCtrl+0xc8>
 40226255:	0020c0        	memw
 40226258:	02e9      	s32i.n	a14, a2, 0
-    }    
 4022625a:	fff786        	j	4022623c <UART_CheckOutputFinished+0x2c>
-        }else{
-            tx_buff_len = 0;
-        }
-		
-        if( tx_fifo_len==0 && tx_buff_len==0){
-            return TRUE;
 4022625d:	120c      	movi.n	a2, 1
 4022625f:	000046        	j	40226264 <UART_CheckOutputFinished+0x54>
-        }
-        if( system_get_time() - t_start > time_out_us){
-            return FALSE;
 40226262:	020c      	movi.n	a2, 0
-        }
-	WRITE_PERI_REG(0X60000914, 0X73);//WTD
-    }    
-}
 40226264:	7108      	l32i.n	a0, a1, 28
 40226266:	61c8      	l32i.n	a12, a1, 24
 40226268:	51d8      	l32i.n	a13, a1, 20
@@ -36964,13 +35688,7 @@ UART_CheckOutputFinished(uint8 uart_no, uint32 time_out_us)
 	...
 
 40226274 <UART_ResetFifo>:
-
-
-void ICACHE_FLASH_ATTR
-UART_ResetFifo(uint8 uart_no)
-{
 40226274:	742020        	extui	a2, a2, 0, 8
-    SET_PERI_REG_MASK(UART_CONF0(uart_no), UART_RXFIFO_RST | UART_TXFIFO_RST);
 40226277:	1132c0        	slli	a3, a2, 4
 4022627a:	c02320        	sub	a2, a3, a2
 4022627d:	fea831        	l32r	a3, 40225d20 <i2c_master_writeByte+0x94>
@@ -36982,7 +35700,6 @@ UART_ResetFifo(uint8 uart_no)
 4022628d:	203430        	or	a3, a4, a3
 40226290:	0020c0        	memw
 40226293:	0239      	s32i.n	a3, a2, 0
-    CLEAR_PERI_REG_MASK(UART_CONF0(uart_no), UART_RXFIFO_RST | UART_TXFIFO_RST);
 40226295:	0020c0        	memw
 40226298:	0248      	l32i.n	a4, a2, 0
 4022629a:	e63631        	l32r	a3, 4021fb74 <wpa_sm_disassociate+0x10>
@@ -36993,13 +35710,7 @@ UART_ResetFifo(uint8 uart_no)
 	...
 
 402262a8 <UART_ClearIntrStatus>:
-}
-
-void ICACHE_FLASH_ATTR
-UART_ClearIntrStatus(uint8 uart_no,uint32 clr_mask)
-{
 402262a8:	742020        	extui	a2, a2, 0, 8
-    WRITE_PERI_REG(UART_INT_CLR(uart_no), clr_mask);
 402262ab:	1142c0        	slli	a4, a2, 4
 402262ae:	c02420        	sub	a2, a4, a2
 402262b1:	fe9f41        	l32r	a4, 40225d30 <i2c_master_writeByte+0xa4>
@@ -37010,13 +35721,7 @@ UART_ClearIntrStatus(uint8 uart_no,uint32 clr_mask)
 402262be:	f00d      	ret.n
 
 402262c0 <UART_SetIntrEna>:
-}
-
-void ICACHE_FLASH_ATTR
-UART_SetIntrEna(uint8 uart_no,uint32 ena_mask)
-{
 402262c0:	742020        	extui	a2, a2, 0, 8
-    SET_PERI_REG_MASK(UART_INT_ENA(uart_no), ena_mask);
 402262c3:	1142c0        	slli	a4, a2, 4
 402262c6:	c02420        	sub	a2, a4, a2
 402262c9:	fe9841        	l32r	a4, 40225d2c <i2c_master_writeByte+0xa0>
@@ -37037,126 +35742,49 @@ UART_SetIntrEna(uint8 uart_no,uint32 ena_mask)
 402262ee:	124000        	excw
 
 402262f0 <UART_SetPrintPort>:
-}
-
-
-void ICACHE_FLASH_ATTR
-UART_SetPrintPort(uint8 uart_no)
-{
 402262f0:	f0c112        	addi	a1, a1, -16
 402262f3:	3109      	s32i.n	a0, a1, 12
 402262f5:	742020        	extui	a2, a2, 0, 8
-    if(uart_no==1){
 402262f8:	051266        	bnei	a2, 1, 40226301 <UART_SetPrintPort+0x11>
-        os_install_putc1(uart1_write_char);
 402262fb:	fff921        	l32r	a2, 402262e0 <UART_SetIntrEna+0x20>
 402262fe:	0002c6        	j	4022630d <UART_SetPrintPort+0x1d>
-    }else{
-        /*option 1: do not wait if uart fifo is full,drop current character*/
-        os_install_putc1(uart0_write_char_no_wait);
 40226301:	fff821        	l32r	a2, 402262e4 <UART_SetIntrEna+0x24>
 40226304:	fffa01        	l32r	a0, 402262ec <UART_SetIntrEna+0x2c>
 40226307:	0000c0        	callx0	a0
-	/*option 2: wait for a while if uart fifo is full*/
-	os_install_putc1(uart0_write_char);
 4022630a:	fff721        	l32r	a2, 402262e8 <UART_SetIntrEna+0x28>
 4022630d:	fff701        	l32r	a0, 402262ec <UART_SetIntrEna+0x2c>
 40226310:	0000c0        	callx0	a0
-    }
-}
 40226313:	3108      	l32i.n	a0, a1, 12
 40226315:	10c112        	addi	a1, a1, 16
 40226318:	f00d      	ret.n
 	...
 
 4022631c <uart_init_2>:
-
-
-/*test code*/
-void ICACHE_FLASH_ATTR
-uart_init_2(UartBautRate uart0_br, UartBautRate uart1_br)
-{
 4022631c:	f0c112        	addi	a1, a1, -16
 4022631f:	21c9      	s32i.n	a12, a1, 8
-    // rom use 74880 baut_rate, here reinitialize
-    UartDev.baut_rate = uart0_br;
 40226321:	fe7dc1        	l32r	a12, 40225d18 <i2c_master_writeByte+0x8c>
-
-
-/*test code*/
-void ICACHE_FLASH_ATTR
-uart_init_2(UartBautRate uart0_br, UartBautRate uart1_br)
-{
 40226324:	3109      	s32i.n	a0, a1, 12
 40226326:	11d9      	s32i.n	a13, a1, 4
 40226328:	01e9      	s32i.n	a14, a1, 0
-    // rom use 74880 baut_rate, here reinitialize
-    UartDev.baut_rate = uart0_br;
-    UartDev.exist_parity = STICK_PARITY_EN;
 4022632a:	1d0c      	movi.n	a13, 1
-
-
-/*test code*/
-void ICACHE_FLASH_ATTR
-uart_init_2(UartBautRate uart0_br, UartBautRate uart1_br)
-{
 4022632c:	03ed      	mov.n	a14, a3
-    // rom use 74880 baut_rate, here reinitialize
-    UartDev.baut_rate = uart0_br;
 4022632e:	0c29      	s32i.n	a2, a12, 0
-    UartDev.exist_parity = STICK_PARITY_EN;
-    UartDev.parity = EVEN_BITS;
-    UartDev.stop_bits = ONE_STOP_BIT;
-    UartDev.data_bits = EIGHT_BITS;
 40226330:	330c      	movi.n	a3, 3
-uart_init_2(UartBautRate uart0_br, UartBautRate uart1_br)
-{
-    // rom use 74880 baut_rate, here reinitialize
-    UartDev.baut_rate = uart0_br;
-    UartDev.exist_parity = STICK_PARITY_EN;
-    UartDev.parity = EVEN_BITS;
 40226332:	020c      	movi.n	a2, 0
-    UartDev.stop_bits = ONE_STOP_BIT;
-    UartDev.data_bits = EIGHT_BITS;
 40226334:	1c39      	s32i.n	a3, a12, 4
-void ICACHE_FLASH_ATTR
-uart_init_2(UartBautRate uart0_br, UartBautRate uart1_br)
-{
-    // rom use 74880 baut_rate, here reinitialize
-    UartDev.baut_rate = uart0_br;
-    UartDev.exist_parity = STICK_PARITY_EN;
 40226336:	2cd9      	s32i.n	a13, a12, 8
-    UartDev.parity = EVEN_BITS;
 40226338:	3c29      	s32i.n	a2, a12, 12
-    UartDev.stop_bits = ONE_STOP_BIT;
 4022633a:	046cd2        	s32i	a13, a12, 16
-    UartDev.data_bits = EIGHT_BITS;
-	
-    uart_config(UART0);
 4022633d:	ff9f45        	call0	40225d34 <uart_config>
-    UartDev.baut_rate = uart1_br;
-    uart_config(UART1);
 40226340:	0d2d      	mov.n	a2, a13
-    UartDev.parity = EVEN_BITS;
-    UartDev.stop_bits = ONE_STOP_BIT;
-    UartDev.data_bits = EIGHT_BITS;
-	
-    uart_config(UART0);
-    UartDev.baut_rate = uart1_br;
 40226342:	006ce2        	s32i	a14, a12, 0
-    uart_config(UART1);
 40226345:	ff9ec5        	call0	40225d34 <uart_config>
-    ETS_UART_INTR_ENABLE();
 40226348:	022c      	movi.n	a2, 32
 4022634a:	e62001        	l32r	a0, 4021fbcc <uart_div_modify+0x54>
 4022634d:	0000c0        	callx0	a0
-
-    // install uart1 putc callback
-    os_install_putc1((void *)uart1_write_char);//print output at UART1
 40226350:	ffe421        	l32r	a2, 402262e0 <UART_SetIntrEna+0x20>
 40226353:	ffe601        	l32r	a0, 402262ec <UART_SetIntrEna+0x2c>
 40226356:	0000c0        	callx0	a0
-}
 40226359:	3108      	l32i.n	a0, a1, 12
 4022635b:	21c8      	l32i.n	a12, a1, 8
 4022635d:	11d8      	l32i.n	a13, a1, 4
@@ -81519,12 +80147,6 @@ Disassembly of section .text:
 40101b89:	600000        	neg	a0, a0
 
 40101b8c <uart_tx_one_char>:
-    uint8 fifo_cnt = (( READ_PERI_REG(UART_STATUS(UART0))>>UART_TXFIFO_CNT_S)& UART_TXFIFO_CNT);
-    if (fifo_cnt < 126) {
-        WRITE_PERI_REG(UART_FIFO(UART0) , TxChar);
-    }
-    return OK;
-}
 40101b8c:	742020        	extui	a2, a2, 0, 8
 40101b8f:	1142c0        	slli	a4, a2, 4
 40101b92:	c02420        	sub	a2, a4, a2
@@ -81588,34 +80210,17 @@ Disassembly of section .text:
 40101c22:	f00d      	ret.n
 
 40101c24 <uart1_sendStr_no_wait>:
- * Description  : uart tx a string without waiting for every char, used for print debug info which can be lost
- * Parameters   : const char *str - string to be sent
- * Returns      : NONE
-*******************************************************************************/
-void uart1_sendStr_no_wait(const char *str)
-{
 40101c24:	f0c112        	addi	a1, a1, -16
 40101c27:	21c9      	s32i.n	a12, a1, 8
 40101c29:	3109      	s32i.n	a0, a1, 12
 40101c2b:	02cd      	mov.n	a12, a2
-    while(*str){
 40101c2d:	000286        	j	40101c3b <uart1_sendStr_no_wait+0x17>
 40101c30:	220000        	excw
-        uart_tx_one_char_no_wait(UART1, *str++);
 40101c33:	c201a0        	excw
 40101c36:	01cc      	bnez.n	a1, 40101c3a <uart1_sendStr_no_wait+0x16>
 40101c38:	fffb85        	call0	40101bf4 <uart_tx_one_char_no_wait>
- * Parameters   : const char *str - string to be sent
- * Returns      : NONE
-*******************************************************************************/
-void uart1_sendStr_no_wait(const char *str)
-{
-    while(*str){
 40101c3b:	000c32        	l8ui	a3, a12, 0
 40101c3e:	ff0356        	bnez	a3, 40101c32 <uart1_sendStr_no_wait+0xe>
-        uart_tx_one_char_no_wait(UART1, *str++);
-    }
-}
 40101c41:	032102        	l32i	a0, a1, 12
 40101c44:	21c8      	l32i.n	a12, a1, 8
 40101c46:	10c112        	addi	a1, a1, 16
@@ -81624,15 +80229,7 @@ void uart1_sendStr_no_wait(const char *str)
 40101c4e:	206000        	or	a6, a0, a0
 
 40101c50 <uart_rx_intr_disable>:
-
-#endif
-
-
-void uart_rx_intr_disable(uint8 uart_no)
-{
 40101c50:	742020        	extui	a2, a2, 0, 8
-#if 1
-    CLEAR_PERI_REG_MASK(UART_INT_ENA(uart_no), UART_RXFIFO_FULL_INT_ENA|UART_RXFIFO_TOUT_INT_ENA);
 40101c53:	1132c0        	slli	a3, a2, 4
 40101c56:	c02320        	sub	a2, a3, a2
 40101c59:	fffc31        	l32r	a3, 40101c4c <uart1_sendStr_no_wait+0x28>
@@ -81655,123 +80252,55 @@ void uart_rx_intr_disable(uint8 uart_no)
 40101c83:	3f          	.byte 0x3f
 
 40101c84 <uart0_rx_intr_handler>:
-    
-    	/*ATTENTION:*/
-	/*IN NON-OS VERSION SDK, DO NOT USE "ICACHE_FLASH_ATTR" FUNCTIONS IN THE WHOLE HANDLER PROCESS*/
-	/*ALL THE FUNCTIONS CALLED IN INTERRUPT HANDLER MUST BE DECLARED IN RAM */
-	/*IF NOT , POST AN EVENT AND PROCESS IN SYSTEM TASK */
-    if(UART_FRM_ERR_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_FRM_ERR_INT_ST)){
 40101c84:	fffc21        	l32r	a2, 40101c74 <uart_rx_intr_disable+0x24>
- * Parameters   : void *para - point to ETS_UART_INTR_ATTACH's arg
- * Returns      : NONE
-*******************************************************************************/
-LOCAL void
-uart0_rx_intr_handler(void *para)
-{
 40101c87:	f0c112        	addi	a1, a1, -16
 40101c8a:	0161d2        	s32i	a13, a1, 4
-    
-    	/*ATTENTION:*/
-	/*IN NON-OS VERSION SDK, DO NOT USE "ICACHE_FLASH_ATTR" FUNCTIONS IN THE WHOLE HANDLER PROCESS*/
-	/*ALL THE FUNCTIONS CALLED IN INTERRUPT HANDLER MUST BE DECLARED IN RAM */
-	/*IF NOT , POST AN EVENT AND PROCESS IN SYSTEM TASK */
-    if(UART_FRM_ERR_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_FRM_ERR_INT_ST)){
 40101c8d:	0020c0        	memw
 40101c90:	0022d2        	l32i	a13, a2, 0
- * Parameters   : void *para - point to ETS_UART_INTR_ATTACH's arg
- * Returns      : NONE
-*******************************************************************************/
-LOCAL void
-uart0_rx_intr_handler(void *para)
-{
 40101c93:	0261c2        	s32i	a12, a1, 8
-    
-    	/*ATTENTION:*/
-	/*IN NON-OS VERSION SDK, DO NOT USE "ICACHE_FLASH_ATTR" FUNCTIONS IN THE WHOLE HANDLER PROCESS*/
-	/*ALL THE FUNCTIONS CALLED IN INTERRUPT HANDLER MUST BE DECLARED IN RAM */
-	/*IF NOT , POST AN EVENT AND PROCESS IN SYSTEM TASK */
-    if(UART_FRM_ERR_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_FRM_ERR_INT_ST)){
 40101c96:	8c0c      	movi.n	a12, 8
- * Parameters   : void *para - point to ETS_UART_INTR_ATTACH's arg
- * Returns      : NONE
-*******************************************************************************/
-LOCAL void
-uart0_rx_intr_handler(void *para)
-{
 40101c98:	3109      	s32i.n	a0, a1, 12
-    
-    	/*ATTENTION:*/
-	/*IN NON-OS VERSION SDK, DO NOT USE "ICACHE_FLASH_ATTR" FUNCTIONS IN THE WHOLE HANDLER PROCESS*/
-	/*ALL THE FUNCTIONS CALLED IN INTERRUPT HANDLER MUST BE DECLARED IN RAM */
-	/*IF NOT , POST AN EVENT AND PROCESS IN SYSTEM TASK */
-    if(UART_FRM_ERR_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_FRM_ERR_INT_ST)){
 40101c9a:	10ddc0        	and	a13, a13, a12
 40101c9d:	fd8c      	beqz.n	a13, 40101cb0 <uart0_rx_intr_handler+0x2c>
-        DBG1("FRM_ERR\r\n");
 40101c9f:	fff621        	l32r	a2, 40101c78 <uart_rx_intr_disable+0x28>
 40101ca2:	fff805        	call0	40101c24 <uart1_sendStr_no_wait>
-        WRITE_PERI_REG(UART_INT_CLR(uart_no), UART_FRM_ERR_INT_CLR);
 40101ca5:	fff521        	l32r	a2, 40101c7c <uart_rx_intr_disable+0x2c>
 40101ca8:	0020c0        	memw
 40101cab:	02c9      	s32i.n	a12, a2, 0
 40101cad:	0023c6        	j	40101d40 <uart0_rx_intr_handler+0xbc>
-    }else if(UART_RXFIFO_FULL_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_RXFIFO_FULL_INT_ST)){
 40101cb0:	0020c0        	memw
 40101cb3:	02c8      	l32i.n	a12, a2, 0
 40101cb5:	04c0c0        	extui	a12, a12, 0, 1
 40101cb8:	019c16        	beqz	a12, 40101cd5 <uart0_rx_intr_handler+0x51>
-        DBG("f");
-        uart_rx_intr_disable(UART0);
 40101cbb:	0d2d      	mov.n	a2, a13
 40101cbd:	fff905        	call0	40101c50 <uart_rx_intr_disable>
-        WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_FULL_INT_CLR);
 40101cc0:	ffef21        	l32r	a2, 40101c7c <uart_rx_intr_disable+0x2c>
 40101cc3:	130c      	movi.n	a3, 1
 40101cc5:	0020c0        	memw
 40101cc8:	0239      	s32i.n	a3, a2, 0
-        system_os_post(uart_recvTaskPrio, 0, 0);
 40101cca:	0d4d      	mov.n	a4, a13
 40101ccc:	0d2d      	mov.n	a2, a13
 40101cce:	0d3d      	mov.n	a3, a13
 40101cd0:	000846        	j	40101cf5 <uart0_rx_intr_handler+0x71>
 40101cd3:	c00000        	sub	a0, a0, a0
-    }else if(UART_RXFIFO_TOUT_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_RXFIFO_TOUT_INT_ST)){
 40101cd6:	320020        	excw
 40101cd9:	d20022        	l8ui	a2, a0, 210
 40101cdc:	d700a1        	l32r	a10, 400f78dc <__floatsidf+0xe95ec>
 40101cdf:	c01a03        	excw
-        DBG("t");
-        uart_rx_intr_disable(UART0);
 40101ce2:	202c      	movi.n	a0, 34
 40101ce4:	fff685        	call0	40101c50 <uart_rx_intr_disable>
-        WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_TOUT_INT_CLR);
 40101ce7:	ffe521        	l32r	a2, 40101c7c <uart_rx_intr_disable+0x2c>
-        system_os_post(uart_recvTaskPrio, 0, 0);
 40101cea:	0c3d      	mov.n	a3, a12
-        WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_FULL_INT_CLR);
-        system_os_post(uart_recvTaskPrio, 0, 0);
-    }else if(UART_RXFIFO_TOUT_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_RXFIFO_TOUT_INT_ST)){
-        DBG("t");
-        uart_rx_intr_disable(UART0);
-        WRITE_PERI_REG(UART_INT_CLR(UART0), UART_RXFIFO_TOUT_INT_CLR);
 40101cec:	0020c0        	memw
 40101cef:	02d9      	s32i.n	a13, a2, 0
-        system_os_post(uart_recvTaskPrio, 0, 0);
 40101cf1:	0c4d      	mov.n	a4, a12
 40101cf3:	0c2d      	mov.n	a2, a12
 40101cf5:	ff4345        	call0	4010112c <system_os_post>
 40101cf8:	001106        	j	40101d40 <uart0_rx_intr_handler+0xbc>
 40101cfb:	20c000        	or	a12, a0, a0
-    }else if(UART_TXFIFO_EMPTY_INT_ST == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_TXFIFO_EMPTY_INT_ST)){
 40101cfe:	024800        	excw
 40101d01:	230c      	movi.n	a3, 2
 40101d03:	1e0437        	bnone	a4, a3, 40101d25 <uart0_rx_intr_handler+0xa1>
-	/* to output uart data from uart buffer directly in empty interrupt handler*/
-	/*instead of processing in system event, in order not to wait for current task/function to quit */
-	/*ATTENTION:*/
-	/*IN NON-OS VERSION SDK, DO NOT USE "ICACHE_FLASH_ATTR" FUNCTIONS IN THE WHOLE HANDLER PROCESS*/
-	/*ALL THE FUNCTIONS CALLED IN INTERRUPT HANDLER MUST BE DECLARED IN RAM */
-	CLEAR_PERI_REG_MASK(UART_INT_ENA(UART0), UART_TXFIFO_EMPTY_INT_ENA);
 40101d06:	ffd121        	l32r	a2, 40101c4c <uart1_sendStr_no_wait+0x28>
 40101d09:	d47c      	movi.n	a4, -3
 40101d0b:	0020c0        	memw
@@ -81779,33 +80308,21 @@ uart0_rx_intr_handler(void *para)
 40101d10:	104540        	and	a4, a5, a4
 40101d13:	0020c0        	memw
 40101d16:	0249      	s32i.n	a4, a2, 0
-	#if UART_BUFF_EN
-		tx_start_uart_buffer(UART0);
-	#endif
-        //system_os_post(uart_recvTaskPrio, 1, 0);
-        WRITE_PERI_REG(UART_INT_CLR(uart_no), UART_TXFIFO_EMPTY_INT_CLR);
 40101d18:	ffd921        	l32r	a2, 40101c7c <uart_rx_intr_disable+0x2c>
 40101d1b:	0020c0        	memw
 40101d1e:	0239      	s32i.n	a3, a2, 0
 40101d20:	000706        	j	40101d40 <uart0_rx_intr_handler+0xbc>
 40101d23:	c00000        	sub	a0, a0, a0
-        
-    }else if(UART_RXFIFO_OVF_INT_ST  == (READ_PERI_REG(UART_INT_ST(uart_no)) & UART_RXFIFO_OVF_INT_ST)){
 40101d26:	320020        	excw
 40101d29:	220022        	l8ui	a2, a0, 34
 40101d2c:	2710a0        	excw
 40101d2f:	310e03        	excw
-        WRITE_PERI_REG(UART_INT_CLR(uart_no), UART_RXFIFO_OVF_INT_CLR);
 40101d32:	c0ffd2        	excw
 40101d35:	220020        	excw
 40101d38:	210063        	excw
-        DBG1("RX OVF!!\r\n");
 40101d3b:	45ffd1        	l32r	a13, 400d3538 <__floatsidf+0xc5248>
 40101d3e:	ee          	.byte 0xee
 40101d3f:	ff          	.byte 0xff
-    }
-
-}
 40101d40:	3108      	l32i.n	a0, a1, 12
 40101d42:	21c8      	l32i.n	a12, a1, 8
 40101d44:	11d8      	l32i.n	a13, a1, 4
@@ -81814,15 +80331,7 @@ uart0_rx_intr_handler(void *para)
 	...
 
 40101d4c <uart_rx_intr_enable>:
-    ETS_UART_INTR_DISABLE();
-#endif
-}
-
-void uart_rx_intr_enable(uint8 uart_no)
-{
 40101d4c:	742020        	extui	a2, a2, 0, 8
-#if 1
-    SET_PERI_REG_MASK(UART_INT_ENA(uart_no), UART_RXFIFO_FULL_INT_ENA|UART_RXFIFO_TOUT_INT_ENA);
 40101d4f:	1132c0        	slli	a3, a2, 4
 40101d52:	c02320        	sub	a2, a3, a2
 40101d55:	ffbd31        	l32r	a3, 40101c4c <uart1_sendStr_no_wait+0x28>

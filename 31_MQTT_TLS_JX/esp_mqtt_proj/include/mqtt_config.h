@@ -11,19 +11,19 @@ typedef enum{
 
 /*IMPORTANT: the following configuration maybe need modified*/
 /***********************************************************************************************************************************************************************************************************************************************************/
-#define CFG_HOLDER    		0x66666669	// 持有人标识(只有更新此数值，系统参数才会更新)		/* Change this value to load default configurations */
+#define CFG_HOLDER    		0x66666748	// 持有人标识(只有更新此数值，系统参数才会更新)		/* Change this value to load default configurations */
 
 /*DEFAULT CONFIGURATIONS*/
 // 注：【MQTT协议规定：连接服务端的每个客户端都必须有唯一的客户端标识符（ClientId）】。如果两相同ID的客户端不断重连，就会进入互踢死循环
 //--------------------------------------------------------------------------------------------------------------------------------------
-#define MQTT_HOST			"iotcloud-mqtt.gz.tencentdevices.com" 			// MQTT服务端域名/IP地址	// the IP address or domain name of your MQTT server or MQTT broker ,such as "mqtt.yourdomain.com"
+#define MQTT_HOST			"VA96C4EMHY.iotcloud.tencentdevices.com" 			// MQTT服务端域名/IP地址	// the IP address or domain name of your MQTT server or MQTT broker ,such as "mqtt.yourdomain.com"
 #define MQTT_PORT       	8883    										// 网络连接端口号			// the listening port of your MQTT server or MQTT broker
-#define MQTT_CLIENT_ID   	"KI44DM317Wiot_light_esp8266_01_jx"	// 官方例程中是"Device_ID"		// 客户端标识符				// the ID of yourself, any string is OK,client would use this ID register itself to MQTT server
-#define MQTT_USER        	"KI44DM317Wiot_light_esp8266_01_jx;12010126;12345" 			// MQTT用户名				// your MQTT login name, if MQTT server allow anonymous login,any string is OK, otherwise, please input valid login name which you had registered
-#define MQTT_PASS        	"uegytierhgieahgioaguhiauerh" 			// MQTT密码					// you MQTT login password, same as above
+#define MQTT_CLIENT_ID   	"VA96C4EMHYiot_light_esp8266_01_jx"	// 官方例程中是"Device_ID"		// 客户端标识符				// the ID of yourself, any string is OK,client would use this ID register itself to MQTT server
+#define MQTT_USER        	"VA96C4EMHYiot_light_esp8266_01_jx;12010126;12345" 			// MQTT用户名				// your MQTT login name, if MQTT server allow anonymous login,any string is OK, otherwise, please input valid login name which you had registered
+#define MQTT_PASS        	"123456" 			// MQTT密码					// you MQTT login password, same as above
 
-#define STA_SSID 			"JI-XIN-TEC"    	// WIFI名称					// your AP/router SSID to config your device networking
-#define STA_PASS 			"JIXINDIANZI78963" 	// WIFI密码					// your AP/router password
+#define STA_SSID 			"5G_TEST"    	// WIFI名称					// your AP/router SSID to config your device networking
+#define STA_PASS 			"15980847344" 	// WIFI密码					// your AP/router password
 #define STA_TYPE			AUTH_WPA2_PSK
 
 #define DEFAULT_SECURITY	TWO_WAY_ANTHENTICATION		// 加密传输类型【双向认证】		// very important: you must config DEFAULT_SECURITY for SSL/TLS
