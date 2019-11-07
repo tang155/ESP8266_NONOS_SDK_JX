@@ -503,7 +503,7 @@ void ICACHE_FLASH_ATTR OS_Timer_IP_cb(void)
 		//…………………………………………………………………………………………………………………………
 		//wifi_set_opmode(STATION_MODE);		// 设为STA模式							//【第①步】
 
-		smartconfig_set_type(SC_TYPE_AIRKISS); 	// ESP8266配网方式【AIRKISS】			//【第②步】
+		smartconfig_set_type(SC_TYPE_ESPTOUCH_AIRKISS); 	// ESP8266配网方式【AIRKISS】			//【第②步】
 
 		smartconfig_start(smartconfig_done);	// 进入【智能配网模式】,并设置回调函数	//【第③步】
 		//…………………………………………………………………………………………………………………………
