@@ -565,8 +565,10 @@ void ICACHE_FLASH_ATTR user_init(void)
 
 
 	wifi_set_opmode(0x01);					// 设置为STA模式，并保存到Flash
+	os_printf("wifi_set_opmode1");
 	wifi_station_set_config(&STA_INFO);		// 设置STA参数
-//	wifi_station_connect();					// ESP8266连接WIFI（这里，此句可省）
+	os_printf("wifi_station_set_config");
+	wifi_station_connect();					// ESP8266连接WIFI（这里，此句可省）
 //………………………………………………………………………………………………………………………………
 
 	OS_Timer_IP_Init_JX(1000,1);	// 定时查询8266连接WIFI情况

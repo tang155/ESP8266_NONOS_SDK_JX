@@ -157,12 +157,14 @@ void mqttConnectedCb(uint32_t *args)
     //-----------------------------------------------------------------
 //	MQTT_Subscribe(client, "SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0，百度云主题/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED
 	MQTT_Subscribe(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0，阿里云云主题
+//	MQTT_Subscribe(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/LightSwitch", 0);	// 订阅主题"SW_LED"，QoS=0，阿里云云主题
 //	MQTT_Subscribe(client, "SW_LED", 1);
 //	MQTT_Subscribe(client, "SW_LED", 2);
 
 	// 【参数2：主题名 / 参数3：发布消息的有效载荷 / 参数4：有效载荷长度 / 参数5：发布Qos / 参数6：Retain】
 	//-----------------------------------------------------------------------------------------------------------------------------------------
 //	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
+	MQTT_Publish(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
 //	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 1, 0);
 //	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 2, 0);
 }
