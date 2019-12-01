@@ -11,7 +11,7 @@ typedef enum{
 
 /*IMPORTANT: the following configuration maybe need modified*/
 /***********************************************************************************************************************************************************************************************************************************************************/
-#define CFG_HOLDER    		0x66666357	// 持有人标识(只有更新此数值，系统参数才会更新)		/* Change this value to load default configurations */
+#define CFG_HOLDER    		0x67666357	// 持有人标识(只有更新此数值，系统参数才会更新)		/* Change this value to load default configurations */
 
 /*DEFAULT CONFIGURATIONS*/
 // 注：【MQTT协议规定：连接服务端的每个客户端都必须有唯一的客户端标识符（ClientId）】。如果两相同ID的客户端不断重连，就会进入互踢死循环
