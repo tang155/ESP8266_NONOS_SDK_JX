@@ -29,4 +29,11 @@
  /opt/xtensa-lx106-elf/xtensa-lx106-elf/include/alloca.h \
  ../include/mqtt/typedef.h ../include/modules/wifi.h \
  ../include/modules/config.h ../include/mqtt/debug.h ../../include/gpio.h \
- ../../include/mem.h ../../include/sntp.h
+ ../../include/mem.h ../../include/sntp.h ../include/light.h \
+ ../include/RGB_light.h ../../include/pwm.h ../include/key.h \
+ ../include/hal_key.h \
+ /opt/xtensa-lx106-elf/xtensa-lx106-elf/include/stdio.h \
+ /opt/xtensa-lx106-elf/lib/gcc/xtensa-lx106-elf/4.8.2/include/stdarg.h \
+ /opt/xtensa-lx106-elf/xtensa-lx106-elf/include/sys/types.h \
+ /opt/xtensa-lx106-elf/xtensa-lx106-elf/include/machine/types.h \
+ /opt/xtensa-lx106-elf/xtensa-lx106-elf/include/sys/stdio.h

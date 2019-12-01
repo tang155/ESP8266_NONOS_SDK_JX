@@ -11,7 +11,7 @@ typedef enum{
 
 /*IMPORTANT: the following configuration maybe need modified*/
 /***********************************************************************************************************************************************************************************************************************************************************/
-#define CFG_HOLDER    		0x68666357	// 持有人标识(只有更新此数值，系统参数才会更新)		/* Change this value to load default configurations */
+#define CFG_HOLDER    		0x66666347	// 持有人标识(只有更新此数值，系统参数才会更新)		/* Change this value to load default configurations */
 
 /*DEFAULT CONFIGURATIONS*/
 // 注：【MQTT协议规定：连接服务端的每个客户端都必须有唯一的客户端标识符（ClientId）】。如果两相同ID的客户端不断重连，就会进入互踢死循环
@@ -27,15 +27,21 @@ typedef enum{
 //#define MQTT_CLIENT_ID   	"FESA234FBDS24|securemode=3,signmethod=hmacsha1,timestamp=789|"	// 官方例程中是"Device_ID"		// 客户端标识符				// the ID of yourself, any string is OK,client would use this ID register itself to MQTT server
 //#define MQTT_USER        	"iot_light_esp8266_01_jx&a1tdEa0zf5W" 			// MQTT用户名				// your MQTT login name, if MQTT server allow anonymous login,any string is OK, otherwise, please input valid login name which you had registered
 //#define MQTT_PASS        	"1f2f8537e1f45898d1ca064d8335dba583646c56" 	// MQTT密码					// you MQTT login password, same as above
-//--阿里云云-------D1 MINI-----------------------------------------------------------------------------------------------------------------------------
-#define MQTT_HOST			"a1y9PjGEleF.iot-as-mqtt.cn-shanghai.aliyuncs.com" 		// MQTT服务端域名/IP地址	// the IP address or domain name of your MQTT server or MQTT broker ,such as "mqtt.yourdomain.com"
+////--阿里云云-------D1 MINI-----------------------------------------------------------------------------------------------------------------------------
+//#define MQTT_HOST			"a1y9PjGEleF.iot-as-mqtt.cn-shanghai.aliyuncs.com" 		// MQTT服务端域名/IP地址	// the IP address or domain name of your MQTT server or MQTT broker ,such as "mqtt.yourdomain.com"
+//#define MQTT_PORT       	1883    										// 网络连接端口号			// the listening port of your MQTT server or MQTT broker
+//#define MQTT_CLIENT_ID   	"FESA234FBDS24|securemode=3,signmethod=hmacsha1,timestamp=789|"	// 官方例程中是"Device_ID"		// 客户端标识符				// the ID of yourself, any string is OK,client would use this ID register itself to MQTT server
+//#define MQTT_USER        	"D1_MINI&a1y9PjGEleF" 			// MQTT用户名				// your MQTT login name, if MQTT server allow anonymous login,any string is OK, otherwise, please input valid login name which you had registered
+//#define MQTT_PASS        	"d0dc01cd9dab78ad3aa1edb634d8a7a523897234" 	// MQTT密码					// you MQTT login password, same as above
+//--阿里云云-------测试设备 device1-----------------------------------------------------------------------------------------------------------------------------
+#define MQTT_HOST			"a1wtzAK5muN.iot-as-mqtt.cn-shanghai.aliyuncs.com" 		// MQTT服务端域名/IP地址	// the IP address or domain name of your MQTT server or MQTT broker ,such as "mqtt.yourdomain.com"
 #define MQTT_PORT       	1883    										// 网络连接端口号			// the listening port of your MQTT server or MQTT broker
 #define MQTT_CLIENT_ID   	"FESA234FBDS24|securemode=3,signmethod=hmacsha1,timestamp=789|"	// 官方例程中是"Device_ID"		// 客户端标识符				// the ID of yourself, any string is OK,client would use this ID register itself to MQTT server
-#define MQTT_USER        	"D1_MINI&a1y9PjGEleF" 			// MQTT用户名				// your MQTT login name, if MQTT server allow anonymous login,any string is OK, otherwise, please input valid login name which you had registered
-#define MQTT_PASS        	"d0dc01cd9dab78ad3aa1edb634d8a7a523897234" 	// MQTT密码					// you MQTT login password, same as above
+#define MQTT_USER        	"device1&a1wtzAK5muN" 			// MQTT用户名				// your MQTT login name, if MQTT server allow anonymous login,any string is OK, otherwise, please input valid login name which you had registered
+#define MQTT_PASS        	"42e5d44194702bca0e85f7635722cb08db83bc51" 	// MQTT密码					// you MQTT login password, same as above
 
-#define STA_SSID 			"5G_TEST"    	// WIFI名称					// your AP/router SSID to config your device networking
-#define STA_PASS 			"15980847344" 	// WIFI密码					// your AP/router password
+#define STA_SSID 			"Honor99"    	// WIFI名称					// your AP/router SSID to config your device networking
+#define STA_PASS 			"12345678" 	// WIFI密码					// your AP/router password
 #define STA_TYPE			AUTH_WPA2_PSK
 
 #define DEFAULT_SECURITY	NO_TLS      		// 加密传输类型【默认不加密】	// very important: you must config DEFAULT_SECURITY for SSL/TLS

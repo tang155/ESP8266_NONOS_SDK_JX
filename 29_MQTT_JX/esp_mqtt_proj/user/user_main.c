@@ -30,30 +30,30 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //															//																		//
-// ¹¤³Ì£º	MQTT_JX											//	×¢£ºÔÚ¡¶esp_mqtt_proj¡·Àı³ÌÉÏĞŞ¸Ä									//
+// å·¥ç¨‹ï¼š	MQTT_JX											//	æ³¨ï¼šåœ¨ã€Šesp_mqtt_projã€‹ä¾‹ç¨‹ä¸Šä¿®æ”¹									//
 //															//																		//
-// Æ½Ì¨£º	¡¾¼¼ĞÂµç×Ó¡¿ÎïÁªÍø¿ª·¢°å ESP8266 V1.0			//	¢Ù£ºÌí¼Ó¡¾ÏêÊµµÄ×¢ÊÍ¡¿°¦£¬²»ËµÁË£¬Ëµ¶àÁË¶¼ÊÇÀá£¡£¡£¡				//
+// å¹³å°ï¼š	ã€æŠ€æ–°ç”µå­ã€‘ç‰©è”ç½‘å¼€å‘æ¿ ESP8266 V1.0			//	â‘ ï¼šæ·»åŠ ã€è¯¦å®çš„æ³¨é‡Šã€‘å”‰ï¼Œä¸è¯´äº†ï¼Œè¯´å¤šäº†éƒ½æ˜¯æ³ªï¼ï¼ï¼				//
 //															//																		//
-// ¹¦ÄÜ£º	¢Ù£ºÉèÖÃMQTTÏà¹Ø²ÎÊı							//	¢Ú£ºĞŞ¸Ä¡¾MQTT²ÎÊıÊı×é¡¿config.h -> device_id/mqtt_host/mqtt_pass	//
+// åŠŸèƒ½ï¼š	â‘ ï¼šè®¾ç½®MQTTç›¸å…³å‚æ•°							//	â‘¡ï¼šä¿®æ”¹ã€MQTTå‚æ•°æ•°ç»„ã€‘config.h -> device_id/mqtt_host/mqtt_pass	//
 //															//																		//
-//			¢Ú£ºÓëMQTT·şÎñ¶Ë£¬½¨Á¢ÍøÂçÁ¬½Ó(TCP)				//	¢Û£ºĞŞ¸Ä¡¾MQTT_CLIENT_IDºê¶¨Òå¡¿mqtt_config.h -> MQTT_CLIENT_ID		//
+//			â‘¡ï¼šä¸MQTTæœåŠ¡ç«¯ï¼Œå»ºç«‹ç½‘ç»œè¿æ¥(TCP)				//	â‘¢ï¼šä¿®æ”¹ã€MQTT_CLIENT_IDå®å®šä¹‰ã€‘mqtt_config.h -> MQTT_CLIENT_ID		//
 //															//																		//
-//			¢Û£ºÅäÖÃ/·¢ËÍ¡¾CONNECT¡¿±¨ÎÄ£¬Á¬½ÓMQTT·şÎñ¶Ë	//	¢Ü£ºĞŞ¸Ä¡¾PROTOCOL_NAMEv31ºê¡¿mqtt_config.h -> PROTOCOL_NAMEv311	//
+//			â‘¢ï¼šé…ç½®/å‘é€ã€CONNECTã€‘æŠ¥æ–‡ï¼Œè¿æ¥MQTTæœåŠ¡ç«¯	//	â‘£ï¼šä¿®æ”¹ã€PROTOCOL_NAMEv31å®ã€‘mqtt_config.h -> PROTOCOL_NAMEv311	//
 //															//																		//
-//			¢Ü£º¶©ÔÄÖ÷Ìâ"SW_LED"							//	¢İ£ºĞŞ¸Ä¡¾ĞÄÌø±¨ÎÄµÄ·¢ËÍ¼ä¸ô¡¿mqtt.c ->	[mqtt_timer]º¯Êı			//
+//			â‘£ï¼šè®¢é˜…ä¸»é¢˜"SW_LED"							//	â‘¤ï¼šä¿®æ”¹ã€å¿ƒè·³æŠ¥æ–‡çš„å‘é€é—´éš”ã€‘mqtt.c ->	[mqtt_timer]å‡½æ•°			//
 //															//																		//
-//			¢İ£ºÏòÖ÷Ìâ"SW_LED"·¢²¼"ESP8266_Online"			//	¢Ş£ºĞŞ¸Ä¡¾SNTP·şÎñÆ÷ÉèÖÃ¡¿user_main.c -> [sntpfn]º¯Êı				//
+//			â‘¤ï¼šå‘ä¸»é¢˜"SW_LED"å‘å¸ƒ"ESP8266_Online"			//	â‘¥ï¼šä¿®æ”¹ã€SNTPæœåŠ¡å™¨è®¾ç½®ã€‘user_main.c -> [sntpfn]å‡½æ•°				//
 //															//																		//
-//			¢Ş£º¸ù¾İ½ÓÊÕµ½"SW_LED"Ö÷ÌâµÄÏûÏ¢£¬¿ØÖÆLEDÁÁÃğ	//	¢ß£º×¢ÊÍ¡¾ÒÅÖöÉèÖÃ¡¿user_main.c -> [user_init]º¯Êı					//
+//			â‘¥ï¼šæ ¹æ®æ¥æ”¶åˆ°"SW_LED"ä¸»é¢˜çš„æ¶ˆæ¯ï¼Œæ§åˆ¶LEDäº®ç­	//	â‘¦ï¼šæ³¨é‡Šã€é—å˜±è®¾ç½®ã€‘user_main.c -> [user_init]å‡½æ•°					//
 //															//																		//
-//			¢ß£ºÃ¿¸ôÒ»·ÖÖÓ£¬ÏòMQTT·şÎñ¶Ë·¢ËÍ¡¾ĞÄÌø¡¿		//	¢à£ºÌí¼Ó¡¾MQTTÏûÏ¢¿ØÖÆLEDÁÁ/Ãğ¡¿user_main.c -> [mqttDataCb]º¯Êı		//
+//			â‘¦ï¼šæ¯éš”ä¸€åˆ†é’Ÿï¼Œå‘MQTTæœåŠ¡ç«¯å‘é€ã€å¿ƒè·³ã€‘		//	â‘§ï¼šæ·»åŠ ã€MQTTæ¶ˆæ¯æ§åˆ¶LEDäº®/ç­ã€‘user_main.c -> [mqttDataCb]å‡½æ•°		//
 //															//																		//
-//	°æ±¾£º	V1.1											//																		//
+//	ç‰ˆæœ¬ï¼š	V1.1											//																		//
 //															//																		//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Í·ÎÄ¼ş
+// å¤´æ–‡ä»¶
 //==============================
 #include "ets_sys.h"
 #include "driver/uart.h"
@@ -66,111 +66,116 @@
 #include "user_interface.h"
 #include "mem.h"
 #include "sntp.h"
+#include "light.h"
+#include "RGB_light.h"
+#include "key.h"
+#include "hal_key.h"
+
 //==============================
 
-// ÀàĞÍ¶¨Òå
+// ç±»å‹å®šä¹‰
 //=================================
 typedef unsigned long 		u32_t;
 //=================================
 
 
-// È«¾Ö±äÁ¿
+// å…¨å±€å˜é‡
 //============================================================================
-MQTT_Client mqttClient;			// MQTT¿Í»§¶Ë_½á¹¹Ìå¡¾´Ë±äÁ¿·Ç³£ÖØÒª¡¿
+MQTT_Client mqttClient;			// MQTTå®¢æˆ·ç«¯_ç»“æ„ä½“ã€æ­¤å˜é‡éå¸¸é‡è¦ã€‘
 
-static ETSTimer sntp_timer;		// SNTP¶¨Ê±Æ÷
+static ETSTimer sntp_timer;		// SNTPå®šæ—¶å™¨
 //============================================================================
 
 
-// SNTP¶¨Ê±º¯Êı£º»ñÈ¡µ±Ç°ÍøÂçÊ±¼ä
+// SNTPå®šæ—¶å‡½æ•°ï¼šè·å–å½“å‰ç½‘ç»œæ—¶é—´
 //============================================================================
 void sntpfn()
 {
     u32_t ts = 0;
 
-    ts = sntp_get_current_timestamp();		// »ñÈ¡µ±Ç°µÄÆ«ÒÆÊ±¼ä
+    ts = sntp_get_current_timestamp();		// è·å–å½“å‰çš„åç§»æ—¶é—´
 
-    os_printf("current time : %s\n", sntp_get_real_time(ts));	// »ñÈ¡ÕæÊµÊ±¼ä
+    os_printf("current time : %s\n", sntp_get_real_time(ts));	// è·å–çœŸå®æ—¶é—´
 
-    if (ts == 0)		// ÍøÂçÊ±¼ä»ñÈ¡Ê§°Ü
+    if (ts == 0)		// ç½‘ç»œæ—¶é—´è·å–å¤±è´¥
     {
         os_printf("did not get a valid time from sntp server\n");
     }
-    else //(ts != 0)	// ÍøÂçÊ±¼ä»ñÈ¡³É¹¦
+    else //(ts != 0)	// ç½‘ç»œæ—¶é—´è·å–æˆåŠŸ
     {
-            os_timer_disarm(&sntp_timer);	// ¹Ø±ÕSNTP¶¨Ê±Æ÷
+            os_timer_disarm(&sntp_timer);	// å…³é—­SNTPå®šæ—¶å™¨
 
-            MQTT_Connect(&mqttClient);		// ¿ªÊ¼MQTTÁ¬½Ó
+            MQTT_Connect(&mqttClient);		// å¼€å§‹MQTTè¿æ¥
     }
 }
 //============================================================================
 
 
-// WIFIÁ¬½Ó×´Ì¬¸Ä±ä£º²ÎÊı = wifiStatus
+// WIFIè¿æ¥çŠ¶æ€æ”¹å˜ï¼šå‚æ•° = wifiStatus
 //============================================================================
 void wifiConnectCb(uint8_t status)
 {
-	// ³É¹¦»ñÈ¡µ½IPµØÖ·
+	// æˆåŠŸè·å–åˆ°IPåœ°å€
 	//---------------------------------------------------------------------
     if(status == STATION_GOT_IP)
     {
     	ip_addr_t * addr = (ip_addr_t *)os_zalloc(sizeof(ip_addr_t));
 
-    	// ÔÚ¹Ù·½Àı³ÌµÄ»ù´¡ÉÏ£¬Ôö¼Ó2¸ö±¸ÓÃ·şÎñÆ÷
+    	// åœ¨å®˜æ–¹ä¾‹ç¨‹çš„åŸºç¡€ä¸Šï¼Œå¢åŠ 2ä¸ªå¤‡ç”¨æœåŠ¡å™¨
     	//---------------------------------------------------------------
-    	sntp_setservername(0, "us.pool.ntp.org");	// ·şÎñÆ÷_0¡¾ÓòÃû¡¿
-    	sntp_setservername(1, "ntp.sjtu.edu.cn");	// ·şÎñÆ÷_1¡¾ÓòÃû¡¿
+    	sntp_setservername(0, "us.pool.ntp.org");	// æœåŠ¡å™¨_0ã€åŸŸåã€‘
+    	sntp_setservername(1, "ntp.sjtu.edu.cn");	// æœåŠ¡å™¨_1ã€åŸŸåã€‘
 
-    	ipaddr_aton("210.72.145.44", addr);	// µã·ÖÊ®½øÖÆ => 32Î»¶ş½øÖÆ
-    	sntp_setserver(2, addr);					// ·şÎñÆ÷_2¡¾IPµØÖ·¡¿
-    	os_free(addr);								// ÊÍ·Åaddr
+    	ipaddr_aton("210.72.145.44", addr);	// ç‚¹åˆ†åè¿›åˆ¶ => 32ä½äºŒè¿›åˆ¶
+    	sntp_setserver(2, addr);					// æœåŠ¡å™¨_2ã€IPåœ°å€ã€‘
+    	os_free(addr);								// é‡Šæ”¾addr
 
-    	sntp_init();	// SNTP³õÊ¼»¯
+    	sntp_init();	// SNTPåˆå§‹åŒ–
 
 
-        // ÉèÖÃSNTP¶¨Ê±Æ÷[sntp_timer]
+        // è®¾ç½®SNTPå®šæ—¶å™¨[sntp_timer]
         //-----------------------------------------------------------
         os_timer_disarm(&sntp_timer);
         os_timer_setfn(&sntp_timer, (os_timer_func_t *)sntpfn, NULL);
-        os_timer_arm(&sntp_timer, 1000, 1);		// 1s¶¨Ê±
+        os_timer_arm(&sntp_timer, 1000, 1);		// 1så®šæ—¶
     }
 
-    // IPµØÖ·»ñÈ¡Ê§°Ü
+    // IPåœ°å€è·å–å¤±è´¥
 	//----------------------------------------------------------------
     else
     {
-          MQTT_Disconnect(&mqttClient);	// WIFIÁ¬½Ó³ö´í£¬TCP¶Ï¿ªÁ¬½Ó
+          MQTT_Disconnect(&mqttClient);	// WIFIè¿æ¥å‡ºé”™ï¼ŒTCPæ–­å¼€è¿æ¥
     }
 }
 //============================================================================
 
 
-// MQTTÒÑ³É¹¦Á¬½Ó£ºESP8266·¢ËÍ¡¾CONNECT¡¿£¬²¢½ÓÊÕµ½¡¾CONNACK¡¿
+// MQTTå·²æˆåŠŸè¿æ¥ï¼šESP8266å‘é€ã€CONNECTã€‘ï¼Œå¹¶æ¥æ”¶åˆ°ã€CONNACKã€‘
 //============================================================================
 void mqttConnectedCb(uint32_t *args)
 {
-    MQTT_Client* client = (MQTT_Client*)args;	// »ñÈ¡mqttClientÖ¸Õë
+    MQTT_Client* client = (MQTT_Client*)args;	// è·å–mqttClientæŒ‡é’ˆ
 
     INFO("MQTT: Connected\r\n");
 
-    // ¡¾²ÎÊı2£ºÖ÷Ìâ¹ıÂËÆ÷ / ²ÎÊı3£º¶©ÔÄQos¡¿
+    // ã€å‚æ•°2ï¼šä¸»é¢˜è¿‡æ»¤å™¨ / å‚æ•°3ï¼šè®¢é˜…Qosã€‘
     //-----------------------------------------------------------------
-//	MQTT_Subscribe(client, "SW_LED", 0);	// ¶©ÔÄÖ÷Ìâ"SW_LED"£¬QoS=0£¬°Ù¶ÈÔÆÖ÷Ìâ/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED
-	MQTT_Subscribe(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", 0);	// ¶©ÔÄÖ÷Ìâ"SW_LED"£¬QoS=0£¬°¢ÀïÔÆÔÆÖ÷Ìâ
-//	MQTT_Subscribe(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/LightSwitch", 0);	// ¶©ÔÄÖ÷Ìâ"SW_LED"£¬QoS=0£¬°¢ÀïÔÆÔÆÖ÷Ìâ
+//	MQTT_Subscribe(client, "SW_LED", 0);	// è®¢é˜…ä¸»é¢˜"SW_LED"ï¼ŒQoS=0ï¼Œç™¾åº¦äº‘ä¸»é¢˜/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED
+//	MQTT_Subscribe(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", 0);	// è®¢é˜…ä¸»é¢˜"SW_LED"ï¼ŒQoS=0ï¼Œé˜¿é‡Œäº‘äº‘ä¸»é¢˜
+	MQTT_Subscribe(client, "/sys/a1wtzAK5muN/device1/thing/service/property/set", 0);	// è®¢é˜…ä¸»é¢˜"SW_LED"ï¼ŒQoS=0ï¼Œé˜¿é‡Œäº‘äº‘ä¸»é¢˜
 //	MQTT_Subscribe(client, "SW_LED", 1);
 //	MQTT_Subscribe(client, "SW_LED", 2);
 
-	// ¡¾²ÎÊı2£ºÖ÷ÌâÃû / ²ÎÊı3£º·¢²¼ÏûÏ¢µÄÓĞĞ§ÔØºÉ / ²ÎÊı4£ºÓĞĞ§ÔØºÉ³¤¶È / ²ÎÊı5£º·¢²¼Qos / ²ÎÊı6£ºRetain¡¿
+	// ã€å‚æ•°2ï¼šä¸»é¢˜å / å‚æ•°3ï¼šå‘å¸ƒæ¶ˆæ¯çš„æœ‰æ•ˆè½½è· / å‚æ•°4ï¼šæœ‰æ•ˆè½½è·é•¿åº¦ / å‚æ•°5ï¼šå‘å¸ƒQos / å‚æ•°6ï¼šRetainã€‘
 	//-----------------------------------------------------------------------------------------------------------------------------------------
-//	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// ÏòÖ÷Ìâ"SW_LED"·¢²¼"ESP8266_Online"£¬Qos=0¡¢retain=0
-	MQTT_Publish(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// ÏòÖ÷Ìâ"SW_LED"·¢²¼"ESP8266_Online"£¬Qos=0¡¢retain=0
+//	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// å‘ä¸»é¢˜"SW_LED"å‘å¸ƒ"ESP8266_Online"ï¼ŒQos=0ã€retain=0
+//	MQTT_Publish(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 0, 0);	// å‘ä¸»é¢˜"SW_LED"å‘å¸ƒ"ESP8266_Online"ï¼ŒQos=0ã€retain=0
 //	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 1, 0);
 //	MQTT_Publish(client, "SW_LED", "ESP8266_Online", strlen("ESP8266_Online"), 2, 0);
 }
 //============================================================================
 
-// MQTT³É¹¦¶Ï¿ªÁ¬½Ó
+// MQTTæˆåŠŸæ–­å¼€è¿æ¥
 //============================================================================
 void mqttDisconnectedCb(uint32_t *args)
 {
@@ -179,7 +184,7 @@ void mqttDisconnectedCb(uint32_t *args)
 }
 //============================================================================
 
-// MQTT³É¹¦·¢²¼ÏûÏ¢
+// MQTTæˆåŠŸå‘å¸ƒæ¶ˆæ¯
 //============================================================================
 void mqttPublishedCb(uint32_t *args)
 {
@@ -187,54 +192,115 @@ void mqttPublishedCb(uint32_t *args)
     INFO("MQTT: Published\r\n");
 }
 //============================================================================
+static uint8 auto_bright=1;//ledè‡ªåŠ¨äº®åº¦
+static uint8 red=1,green,blue;//çº¢ç»¿è“ä¸‰è‰²ç¯
 
-// ¡¾½ÓÊÕMQTTµÄ[PUBLISH]Êı¾İ¡¿º¯Êı		¡¾²ÎÊı1£ºÖ÷Ìâ / ²ÎÊı2£ºÖ÷Ìâ³¤¶È / ²ÎÊı3£ºÓĞĞ§ÔØºÉ / ²ÎÊı4£ºÓĞĞ§ÔØºÉ³¤¶È¡¿
+// ã€æ¥æ”¶MQTTçš„[PUBLISH]æ•°æ®ã€‘å‡½æ•°		ã€å‚æ•°1ï¼šä¸»é¢˜ / å‚æ•°2ï¼šä¸»é¢˜é•¿åº¦ / å‚æ•°3ï¼šæœ‰æ•ˆè½½è· / å‚æ•°4ï¼šæœ‰æ•ˆè½½è·é•¿åº¦ã€‘
 //===============================================================================================================
 void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const char *data, uint32_t data_len)
 {
-    char *topicBuf = (char*)os_zalloc(topic_len+1);		// ÉêÇë¡¾Ö÷Ìâ¡¿¿Õ¼ä
-    char *dataBuf  = (char*)os_zalloc(data_len+1);		// ÉêÇë¡¾ÓĞĞ§ÔØºÉ¡¿¿Õ¼ä
+    char *topicBuf = (char*)os_zalloc(topic_len+1);		// ç”³è¯·ã€ä¸»é¢˜ã€‘ç©ºé—´
+    char *dataBuf  = (char*)os_zalloc(data_len+1);		// ç”³è¯·ã€æœ‰æ•ˆè½½è·ã€‘ç©ºé—´
 
 
-    MQTT_Client* client = (MQTT_Client*)args;	// »ñÈ¡MQTT_ClientÖ¸Õë
+    MQTT_Client* client = (MQTT_Client*)args;	// è·å–MQTT_ClientæŒ‡é’ˆ
 
 
-    os_memcpy(topicBuf, topic, topic_len);	// »º´æÖ÷Ìâ
-    topicBuf[topic_len] = 0;				// ×îºóÌí'\0'
+    os_memcpy(topicBuf, topic, topic_len);	// ç¼“å­˜ä¸»é¢˜
+    topicBuf[topic_len] = 0;				// æœ€åæ·»'\0'
 
-    os_memcpy(dataBuf, data, data_len);		// »º´æÓĞĞ§ÔØºÉ
-    dataBuf[data_len] = 0;					// ×îºóÌí'\0'
+    os_memcpy(dataBuf, data, data_len);		// ç¼“å­˜æœ‰æ•ˆè½½è·
+    dataBuf[data_len] = 0;					// æœ€åæ·»'\0'
 
-    INFO("Receive topic: %s, data: %s \r\n", topicBuf, dataBuf);	// ´®¿Ú´òÓ¡¡¾Ö÷Ìâ¡¿¡¾ÓĞĞ§ÔØºÉ¡¿
-    INFO("Topic_len = %d, Data_len = %d\r\n", topic_len, data_len);	// ´®¿Ú´òÓ¡¡¾Ö÷Ìâ³¤¶È¡¿¡¾ÓĞĞ§ÔØºÉ³¤¶È¡¿
+    INFO("Receive topic: %s, data: %s \r\n", topicBuf, dataBuf);	// ä¸²å£æ‰“å°ã€ä¸»é¢˜ã€‘ã€æœ‰æ•ˆè½½è·ã€‘
+    INFO("Topic_len = %d, Data_len = %d\r\n", topic_len, data_len);	// ä¸²å£æ‰“å°ã€ä¸»é¢˜é•¿åº¦ã€‘ã€æœ‰æ•ˆè½½è·é•¿åº¦ã€‘
 
 
-// ¡¾¼¼Ğ¡ĞÂ¡¿Ìí¼Ó
+// ã€æŠ€å°æ–°ã€‘æ·»åŠ 
 //########################################################################################
-    // ¸ù¾İ½ÓÊÕµ½µÄÖ÷ÌâÃû/ÓĞĞ§ÔØºÉ£¬¿ØÖÆLEDµÄÁÁ/Ãğ
+    // æ ¹æ®æ¥æ”¶åˆ°çš„ä¸»é¢˜å/æœ‰æ•ˆè½½è·ï¼Œæ§åˆ¶LEDçš„äº®/ç­
     //-----------------------------------------------------------------------------------
-//    if( os_strcmp(topicBuf,"SW_LED") == 0 )			// Ö÷Ìâ == "SW_LED"£¬°Ù¶ÈÔÆÖ÷Ìâ
-	if( os_strcmp(topicBuf,"/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED") == 0 )	// Ö÷Ìâ == "SW_LED"£¬°¢ÀïÔÆÖ÷Ìâ
-    {
-//		if( os_strcmp(dataBuf,"LED_ON") == 0 )		// ÓĞĞ§ÔØºÉ == "LED_ON"
-	    if( os_strcmp(dataBuf,"{\"SW_LED\":\"ON\"}") == 0 )		// ÓĞĞ§ÔØºÉ == "LED_ON"
+//    if( os_strcmp(topicBuf,"SW_LED") == 0 )			// ä¸»é¢˜ == "SW_LED"ï¼Œç™¾åº¦äº‘ä¸»é¢˜
+//    {
+////		if( os_strcmp(dataBuf,"LED_ON") == 0 )		// æœ‰æ•ˆè½½è· == "LED_ON"
+//	    if( os_strcmp(dataBuf,"{\"SW_LED\":\"ON\"}") == 0 )		// æœ‰æ•ˆè½½è· == "LED_ON"
+//
+//    	{
+//    		GPIO_OUTPUT_SET(GPIO_ID_PIN(4),0);		// LEDäº®
+//    	}
+//
+////    	else if( os_strcmp(dataBuf,"LED_OFF") == 0 )	// æœ‰æ•ˆè½½è· == "LED_OFF"
+//        else if( os_strcmp(dataBuf,"{\"SW_LED\":\"OFF\"}") == 0 )	// æœ‰æ•ˆè½½è· == "LED_OFF"
+//
+//    	{
+//    		GPIO_OUTPUT_SET(GPIO_ID_PIN(4),1);			// LEDç­
+//    	}
+//    }
+	if( os_strcmp(topicBuf,"/sys/a1wtzAK5muN/device1/thing/service/property/set") == 0 )	// ä¸»é¢˜ == "SW_LED"ï¼Œé˜¿é‡Œäº‘ä¸»é¢˜
+	 {
+    		//GLED_ON();	// LEDäº®
+		    if( strstr(dataBuf,"\"PowerSwitch\":1") != 0 )		// æœ‰æ•ˆè½½è· == "LED_ON"
+	    	{
+		    	RLED_ON();	// LEDäº®
+		    	GLED_ON();	// LEDäº®
+		    	BLED_ON();	// LEDäº®
+		    	red = 20;
+		    	green = 10;
+		    	blue = 20;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
 
-    	{
-    		GPIO_OUTPUT_SET(GPIO_ID_PIN(4),0);		// LEDÁÁ
-    	}
+	    	}
+	        else if( strstr(dataBuf,"\"PowerSwitch\":0") != 0 )	// æœ‰æ•ˆè½½è· == "LED_OFF"
+	    	{
+	        	RLED_OFF();		// LEDç­
+	        	GLED_OFF();		// LEDç­
+	        	BLED_OFF();		// LEDç­
+	        	red = 0;
+				green = 0;
+				blue = 0;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	    	}
+	        else if( strstr(dataBuf,"\"RED\":0") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	red = 0;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }else if( strstr(dataBuf,"\"RED\":1") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	red = 20;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }else if( strstr(dataBuf,"\"GREEN\":0") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	green = 0;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }else if( strstr(dataBuf,"\"GREEN\":1") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	green = 10;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }else if( strstr(dataBuf,"\"BLUE\":0") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	blue = 0;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }else if( strstr(dataBuf,"\"BLUE\":1") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	blue = 20;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }else if( strstr(dataBuf,"\"bright_up\":0") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	auto_bright = 0;
+		    	RGB_light_set_color(red, green, blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }else if( strstr(dataBuf,"\"bright_up\":1") != 0 )	// æœ‰æ•ˆè½½è· ==
+	        {
+	        	auto_bright = 1;
+		    	RGB_light_set_color(10*red, 10*green, 10*blue);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	        }
 
-//    	else if( os_strcmp(dataBuf,"LED_OFF") == 0 )	// ÓĞĞ§ÔØºÉ == "LED_OFF"
-        else if( os_strcmp(dataBuf,"{\"SW_LED\":\"OFF\"}") == 0 )	// ÓĞĞ§ÔØºÉ == "LED_OFF"
 
-    	{
-    		GPIO_OUTPUT_SET(GPIO_ID_PIN(4),1);			// LEDÃğ
-    	}
-    }
+	    }
 //########################################################################################
 
 
-    os_free(topicBuf);	// ÊÍ·Å¡¾Ö÷Ìâ¡¿¿Õ¼ä
-    os_free(dataBuf);	// ÊÍ·Å¡¾ÓĞĞ§ÔØºÉ¡¿¿Õ¼ä
+    os_free(topicBuf);	// é‡Šæ”¾ã€ä¸»é¢˜ã€‘ç©ºé—´
+    os_free(dataBuf);	// é‡Šæ”¾ã€æœ‰æ•ˆè½½è·ã€‘ç©ºé—´
 }
 //===============================================================================================================
 
@@ -289,46 +355,166 @@ user_rf_cal_sector_set(void)
     return rf_cal_sec;
 }
 
-// user_init£ºentry of user application, init user function here
+static ETSTimer rgbled_timer;		// å®šæ—¶å™¨ï¼šWIFIè¿æ¥
+static uint16 lightLux;
+void rgbled_timer_cb(void)//è‡ªå®šä¹‰å®šæ—¶å™¨
+{
+	static uint16 CDS_adc;
+	uint16 temp;
+	temp = system_adc_read();
+	lightLux = temp < 256 ? temp:255;
+
+	if(abs(CDS_adc-system_adc_read())>5)
+	{
+		INFO("cds adc ,,,,changeing: %d to %d\r\n", lightLux,temp);	// ä¸²å£æ‰“å°ã€ä¸»é¢˜ã€‘ã€æœ‰æ•ˆè½½è·ã€‘
+		CDS_adc=temp;
+		char string[] = "{\"id\":\"1598084\",\"params\":{\"LightLux\":000000}}";
+		os_sprintf(string, "{\"id\":\"1598084\",\"params\":{\"LightLux\":%d}}", temp);					// SSIDèµ‹å€¼
+//		os_printf(string);
+	    MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/device1/thing/event/property/post", string, strlen(string), 0, 0);	// å‘ä¸»é¢˜"SW_LED"å‘å¸ƒ"ESP8266_Online"ï¼ŒQos=0ã€retain=0
+
+	}
+    INFO("cds adc data: %d \r\n", temp);	// ä¸²å£æ‰“å°ã€ä¸»é¢˜ã€‘ã€æœ‰æ•ˆè½½è·ã€‘
+	if(auto_bright == 1)
+	{
+		RGB_light_set_color(red?lightLux:0, green?lightLux:0, blue?lightLux:0);//çº¢ç»¿è“pwm1024ï¼Œ512ï¼Œ,124
+	}
+
+//    string str[] = "{\"id\":\"1598084\",\"params\":{\"KEY\":0}";
+//    MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/device1/thing/service/property/post", "{\"id\":\"1598084\",\"params\":{\"KEY\":0}", strlen("{\"id\":\"1598084\",\"params\":{\"KEY\":0}"), 0, 0);	// å‘ä¸»é¢˜"SW_LED"å‘å¸ƒ"ESP8266_Online"ï¼ŒQos=0ã€retain=0
+
+//	if(cnt%3  == 0)
+//	{
+//		RLED_ON();
+//		GLED_OFF();
+//		BLED_OFF();
+//	}else if(cnt%3  == 1)
+//	{
+//		RLED_OFF();
+//		GLED_ON();
+//		BLED_OFF();
+//	}else if(cnt%3  == 2)
+//	{
+//		RLED_OFF();
+//		GLED_OFF();
+//		BLED_ON();
+//	}
+}
+/**
+* é¸å¤æ•­é’æ¿†îé–ï¿½
+* @param none
+* @return none
+*/
+#define GPIO_KEY_NUM                            1                           ///< ç€¹æ°«ç®Ÿé¸å¤æ•­é´æ„¬æ†³é¬ç»˜æšŸ
+#define KEY_0_IO_MUX                            PERIPHS_IO_MUX_GPIO4_U      ///< ESP8266 GPIO é”ç†»å…˜
+#define KEY_0_IO_NUM                            4                           ///< ESP8266 GPIO ç¼‚æ §å½¿
+#define KEY_0_IO_FUNC                           FUNC_GPIO4                  ///< ESP8266 GPIO éšå¶‡Ğ
+LOCAL key_typedef_t * singleKey[GPIO_KEY_NUM];                              ///< ç€¹æ°«ç®Ÿé—æ›šé‡œé¸å¤æ•­é´æ„¬æ†³éæ‰®ç²é¸å›¬æ‹¡
+LOCAL keys_typedef_t keys;                                                  ///< ç€¹æ°«ç®Ÿé¬è¤æ®‘é¸å¤æ•­å¦¯â€³æ½¡ç¼æ’´ç€¯æµ£æ’´å¯šé–½ï¿½
+/**
+* keyé¸å¤æ•­é­î…Ÿå¯œæ¾¶å‹­æ‚Š
+* @param none
+* @return none
+*/
+LOCAL void ICACHE_FLASH_ATTR keyShortPress(void)
+{
+
+    os_printf("#### key short press, soft ap mode \n");
+    RGB_light_set_color(0,0, 200);
+
+//    gizwitsSetMode(WIFI_SOFTAP_MODE);
+    MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/device1/thing/event/property/post", "{\"id\":\"1598084\",\"params\":{\"KEY\":0}}", strlen("{\"id\":\"1598084\",\"params\":{\"KEY\":0}}"), 0, 0);	// å‘ä¸»é¢˜"SW_LED"å‘å¸ƒ"ESP8266_Online"ï¼ŒQos=0ã€retain=0
+
+
+}
+
+/**
+* keyé¸å¤æ•­é—€æŒå¯œæ¾¶å‹­æ‚Š
+* @param none
+* @return none
+*/
+LOCAL void ICACHE_FLASH_ATTR keyLongPress(void)
+{
+
+    os_printf("#### key long press, airlink mode\n");
+    RGB_light_set_color(250,0, 0);
+//    gizwitsSetMode(WIFI_AIRLINK_MODE);
+    MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/device1/thing/event/property/post", "{\"id\":\"1598084\",\"params\":{\"KEY\":1}}", strlen("{\"id\":\"1598084\",\"params\":{\"KEY\":0}}"), 0, 0);	// å‘ä¸»é¢˜"SW_LED"å‘å¸ƒ"ESP8266_Online"ï¼ŒQos=0ã€retain=0
+
+}
+LOCAL void ICACHE_FLASH_ATTR keyInit(void)
+{
+    singleKey[0] = keyInitOne(KEY_0_IO_NUM, KEY_0_IO_MUX, KEY_0_IO_FUNC,
+                                keyLongPress, keyShortPress);
+
+    keys.singleKey = singleKey;
+    keyParaInit(&keys);
+}
+// user_initï¼šentry of user application, init user function here
 //===================================================================================================================
 void user_init(void)
 {
-    uart_init(BIT_RATE_115200, BIT_RATE_115200);	// ´®¿Ú²¨ÌØÂÊÉèÎª115200
+    uart_init(BIT_RATE_115200, BIT_RATE_115200);	// ä¸²å£æ³¢ç‰¹ç‡è®¾ä¸º115200
     os_delay_us(60000);
+    ///////////////////////LJT
+//    LED_Init();
+//	GLED_ON(); //å¼€ç»¿ç¯
+//	os_delay_us(300000);//å»¶æ—¶300ms
+//	GLED_OFF();//å…³ç»¿ç¯
+//	BLED_ON();//å¼€è“ç¯
+//	os_delay_us(300000);//å»¶æ—¶300ms
+//	BLED_OFF();//å…³è“ç¯
+//	RLED_ON();//å¼€çº¢ç¯
+//	os_delay_us(300000);//å»¶æ—¶300ms
+//	RLED_OFF();//å…³çº¢ç¯
+    //user init
+    keyInit();
 
+    RGB_light_init();
+    RGB_light_set_period(500);
 
-//¡¾¼¼Ğ¡ĞÂ¡¿Ìí¼Ó
+    RGB_light_set_color(5, 0, 0);
+
+    RGB_light_start();
+    ///////////////////////LJT
+//    //////////LJT è®¾ç½®ä¸‰è‰²ç¯æœåŠ¡å®šæ—¶å™¨
+	os_timer_disarm(&rgbled_timer);	// å®šæ—¶å™¨ï¼šWIFIè¿æ¥
+	os_timer_setfn(&rgbled_timer, (os_timer_func_t *)rgbled_timer_cb, NULL);	// wifi_check_ipï¼šæ£€æŸ¥IPè·å–æƒ…å†µ
+	os_timer_arm(&rgbled_timer, 1000, 1);		// 1ç§’å®šæ—¶(0=1æ¬¡)
+//	/////////LJT è®¾ç½®ä¸‰è‰²ç¯æœåŠ¡å®šæ—¶å™¨
+
+//ã€æŠ€å°æ–°ã€‘æ·»åŠ 
 //###########################################################################
-    PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO4_U,	FUNC_GPIO4);	// GPIO4Êä³ö¸ß	#
-	GPIO_OUTPUT_SET(GPIO_ID_PIN(4),1);						// LED³õÊ¼»¯	#
+    PIN_FUNC_SELECT(PERIPHS_IO_MUX_GPIO4_U,	FUNC_GPIO4);	// GPIO4è¾“å‡ºé«˜	#
+	GPIO_OUTPUT_SET(GPIO_ID_PIN(4),1);						// LEDåˆå§‹åŒ–	#
 //###########################################################################
 
 
-    CFG_Load();	// ¼ÓÔØ/¸üĞÂÏµÍ³²ÎÊı¡¾WIFI²ÎÊı¡¢MQTT²ÎÊı¡¿
+    CFG_Load();	// åŠ è½½/æ›´æ–°ç³»ç»Ÿå‚æ•°ã€WIFIå‚æ•°ã€MQTTå‚æ•°ã€‘
 
 
-    // ÍøÂçÁ¬½Ó²ÎÊı¸³Öµ£º·şÎñ¶ËÓòÃû¡¾mqtt_test_jx.mqtt.iot.gz.baidubce.com¡¿¡¢ÍøÂçÁ¬½Ó¶Ë¿Ú¡¾1883¡¿¡¢°²È«ÀàĞÍ¡¾0£ºNO_TLS¡¿
+    // ç½‘ç»œè¿æ¥å‚æ•°èµ‹å€¼ï¼šæœåŠ¡ç«¯åŸŸåã€mqtt_test_jx.mqtt.iot.gz.baidubce.comã€‘ã€ç½‘ç»œè¿æ¥ç«¯å£ã€1883ã€‘ã€å®‰å…¨ç±»å‹ã€0ï¼šNO_TLSã€‘
 	//-------------------------------------------------------------------------------------------------------------------
 	MQTT_InitConnection(&mqttClient, sysCfg.mqtt_host, sysCfg.mqtt_port, sysCfg.security);
 
-	// MQTTÁ¬½Ó²ÎÊı¸³Öµ£º¿Í»§¶Ë±êÊ¶·û¡¾..¡¿¡¢MQTTÓÃ»§Ãû¡¾..¡¿¡¢MQTTÃÜÔ¿¡¾..¡¿¡¢±£³ÖÁ¬½ÓÊ±³¤¡¾120s¡¿¡¢Çå³ı»á»°¡¾1£ºclean_session¡¿
+	// MQTTè¿æ¥å‚æ•°èµ‹å€¼ï¼šå®¢æˆ·ç«¯æ ‡è¯†ç¬¦ã€..ã€‘ã€MQTTç”¨æˆ·åã€..ã€‘ã€MQTTå¯†é’¥ã€..ã€‘ã€ä¿æŒè¿æ¥æ—¶é•¿ã€120sã€‘ã€æ¸…é™¤ä¼šè¯ã€1ï¼šclean_sessionã€‘
 	//----------------------------------------------------------------------------------------------------------------------------
 	MQTT_InitClient(&mqttClient, sysCfg.device_id, sysCfg.mqtt_user, sysCfg.mqtt_pass, sysCfg.mqtt_keepalive, 1);
 
-	// ÉèÖÃÒÅÖö²ÎÊı(Èç¹ûÔÆ¶ËÃ»ÓĞ¶ÔÓ¦µÄÒÅÖöÖ÷Ìâ£¬ÔòMQTTÁ¬½Ó»á±»¾Ü¾ø)
+	// è®¾ç½®é—å˜±å‚æ•°(å¦‚æœäº‘ç«¯æ²¡æœ‰å¯¹åº”çš„é—å˜±ä¸»é¢˜ï¼Œåˆ™MQTTè¿æ¥ä¼šè¢«æ‹’ç»)
 	//--------------------------------------------------------------
 //	MQTT_InitLWT(&mqttClient, "Will", "ESP8266_offline", 0, 0);
 
 
-	// ÉèÖÃMQTTÏà¹Øº¯Êı
+	// è®¾ç½®MQTTç›¸å…³å‡½æ•°
 	//--------------------------------------------------------------------------------------------------
-	MQTT_OnConnected(&mqttClient, mqttConnectedCb);			// ÉèÖÃ¡¾MQTT³É¹¦Á¬½Ó¡¿º¯ÊıµÄÁíÒ»ÖÖµ÷ÓÃ·½Ê½
-	MQTT_OnDisconnected(&mqttClient, mqttDisconnectedCb);	// ÉèÖÃ¡¾MQTT³É¹¦¶Ï¿ª¡¿º¯ÊıµÄÁíÒ»ÖÖµ÷ÓÃ·½Ê½
-	MQTT_OnPublished(&mqttClient, mqttPublishedCb);			// ÉèÖÃ¡¾MQTT³É¹¦·¢²¼¡¿º¯ÊıµÄÁíÒ»ÖÖµ÷ÓÃ·½Ê½
-	MQTT_OnData(&mqttClient, mqttDataCb);					// ÉèÖÃ¡¾½ÓÊÕMQTTÊı¾İ¡¿º¯ÊıµÄÁíÒ»ÖÖµ÷ÓÃ·½Ê½
+	MQTT_OnConnected(&mqttClient, mqttConnectedCb);			// è®¾ç½®ã€MQTTæˆåŠŸè¿æ¥ã€‘å‡½æ•°çš„å¦ä¸€ç§è°ƒç”¨æ–¹å¼
+	MQTT_OnDisconnected(&mqttClient, mqttDisconnectedCb);	// è®¾ç½®ã€MQTTæˆåŠŸæ–­å¼€ã€‘å‡½æ•°çš„å¦ä¸€ç§è°ƒç”¨æ–¹å¼
+	MQTT_OnPublished(&mqttClient, mqttPublishedCb);			// è®¾ç½®ã€MQTTæˆåŠŸå‘å¸ƒã€‘å‡½æ•°çš„å¦ä¸€ç§è°ƒç”¨æ–¹å¼
+	MQTT_OnData(&mqttClient, mqttDataCb);					// è®¾ç½®ã€æ¥æ”¶MQTTæ•°æ®ã€‘å‡½æ•°çš„å¦ä¸€ç§è°ƒç”¨æ–¹å¼
 
 
-	// Á¬½ÓWIFI£ºSSID[..]¡¢PASSWORD[..]¡¢WIFIÁ¬½Ó³É¹¦º¯Êı[wifiConnectCb]
+	// è¿æ¥WIFIï¼šSSID[..]ã€PASSWORD[..]ã€WIFIè¿æ¥æˆåŠŸå‡½æ•°[wifiConnectCb]
 	//--------------------------------------------------------------------------
 	WIFI_Connect(sysCfg.sta_ssid, sysCfg.sta_pwd, wifiConnectCb);
 
