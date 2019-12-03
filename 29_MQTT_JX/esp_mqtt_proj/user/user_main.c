@@ -162,7 +162,7 @@ void mqttConnectedCb(uint32_t *args)
     //-----------------------------------------------------------------
 //	MQTT_Subscribe(client, "SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0，百度云主题/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED
 //	MQTT_Subscribe(client, "/a1tdEa0zf5W/iot_light_esp8266_01_jx/user/SW_LED", 0);	// 订阅主题"SW_LED"，QoS=0，阿里云云主题
-	MQTT_Subscribe(client, "/sys/a1wtzAK5muN/device1/thing/service/property/set", 0);	// 订阅主题"SW_LED"，QoS=0，阿里云云主题
+	MQTT_Subscribe(client, "/sys/a1wtzAK5muN/esp_01s_relay/thing/service/property/set", 0);	// 订阅主题"SW_LED"，QoS=0，阿里云云主题
 //	MQTT_Subscribe(client, "SW_LED", 1);
 //	MQTT_Subscribe(client, "SW_LED", 2);
 
@@ -236,63 +236,71 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 //    		GPIO_OUTPUT_SET(GPIO_ID_PIN(4),1);			// LED灭
 //    	}
 //    }
-	if( os_strcmp(topicBuf,"/sys/a1wtzAK5muN/device1/thing/service/property/set") == 0 )	// 主题 == "SW_LED"，阿里云主题
+	if( os_strcmp(topicBuf,"/sys/a1wtzAK5muN/esp_01s_relay/thing/service/property/set") == 0 )	// 主题 == "SW_LED"，阿里云主题
 	 {
     		//GLED_ON();	// LED亮
-		    if( strstr(dataBuf,"\"PowerSwitch\":1") != 0 )		// 有效载荷 == "LED_ON"
+//		    if( strstr(dataBuf,"\"PowerSwitch\":1") != 0 )		// 有效载荷 == "LED_ON"
+		    if( strstr(dataBuf,"\"Relay\":1") != 0 )		// 有效载荷 == "继电器_ON"
 	    	{
-		    	RLED_ON();	// LED亮
-		    	GLED_ON();	// LED亮
-		    	BLED_ON();	// LED亮
-		    	red = 20;
-		    	green = 10;
-		    	blue = 20;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//		    	RLED_ON();	// LED亮
+//		    	GLED_ON();	// LED亮
+//		    	BLED_ON();	// LED亮
+//		    	red = 20;
+//		    	green = 10;
+//		    	blue = 20;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+		        MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/esp_01s_relay/thing/event/property/post", "{\"id\":\"01\",\"params\":{\"Relay\":1}}", strlen("{\"id\":\"01\",\"params\":{\"Relay\":1}}"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
+		    	GPIO_OUTPUT_SET(0, 1);//GPIO0输出高电平
+		    	GPIO_OUTPUT_SET(2, 1);//GPIO2输出高电平
+	    	}
+//	        else if( strstr(dataBuf,"\"PowerSwitch\":0") != 0 )	// 有效载荷 == "LED_OFF"
+	        else if( strstr(dataBuf,"\"Relay\":0") != 0 )		// 有效载荷 == "继电器_OFF"
 
-	    	}
-	        else if( strstr(dataBuf,"\"PowerSwitch\":0") != 0 )	// 有效载荷 == "LED_OFF"
 	    	{
-	        	RLED_OFF();		// LED灭
-	        	GLED_OFF();		// LED灭
-	        	BLED_OFF();		// LED灭
-	        	red = 0;
-				green = 0;
-				blue = 0;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        	RLED_OFF();		// LED灭
+//	        	GLED_OFF();		// LED灭
+//	        	BLED_OFF();		// LED灭
+//	        	red = 0;
+//				green = 0;
+//				blue = 0;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+		        MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/esp_01s_relay/thing/event/property/post", "{\"id\":\"01\",\"params\":{\"Relay\":0}}", strlen("{\"id\":\"01\",\"params\":{\"Relay\":0}}"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
+		    	GPIO_OUTPUT_SET(0, 0);//GPIO0输出高电平
+		    	GPIO_OUTPUT_SET(2, 0);//GPIO2输出高电平
 	    	}
-	        else if( strstr(dataBuf,"\"RED\":0") != 0 )	// 有效载荷 ==
-	        {
-	        	red = 0;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
-	        }else if( strstr(dataBuf,"\"RED\":1") != 0 )	// 有效载荷 ==
-	        {
-	        	red = 20;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
-	        }else if( strstr(dataBuf,"\"GREEN\":0") != 0 )	// 有效载荷 ==
-	        {
-	        	green = 0;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
-	        }else if( strstr(dataBuf,"\"GREEN\":1") != 0 )	// 有效载荷 ==
-	        {
-	        	green = 10;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
-	        }else if( strstr(dataBuf,"\"BLUE\":0") != 0 )	// 有效载荷 ==
-	        {
-	        	blue = 0;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
-	        }else if( strstr(dataBuf,"\"BLUE\":1") != 0 )	// 有效载荷 ==
-	        {
-	        	blue = 20;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
-	        }else if( strstr(dataBuf,"\"bright_up\":0") != 0 )	// 有效载荷 ==
-	        {
-	        	auto_bright = 0;
-		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
-	        }else if( strstr(dataBuf,"\"bright_up\":1") != 0 )	// 有效载荷 ==
-	        {
-	        	auto_bright = 1;
-		    	RGB_light_set_color(10*red, 10*green, 10*blue);//红绿蓝pwm1024，512，,124
-	        }
+//	        else if( strstr(dataBuf,"\"RED\":0") != 0 )	// 有效载荷 ==
+//	        {
+//	        	red = 0;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        }else if( strstr(dataBuf,"\"RED\":1") != 0 )	// 有效载荷 ==
+//	        {
+//	        	red = 20;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        }else if( strstr(dataBuf,"\"GREEN\":0") != 0 )	// 有效载荷 ==
+//	        {
+//	        	green = 0;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        }else if( strstr(dataBuf,"\"GREEN\":1") != 0 )	// 有效载荷 ==
+//	        {
+//	        	green = 10;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        }else if( strstr(dataBuf,"\"BLUE\":0") != 0 )	// 有效载荷 ==
+//	        {
+//	        	blue = 0;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        }else if( strstr(dataBuf,"\"BLUE\":1") != 0 )	// 有效载荷 ==
+//	        {
+//	        	blue = 20;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        }else if( strstr(dataBuf,"\"bright_up\":0") != 0 )	// 有效载荷 ==
+//	        {
+//	        	auto_bright = 0;
+//		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
+//	        }else if( strstr(dataBuf,"\"bright_up\":1") != 0 )	// 有效载荷 ==
+//	        {
+//	        	auto_bright = 1;
+//		    	RGB_light_set_color(10*red, 10*green, 10*blue);//红绿蓝pwm1024，512，,124
+//	        }
 
 
 	    }
@@ -468,19 +476,25 @@ void user_init(void)
 //	os_delay_us(300000);//延时300ms
 //	RLED_OFF();//关红灯
     //user init
-    keyInit();
+//    keyInit();
+//
+//    RGB_light_init();
+//    RGB_light_set_period(500);
+//
+//    RGB_light_set_color(5, 0, 0);
+//
+////    //////////LJT 设置三色灯服务定时器
+//	os_timer_disarm(&rgbled_timer);	// 定时器：WIFI连接
+//	os_timer_setfn(&rgbled_timer, (os_timer_func_t *)rgbled_timer_cb, NULL);	// wifi_check_ip：检查IP获取情况
+//	os_timer_arm(&rgbled_timer, 1000, 1);		// 1秒定时(0=1次)
+//    RGB_light_start();
+	PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTDI_U, FUNC_GPIO0);//esp 01 继电器控制脚
+	PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTDI_U, FUNC_GPIO2);//esp 01 继电器控制脚
+	GPIO_OUTPUT_SET(0, 1);//GPIO0输出高电平
+	GPIO_OUTPUT_SET(2, 1);//GPIO2输出高电平
 
-    RGB_light_init();
-    RGB_light_set_period(500);
-
-    RGB_light_set_color(5, 0, 0);
-
-    RGB_light_start();
     ///////////////////////LJT
-//    //////////LJT 设置三色灯服务定时器
-	os_timer_disarm(&rgbled_timer);	// 定时器：WIFI连接
-	os_timer_setfn(&rgbled_timer, (os_timer_func_t *)rgbled_timer_cb, NULL);	// wifi_check_ip：检查IP获取情况
-	os_timer_arm(&rgbled_timer, 1000, 1);		// 1秒定时(0=1次)
+
 //	/////////LJT 设置三色灯服务定时器
 
 //【技小新】添加
