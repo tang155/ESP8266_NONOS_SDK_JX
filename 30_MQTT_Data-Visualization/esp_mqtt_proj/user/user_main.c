@@ -60,6 +60,8 @@
 #include "sntp.h"
 
 #include "dht11.h"	// DHT11
+#include "driver/oled.h"  		// OLED
+
 //==============================
 
 // 类型定义
@@ -75,26 +77,311 @@ MQTT_Client mqttClient;			// MQTT客户端_结构体【此变量非常重要】
 static ETSTimer sntp_timer;		// SNTP定时器
 //============================================================================
 
+// 毫秒延时函数
+//===========================================
+void ICACHE_FLASH_ATTR delay_ms(u32 C_time)
+{	for(;C_time>0;C_time--)
+		os_delay_us(1000);
+}
+// SNTP定时回调函数
+//===================================================================================================
+u8 C_Read_DHT11 = 0;				// 读取DHT11计时
+void ICACHE_FLASH_ATTR OS_Timer_SNTP_cb(void	 * arg)
+{
+	// 字符串整理 相关变量
+	//------------------------------------------------------
 
+	u8 C_Str = 0;				// 字符串字节计数
+
+	char A_Str_Data[20] = {0};	// 【"日期"】字符串数组
+
+	char *T_A_Str_Data = A_Str_Data;	// 缓存数组指针
+
+	char A_Str_Clock[10] = {0};	// 【"时间"】字符串数组
+
+
+	char * Str_Head_Week;		// 【"星期"】字符串首地址
+
+	char * Str_Head_Month;		// 【"月份"】字符串首地址
+
+	char * Str_Head_Day;		// 【"日数"】字符串首地址
+
+	char * Str_Head_Clock;		// 【"时钟"】字符串首地址
+
+	char * Str_Head_Year;		// 【"年份"】字符串首地址
+
+	//------------------------------------------------------
+
+
+	 uint32	TimeStamp;		// 时间戳
+
+	 char * Str_RealTime;	// 实际时间的字符串
+
+
+	 // 查询当前距离基准时间(1970.01.01 00:00:00 GMT+8)的时间戳(单位:秒)
+	 //-----------------------------------------------------------------
+	 TimeStamp = sntp_get_current_timestamp();
+
+	 if(TimeStamp)		// 判断是否获取到偏移时间
+	 {
+		 //os_timer_disarm(&OS_Timer_SNTP);	// 关闭SNTP定时器
+
+		 // 查询实际时间(GMT+8):东八区(北京时间)
+		 //--------------------------------------------
+		 Str_RealTime = sntp_get_real_time(TimeStamp);
+
+
+		 // 【实际时间】字符串 == "周 月 日 时:分:秒 年"
+		 //------------------------------------------------------------------------
+		 os_printf("\r\n----------------------------------------------------\r\n");
+		 os_printf("SNTP_TimeStamp = %d\r\n",TimeStamp);		// 时间戳
+		 os_printf("\r\nSNTP_InternetTime = %s",Str_RealTime);	// 实际时间
+		 os_printf("--------------------------------------------------------\r\n");
+
+
+		 // 时间字符串整理，OLED显示【"日期"】、【"时间"】字符串
+		 //…………………………………………………………………………………………………………………
+
+		 // 【"年份" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 Str_Head_Year = Str_RealTime;	// 设置起始地址
+
+		 while( *Str_Head_Year )		// 找到【"实际时间"】字符串的结束字符'\0'
+			 Str_Head_Year ++ ;
+
+		 // 【注：API返回的实际时间字符串，最后还有一个换行符，所以这里 -5】
+		 //-----------------------------------------------------------------
+		 Str_Head_Year -= 5 ;			// 获取【"年份"】字符串的首地址
+
+		 T_A_Str_Data[4] = ' ' ;
+		 os_memcpy(T_A_Str_Data, Str_Head_Year, 4);		// 【"年份" + ' '】填入日期数组
+
+		 T_A_Str_Data += 5;				// 指向【"年份" + ' '】字符串的后面的地址
+		 //---------------------------------------------------------------------------------
+
+		 // 获取【日期】字符串的首地址
+		 //---------------------------------------------------------------------------------
+		 Str_Head_Week 	= Str_RealTime;							// "星期" 字符串的首地址
+		 Str_Head_Month = os_strstr(Str_Head_Week,	" ") + 1;	// "月份" 字符串的首地址
+		 Str_Head_Day 	= os_strstr(Str_Head_Month,	" ") + 1;	// "日数" 字符串的首地址
+		 Str_Head_Clock = os_strstr(Str_Head_Day,	" ") + 1;	// "时钟" 字符串的首地址
+
+
+		 // 【"月份" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 C_Str = Str_Head_Day - Str_Head_Month;				// 【"月份" + ' '】的字节数
+
+		 os_memcpy(T_A_Str_Data, Str_Head_Month, C_Str);	// 【"月份" + ' '】填入日期数组
+
+		 T_A_Str_Data += C_Str;		// 指向【"月份" + ' '】字符串的后面的地址
+
+
+		 // 【"日数" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 C_Str = Str_Head_Clock - Str_Head_Day;				// 【"日数" + ' '】的字节数
+
+		 os_memcpy(T_A_Str_Data, Str_Head_Day, C_Str);		// 【"日数" + ' '】填入日期数组
+
+		 T_A_Str_Data += C_Str;		// 指向【"日数" + ' '】字符串的后面的地址
+
+
+		 // 【"星期" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 C_Str = Str_Head_Month - Str_Head_Week - 1;		// 【"星期"】的字节数
+
+		 os_memcpy(T_A_Str_Data, Str_Head_Week, C_Str);		// 【"星期"】填入日期数组
+
+		 T_A_Str_Data += C_Str;		// 指向【"星期"】字符串的后面的地址
+
+
+		 // OLED显示【"日期"】、【"时钟"】字符串
+		 //---------------------------------------------------------------------------------
+		 *T_A_Str_Data = '\0';		// 【"日期"】字符串后面添加'\0'
+
+		 OLED_ShowString(0,0,A_Str_Data);		// OLED显示日期
+
+
+		 os_memcpy(A_Str_Clock, Str_Head_Clock, 8);		// 【"时钟"】字符串填入时钟数组
+		 A_Str_Clock[8] = '\0';
+
+		 OLED_ShowString(64,2,A_Str_Clock);		// OLED显示时间
+
+		 //…………………………………………………………………………………………………………………
+	 }
+
+
+	// 每5秒，读取/显示温湿度数据
+	//-----------------------------------------------------------------------------------------
+	C_Read_DHT11 ++ ;		// 读取DHT11计时
+
+	if(C_Read_DHT11>=5)		// 5秒计时
+	{
+		C_Read_DHT11 = 0;	// 计时=0
+
+		if(DHT11_Read_Data_Complete() == 0)		// 读取DHT11温湿度
+		{
+			DHT11_NUM_Char();	// DHT11数据值转成字符串
+
+			OLED_ShowString(64,4,DHT11_Data_Char[1]);	// DHT11_Data_Char[0] == 【温度字符串】
+			OLED_ShowString(64,6,DHT11_Data_Char[0]);	// DHT11_Data_Char[1] == 【湿度字符串】
+		}
+
+		else
+		{
+    		OLED_ShowString(64,4,"----");	// Temperature：温度
+    		OLED_ShowString(64,6,"----");	// Humidity：湿度
+		}
+	}
+	//-----------------------------------------------------------------------------------------
+}
 // SNTP定时函数：获取当前网络时间
 //============================================================================
 void sntpfn()
 {
     u32_t ts = 0;
 
-    ts = sntp_get_current_timestamp();		// 获取当前的偏移时间
+	// 字符串整理 相关变量
+	//------------------------------------------------------
 
-    os_printf("current time : %s\n", sntp_get_real_time(ts));	// 获取真实时间
+	u8 C_Str = 0;				// 字符串字节计数
 
-    if (ts == 0)		// 网络时间获取失败
+	char A_Str_Data[20] = {0};	// 【"日期"】字符串数组
+
+	char *T_A_Str_Data = A_Str_Data;	// 缓存数组指针
+
+	char A_Str_Clock[10] = {0};	// 【"时间"】字符串数组
+
+
+	char * Str_Head_Week;		// 【"星期"】字符串首地址
+
+	char * Str_Head_Month;		// 【"月份"】字符串首地址
+
+	char * Str_Head_Day;		// 【"日数"】字符串首地址
+
+	char * Str_Head_Clock;		// 【"时钟"】字符串首地址
+
+	char * Str_Head_Year;		// 【"年份"】字符串首地址
+
+	//------------------------------------------------------
+
+
+	 uint32	TimeStamp;		// 时间戳
+
+	 char * Str_RealTime;	// 实际时间的字符串
+
+
+	 // 查询当前距离基准时间(1970.01.01 00:00:00 GMT+8)的时间戳(单位:秒)
+	 //-----------------------------------------------------------------
+	 TimeStamp = sntp_get_current_timestamp();
+
+	 if(TimeStamp)		// 判断是否获取到偏移时间
+	 {
+		 //os_timer_disarm(&OS_Timer_SNTP);	// 关闭SNTP定时器
+
+		 // 查询实际时间(GMT+8):东八区(北京时间)
+		 //--------------------------------------------
+		 Str_RealTime = sntp_get_real_time(TimeStamp);
+
+
+		 // 【实际时间】字符串 == "周 月 日 时:分:秒 年"
+		 //------------------------------------------------------------------------
+		 os_printf("\r\n----------------------------------------------------\r\n");
+		 os_printf("SNTP_TimeStamp = %d\r\n",TimeStamp);		// 时间戳
+		 os_printf("\r\nSNTP_InternetTime = %s",Str_RealTime);	// 实际时间
+		 os_printf("--------------------------------------------------------\r\n");
+
+
+		 // 时间字符串整理，OLED显示【"日期"】、【"时间"】字符串
+		 //…………………………………………………………………………………………………………………
+
+		 // 【"年份" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 Str_Head_Year = Str_RealTime;	// 设置起始地址
+
+		 while( *Str_Head_Year )		// 找到【"实际时间"】字符串的结束字符'\0'
+			 Str_Head_Year ++ ;
+
+		 // 【注：API返回的实际时间字符串，最后还有一个换行符，所以这里 -5】
+		 //-----------------------------------------------------------------
+		 Str_Head_Year -= 5 ;			// 获取【"年份"】字符串的首地址
+
+		 T_A_Str_Data[4] = ' ' ;
+		 os_memcpy(T_A_Str_Data, Str_Head_Year, 4);		// 【"年份" + ' '】填入日期数组
+
+		 T_A_Str_Data += 5;				// 指向【"年份" + ' '】字符串的后面的地址
+		 //---------------------------------------------------------------------------------
+
+		 // 获取【日期】字符串的首地址
+		 //---------------------------------------------------------------------------------
+		 Str_Head_Week 	= Str_RealTime;							// "星期" 字符串的首地址
+		 Str_Head_Month = os_strstr(Str_Head_Week,	" ") + 1;	// "月份" 字符串的首地址
+		 Str_Head_Day 	= os_strstr(Str_Head_Month,	" ") + 1;	// "日数" 字符串的首地址
+		 Str_Head_Clock = os_strstr(Str_Head_Day,	" ") + 1;	// "时钟" 字符串的首地址
+
+
+		 // 【"月份" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 C_Str = Str_Head_Day - Str_Head_Month;				// 【"月份" + ' '】的字节数
+
+		 os_memcpy(T_A_Str_Data, Str_Head_Month, C_Str);	// 【"月份" + ' '】填入日期数组
+
+		 T_A_Str_Data += C_Str;		// 指向【"月份" + ' '】字符串的后面的地址
+
+
+		 // 【"日数" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 C_Str = Str_Head_Clock - Str_Head_Day;				// 【"日数" + ' '】的字节数
+
+		 os_memcpy(T_A_Str_Data, Str_Head_Day, C_Str);		// 【"日数" + ' '】填入日期数组
+
+		 T_A_Str_Data += C_Str;		// 指向【"日数" + ' '】字符串的后面的地址
+
+
+		 // 【"星期" + ' '】填入日期数组
+		 //---------------------------------------------------------------------------------
+		 C_Str = Str_Head_Month - Str_Head_Week - 1;		// 【"星期"】的字节数
+
+		 os_memcpy(T_A_Str_Data, Str_Head_Week, C_Str);		// 【"星期"】填入日期数组
+
+		 T_A_Str_Data += C_Str;		// 指向【"星期"】字符串的后面的地址
+
+
+		 // OLED显示【"日期"】、【"时钟"】字符串
+		 //---------------------------------------------------------------------------------
+		 *T_A_Str_Data = '\0';		// 【"日期"】字符串后面添加'\0'
+
+		 OLED_ShowString(0,0,A_Str_Data);		// OLED显示日期
+
+
+		 os_memcpy(A_Str_Clock, Str_Head_Clock, 8);		// 【"时钟"】字符串填入时钟数组
+		 A_Str_Clock[8] = '\0';
+
+		 OLED_ShowString(64,2,A_Str_Clock);		// OLED显示时间
+
+		 //…………………………………………………………………………………………………………………
+	 }
+
+//    ts = sntp_get_current_timestamp();		// 获取当前的偏移时间
+
+    os_printf("current time : %s\n", sntp_get_real_time(TimeStamp));	// 获取真实时间
+
+    if (TimeStamp == 0)		// 网络时间获取失败
     {
         os_printf("did not get a valid time from sntp server\n");
     }
     else //(ts != 0)	// 网络时间获取成功
     {
-            os_timer_disarm(&sntp_timer);	// 关闭SNTP定时器
+//		 	 OLED_ShowString(0,0,sntp_get_real_time(TimeStamp));		// OLED显示日期
+//			 OLED_ShowString(64,2,sntp_get_real_time(TimeStamp));		// OLED显示时间
 
-            MQTT_Connect(&mqttClient);		// 开始MQTT连接
+
+//            os_timer_disarm(&sntp_timer);	// 关闭SNTP定时器
+            static uint8 mqtt_start=0;
+            if(mqtt_start == 0)
+            {
+                MQTT_Connect(&mqttClient);		// 开始MQTT连接
+                mqtt_start = 1;
+            }
     }
 }
 //============================================================================
@@ -281,6 +568,18 @@ void user_init(void)
     uart_init(BIT_RATE_115200, BIT_RATE_115200);	// 串口波特率设为115200
     os_delay_us(60000);
 
+//	// OLED初始化
+//	//－－－－－－－－－－－－－－－－－－－－－－－
+	OLED_Init();								// |
+	OLED_ShowString(0,0,"ESP8266 = STA");		// |
+	OLED_ShowString(0,4,"WIFI Connecting ");	// |
+	OLED_ShowString(0,6,"................");	// |
+	//////////
+	OLED_ShowString(0,0,"                ");	// Internet Time
+	OLED_ShowString(0,2,"Clock =         ");	// Clock：时钟
+	OLED_ShowString(0,4,"Temp  =         ");	// Temperature：温度
+	OLED_ShowString(0,6,"Humid =         ");	// Humidity：湿度
+//	//－－－－－－－－－－－－－－－－－－－－－－－
 
 //【技小新】添加
 //###########################################################################

@@ -613,7 +613,10 @@ void ICACHE_FLASH_ATTR mqtt_timer(void *arg)
     			os_printf("Report_Data_Length:%d ------\r\n\r\n",strlen(Buf_Shadow_Report_Data));	// 上报数据长度
 
     			MQTT_Publish(client,"$baidu/iot/shadow/TH_ESP8266_JX/update",Buf_Shadow_Report_Data,strlen(Buf_Shadow_Report_Data),0,0);
+    			DHT11_NUM_Char();	// DHT11数据值转成字符串
 
+    			OLED_ShowString(64,4,DHT11_Data_Char[1]);	// DHT11_Data_Char[0] == 【温度字符串】
+    			OLED_ShowString(64,6,DHT11_Data_Char[0]);	// DHT11_Data_Char[1] == 【湿度字符串】
     			system_os_post(MQTT_TASK_PRIO, 0, (os_param_t)client);	// 安排任务
     		}
     	}

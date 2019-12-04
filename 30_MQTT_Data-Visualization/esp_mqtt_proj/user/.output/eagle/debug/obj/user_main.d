@@ -29,4 +29,5 @@
  /opt/xtensa-lx106-elf/xtensa-lx106-elf/include/alloca.h \
  ../include/mqtt/typedef.h ../include/modules/wifi.h \
  ../include/modules/config.h ../include/mqtt/debug.h ../../include/gpio.h \
- ../../include/mem.h ../../include/sntp.h ../include/modules/dht11.h
+ ../../include/mem.h ../../include/sntp.h ../include/modules/dht11.h \
+ ../include/driver/oled.h ../include/driver/i2c_master.h
