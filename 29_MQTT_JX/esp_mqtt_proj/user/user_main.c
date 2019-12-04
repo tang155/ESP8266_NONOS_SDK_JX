@@ -250,8 +250,8 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 //		    	blue = 20;
 //		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
 		        MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/esp_01s_relay/thing/event/property/post", "{\"id\":\"01\",\"params\":{\"Relay\":1}}", strlen("{\"id\":\"01\",\"params\":{\"Relay\":1}}"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
-		    	GPIO_OUTPUT_SET(0, 1);//GPIO0输出高电平
-		    	GPIO_OUTPUT_SET(2, 1);//GPIO2输出高电平
+		        GPIO_OUTPUT_SET(0, 0);//GPIO0输出di电平
+		        GPIO_OUTPUT_SET(2, 0);//GPIO2输出di电平
 	    	}
 //	        else if( strstr(dataBuf,"\"PowerSwitch\":0") != 0 )	// 有效载荷 == "LED_OFF"
 	        else if( strstr(dataBuf,"\"Relay\":0") != 0 )		// 有效载荷 == "继电器_OFF"
@@ -265,8 +265,8 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 //				blue = 0;
 //		    	RGB_light_set_color(red, green, blue);//红绿蓝pwm1024，512，,124
 		        MQTT_Publish(&mqttClient, "/sys/a1wtzAK5muN/esp_01s_relay/thing/event/property/post", "{\"id\":\"01\",\"params\":{\"Relay\":0}}", strlen("{\"id\":\"01\",\"params\":{\"Relay\":0}}"), 0, 0);	// 向主题"SW_LED"发布"ESP8266_Online"，Qos=0、retain=0
-		    	GPIO_OUTPUT_SET(0, 0);//GPIO0输出高电平
-		    	GPIO_OUTPUT_SET(2, 0);//GPIO2输出高电平
+		    	GPIO_OUTPUT_SET(0, 1);//GPIO0输出高电平
+		    	GPIO_OUTPUT_SET(2, 1);//GPIO2输出高电平
 	    	}
 //	        else if( strstr(dataBuf,"\"RED\":0") != 0 )	// 有效载荷 ==
 //	        {
