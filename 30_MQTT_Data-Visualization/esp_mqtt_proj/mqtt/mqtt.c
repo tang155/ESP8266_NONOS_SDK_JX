@@ -599,12 +599,18 @@ void ICACHE_FLASH_ATTR mqtt_timer(void *arg)
     	//#################################################################################################################################
     	C_Report_DHT11_Data++;
 
-    	if(C_Report_DHT11_Data>=5)		// 5秒上报一次数据
+    	if(C_Report_DHT11_Data>=1)		// 1秒上报一次数据 最快
     	{
     		C_Report_DHT11_Data = 0 ;
-
+    		static uint8 DHT11_Data_Array_0_temp,DHT11_Data_Array_1_temp,DHT11_Data_Array_2_temp,DHT11_Data_Array_3_temp;
     		if(DHT11_Read_Data_Complete() == 0)		// 读取DHT11温湿度值
+    		if((DHT11_Data_Array_0_temp != DHT11_Data_Array[0])||(DHT11_Data_Array_1_temp != DHT11_Data_Array[1])
+    		 ||(DHT11_Data_Array_2_temp != DHT11_Data_Array[2])||(DHT11_Data_Array_3_temp != DHT11_Data_Array[3]))
     		{
+    			DHT11_Data_Array_0_temp = DHT11_Data_Array[0];
+    			DHT11_Data_Array_1_temp = DHT11_Data_Array[1];
+    			DHT11_Data_Array_2_temp = DHT11_Data_Array[2];
+    			DHT11_Data_Array_3_temp = DHT11_Data_Array[3];
     			os_sprintf( Buf_Shadow_Report_Data,Format_JSON_TH_ESP8266_JX,os_random(),	// 格式化JSON字符串
     						DHT11_Data_Array[2],DHT11_Data_Array[3],
 							DHT11_Data_Array[0],DHT11_Data_Array[1] );

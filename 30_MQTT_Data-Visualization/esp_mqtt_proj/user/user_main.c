@@ -283,12 +283,12 @@ void sntpfn()
 		 Str_RealTime = sntp_get_real_time(TimeStamp);
 
 
-		 // 【实际时间】字符串 == "周 月 日 时:分:秒 年"
-		 //------------------------------------------------------------------------
-		 os_printf("\r\n----------------------------------------------------\r\n");
-		 os_printf("SNTP_TimeStamp = %d\r\n",TimeStamp);		// 时间戳
-		 os_printf("\r\nSNTP_InternetTime = %s",Str_RealTime);	// 实际时间
-		 os_printf("--------------------------------------------------------\r\n");
+//		 // 【实际时间】字符串 == "周 月 日 时:分:秒 年"
+//		 //------------------------------------------------------------------------
+//		 os_printf("\r\n----------------------------------------------------\r\n");
+//		 os_printf("SNTP_TimeStamp = %d\r\n",TimeStamp);		// 时间戳
+//		 os_printf("\r\nSNTP_InternetTime = %s",Str_RealTime);	// 实际时间
+//		 os_printf("--------------------------------------------------------\r\n");
 
 
 		 // 时间字符串整理，OLED显示【"日期"】、【"时间"】字符串
@@ -376,12 +376,12 @@ void sntpfn()
 
 
 //            os_timer_disarm(&sntp_timer);	// 关闭SNTP定时器
-            static uint8 mqtt_start=0;
-            if(mqtt_start == 0)
-            {
-                MQTT_Connect(&mqttClient);		// 开始MQTT连接
-                mqtt_start = 1;
-            }
+//            static uint8 mqtt_start=0;//改到wifi链接成功回调函数中开始mqtt链接
+//            if(mqttClient.connState == 0)
+//            {
+//                MQTT_Connect(&mqttClient);		// 开始MQTT连接
+//                mqtt_start = 1;
+//            }
     }
 }
 //============================================================================
@@ -414,6 +414,8 @@ void wifiConnectCb(uint8_t status)
         os_timer_disarm(&sntp_timer);
         os_timer_setfn(&sntp_timer, (os_timer_func_t *)sntpfn, NULL);
         os_timer_arm(&sntp_timer, 1000, 1);		// 1s定时
+        MQTT_Connect(&mqttClient);		// 开始MQTT连接
+
     }
 
     // IP地址获取失败
